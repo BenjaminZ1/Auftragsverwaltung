@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Auftragsverwaltung
+namespace Auftragsverwaltung.Infrastructure
 {
     public class Class1
     {
