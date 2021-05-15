@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain
 {
-    public class Order
+    public class Order : EntityBase
     {
 #nullable enable
         public int OrderId { get; set; }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain
 {
-    public class Customer
+    public class Customer : EntityBase
     {
 #nullable enable
         public int CustomerId { get; set; }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain
 {
-    public class Town
+    public class Town : EntityBase
     {
 #nullable enable
         public int TownId { get; set; }

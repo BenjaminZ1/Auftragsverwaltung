@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain
 {
-    public class ArticleGroup
+    public class ArticleGroup : EntityBase
     {
 #nullable enable
         public int ArticleGroupId { get; set; }
