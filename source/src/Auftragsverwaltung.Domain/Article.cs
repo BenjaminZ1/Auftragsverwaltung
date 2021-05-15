@@ -7,11 +7,10 @@ namespace Auftragsverwaltung.Domain
 {
     public class Article : EntityBase
     {
-#nullable enable
         public int ArticleId { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public virtual ArticleGroup? ArticleGroup { get; set; }
-#nullable disable
+        public int ArticleGroupId { get; set; }
+        public virtual ArticleGroup ArticleGroup { get; set; }
     }
 }

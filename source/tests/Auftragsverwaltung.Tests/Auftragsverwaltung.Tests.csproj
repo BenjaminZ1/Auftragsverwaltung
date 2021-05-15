@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Auftragsverwaltung.Infrastructure\Auftragsverwaltung.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
