@@ -10,5 +10,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
     {
         public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options) { }
         public DbSet<Domain.Customer> Customers { get; set; }
+        public DbSet<Domain.Address> Addresses { get; set; }
+        public DbSet<Domain.Town> Towns { get; set; }
     }
 }
