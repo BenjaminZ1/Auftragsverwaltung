@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Auftragsverwaltung.Domain
 {
-    class Customer
+    public class Customer
     {
 #nullable enable
         public int CustomerId { get; set; }
