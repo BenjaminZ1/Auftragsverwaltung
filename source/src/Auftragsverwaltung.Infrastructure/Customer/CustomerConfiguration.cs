@@ -22,12 +22,13 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             builder
                 .Property(c => c.Password).HasColumnType("binary(64)");
 
+            builder.HasKey(c => c.CustomerId);
+
 
             builder
                 .HasOne(c => c.Adress)
                 .WithMany(a => a.Customers)
                 .HasForeignKey(c => c.Adress);
-
         }
     }
 }
