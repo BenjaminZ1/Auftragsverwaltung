@@ -12,6 +12,7 @@ namespace Auftragsverwaltung.Domain
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual ICollection<Position> Positions { get; set; }
 #nullable disable
     }
 }
