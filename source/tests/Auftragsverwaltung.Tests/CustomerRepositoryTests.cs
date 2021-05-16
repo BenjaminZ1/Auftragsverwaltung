@@ -64,26 +64,6 @@ namespace Auftragsverwaltung.Tests
             context.SaveChanges();
         }
 
-        //class TestAppDbContextFactory : AppDbContextFactory
-        //{
-        //    public new AppDbContext CreateDbContext(string[] args = null)
-        //    {
-        //        //var configuration = new ConfigurationBuilder()
-        //        //    .SetBasePath(Directory.GetCurrentDirectory())
-        //        //    .AddJsonFile("appsettings.json", true)
-        //        //    .AddEnvironmentVariables()
-        //        //    .Build();
-
-        //        var builder = new DbContextOptionsBuilder<AppDbContext>();
-        //        var connectionString = "Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True";
-
-        //        builder.UseInMemoryDatabase("testDb")
-        //            .EnableSensitiveDataLogging();
-
-        //        return new AppDbContext(builder.Options);
-        //    }
-        //}
-
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
