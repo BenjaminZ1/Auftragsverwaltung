@@ -25,7 +25,8 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             builder
                 .HasMany(ag => ag.ChildArticlesGroups)
                 .WithOne(ag => ag.ParentArticleGroup)
-                .HasForeignKey(ag => ag.ParentArticleGroupId);
+                .HasForeignKey(ag => ag.ParentArticleGroupId)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
         }
     }
 }

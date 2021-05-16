@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Auftragsverwaltung.Infrastructure.Address;
+using Auftragsverwaltung.Infrastructure.Article;
+using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Customer;
+using Auftragsverwaltung.Infrastructure.Order;
+using Auftragsverwaltung.Infrastructure.Position;
+using Auftragsverwaltung.Infrastructure.Town;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auftragsverwaltung.Infrastructure.Common
@@ -26,6 +31,11 @@ namespace Auftragsverwaltung.Infrastructure.Common
 
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new AddressConfiguration());
+            modelBuilder.ApplyConfiguration(new TownConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new PositionConfiguration());
+            modelBuilder.ApplyConfiguration(new ArticleConfiguration());
+            modelBuilder.ApplyConfiguration(new ArticleGroupConfiguration());
         }
     }
 }
