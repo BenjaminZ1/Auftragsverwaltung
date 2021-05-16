@@ -9,6 +9,7 @@ namespace Auftragsverwaltung.Domain
     {
 #nullable enable
         public int AdressId { get; set; }
+        public string Street { get; set; }
         public string? BuildingNr { get; set; }
         public int TownId { get; set; }
         public virtual Town Town { get; set; }

@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Article\" />
+    <Folder Include="Order\" />
+  </ItemGroup>
+
 </Project>

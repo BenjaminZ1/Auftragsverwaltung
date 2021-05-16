@@ -10,9 +10,9 @@ namespace Auftragsverwaltung.Infrastructure.Migrations
 {
     public class Migrations
     {
-        public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<BaseDbContext>
+        public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         {
-            public BaseDbContext CreateDbContext(string[] args)
+            public AppDbContext CreateDbContext(string[] args)
             {
                 //var configuration = new ConfigurationBuilder()
                 //    .SetBasePath(Directory.GetCurrentDirectory())
@@ -20,7 +20,7 @@ namespace Auftragsverwaltung.Infrastructure.Migrations
                 //    .AddEnvironmentVariables()
                 //    .Build();
 
-                var builder = new DbContextOptionsBuilder<BaseDbContext>();
+                var builder = new DbContextOptionsBuilder<AppDbContext>();
 
                 var connectionString = "Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True";
 
@@ -28,7 +28,7 @@ namespace Auftragsverwaltung.Infrastructure.Migrations
                     x => x.MigrationsAssembly(typeof(ApplicationDbContextFactory).Assembly.FullName));
 
 
-                return new BaseDbContext(builder.Options);
+                return new AppDbContext(builder.Options);
             }
         }
     }

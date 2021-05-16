@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auftragsverwaltung.Infrastructure.Customer
 {
-    class CustomerDbContext : BaseDbContext
+    class CustomerDbContext : AppDbContext
     {
         public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options) { }
         public DbSet<Domain.Customer> Customers { get; set; }
