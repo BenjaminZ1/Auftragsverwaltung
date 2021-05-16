@@ -19,7 +19,7 @@ namespace Auftragsverwaltung.Infrastructure.Address
             builder
                 .Property(a => a.BuildingNr).HasColumnType("varchar(50)");
 
-            builder.HasKey(a => a.AdressId);
+            builder.HasKey(a => a.AddressId);
 
             builder
                 .HasOne(a => a.Town)

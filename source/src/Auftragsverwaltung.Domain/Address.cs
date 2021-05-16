@@ -8,7 +8,7 @@ namespace Auftragsverwaltung.Domain
     public class Address : EntityBase
     {
 #nullable enable
-        public int AdressId { get; set; }
+        public int AddressId { get; set; }
         public string Street { get; set; }
         public string? BuildingNr { get; set; }
         public int TownId { get; set; }
