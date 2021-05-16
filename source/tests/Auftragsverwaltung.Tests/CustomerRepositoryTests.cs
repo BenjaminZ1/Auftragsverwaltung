@@ -24,6 +24,11 @@ namespace Auftragsverwaltung.Tests
                 .UseInMemoryDatabase("testDb")
                 .EnableSensitiveDataLogging()
                 .Options;
+
+            //_options = new DbContextOptionsBuilder<AppDbContext>()
+            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .EnableSensitiveDataLogging()
+            //    .Options;
         }
 
         [SetUp]
