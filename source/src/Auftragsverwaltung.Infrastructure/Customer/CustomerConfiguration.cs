@@ -1,5 +1,4 @@
-﻿using Auftragsverwaltung.Domain;
-using Auftragsverwaltung.Infrastructure.Common;
+﻿using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,7 +23,6 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 .Property(c => c.Password).HasColumnType("binary(64)");
 
             builder.HasKey(c => c.CustomerId);
-
 
             builder
                 .HasOne(c => c.Adress)
