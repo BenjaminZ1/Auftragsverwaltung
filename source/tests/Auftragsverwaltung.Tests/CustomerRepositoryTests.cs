@@ -24,8 +24,6 @@ namespace Auftragsverwaltung.Tests
                 .UseInMemoryDatabase("testDb")
                 .EnableSensitiveDataLogging()
                 .Options;
-            
-
         }
 
         [SetUp]
