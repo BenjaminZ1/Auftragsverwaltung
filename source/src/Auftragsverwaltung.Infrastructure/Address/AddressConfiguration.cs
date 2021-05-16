@@ -13,6 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.Address
         {
             base.Configure(builder);
 
+            builder.ToTable("Address");
             builder
                 .Property(a => a.Street).HasColumnType("varchar(255)");
             builder

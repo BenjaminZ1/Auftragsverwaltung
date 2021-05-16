@@ -13,6 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.Town
         {
             base.Configure(builder);
 
+            builder.ToTable("Town");
             builder
                 .Property(t => t.ZipCode).HasColumnType("varchar(20)");
             builder

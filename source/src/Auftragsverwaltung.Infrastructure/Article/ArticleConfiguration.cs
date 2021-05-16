@@ -13,6 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
         {
             base.Configure(builder);
 
+            builder.ToTable("Article");
             builder
                 .Property(a => a.Description).HasColumnType("varchar(255)");
             builder

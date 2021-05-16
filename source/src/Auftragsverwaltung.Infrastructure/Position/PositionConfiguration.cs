@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Auftragsverwaltung.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Auftragsverwaltung.Infrastructure.Position
@@ -12,6 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.Position
         {
             base.Configure(builder);
 
+            builder.ToTable("Position");
             builder.HasKey(p => new {p.OrderId, p.ArticleId });
 
             builder

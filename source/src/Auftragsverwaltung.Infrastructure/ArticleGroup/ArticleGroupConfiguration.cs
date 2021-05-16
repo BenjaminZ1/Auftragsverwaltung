@@ -13,6 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
         {
             base.Configure(builder);
 
+            builder.ToTable("ArticleGroup");
             builder
                 .Property(ag => ag.Name).HasColumnType("varchar(255)");
 

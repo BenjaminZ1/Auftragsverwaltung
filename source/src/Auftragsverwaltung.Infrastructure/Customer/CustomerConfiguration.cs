@@ -11,6 +11,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
         {
             base.Configure(builder);
 
+            builder.ToTable("Customer");
             builder
                 .Property(c => c.Firstname).HasColumnType("varchar(255)");
             builder

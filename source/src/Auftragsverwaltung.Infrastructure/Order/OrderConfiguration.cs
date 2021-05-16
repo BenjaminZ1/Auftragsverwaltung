@@ -13,6 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
         {
             base.Configure(builder);
 
+            builder.ToTable("Order");
             builder.HasKey(o => o.OrderId);
 
             builder
