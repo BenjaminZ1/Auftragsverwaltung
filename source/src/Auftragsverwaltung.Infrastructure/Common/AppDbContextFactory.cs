@@ -8,7 +8,7 @@ namespace Auftragsverwaltung.Infrastructure.Common
 {
     public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        public AppDbContext CreateDbContext(string[] args = null)
+        public virtual AppDbContext CreateDbContext(string[] args = null)
         {
             //var configuration = new ConfigurationBuilder()
             //    .SetBasePath(Directory.GetCurrentDirectory())
