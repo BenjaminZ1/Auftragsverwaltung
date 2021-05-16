@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Auftragsverwaltung.Infrastructure.Address;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ namespace Auftragsverwaltung.Infrastructure.Common
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new AddressConfiguration());
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Auftragsverwaltung.Infrastructure.Address
 {
-    public class AddressConfiguration : BaseEntityConfigurations<Domain.Address>
+    public class AddressConfiguration : AppEntityConfigurations<Domain.Address>
     {
         public override void Configure(EntityTypeBuilder<Domain.Address> builder)
         {
