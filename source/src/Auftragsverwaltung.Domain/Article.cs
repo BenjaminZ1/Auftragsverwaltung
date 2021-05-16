@@ -12,5 +12,6 @@ namespace Auftragsverwaltung.Domain
         public decimal Price { get; set; }
         public int ArticleGroupId { get; set; }
         public virtual ArticleGroup ArticleGroup { get; set; }
+        public virtual Position Position { get; set; }
     }
 }
