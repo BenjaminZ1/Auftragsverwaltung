@@ -7,6 +7,7 @@ using FluentAssertions;
 using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Auftragsverwaltung.Tests
@@ -21,7 +22,10 @@ namespace Auftragsverwaltung.Tests
         {
             _options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseInMemoryDatabase("testDb")
+                .EnableSensitiveDataLogging()
                 .Options;
+            
+
         }
 
         [SetUp]
@@ -57,14 +61,13 @@ namespace Auftragsverwaltung.Tests
             context.SaveChanges();
         }
 
-
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
             //arrange
-            var appDbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => appDbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(appDbContextFactoryFake);
+            //var appDbContextFactoryFake = A.Fake<IDesignTimeDbContextFactory<AppDbContext>>();
+            //A.CallTo(() => appDbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(new AppDbContextFactory());
             var customer = new Customer()
             {
                 Address = new Address()
@@ -83,7 +86,6 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.test.ch",
                 Password = new byte[64]
             };
-
 
             //act
             var result = await customerRepo.Create(customer);

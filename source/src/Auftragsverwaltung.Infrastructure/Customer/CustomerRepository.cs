@@ -11,64 +11,55 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 {
     public class CustomerRepository : IAppRepository<Domain.Customer>
     {
-        private readonly AppDbContextFactory _dbContextFactory;
+        private readonly AppDbContext _db;
 
         public CustomerRepository(AppDbContextFactory dbContextFactory)
         {
-            _dbContextFactory = dbContextFactory;
+            _db = dbContextFactory.CreateDbContext();
         }
 
         public async Task<Domain.Customer> Get(int id)
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
-            Domain.Customer entity = await context.Customers.FirstOrDefaultAsync(e => e.CustomerId == id);
-
+            Domain.Customer entity = await _db.Customers.FirstOrDefaultAsync(e => e.CustomerId == id);
             return entity;
         }
 
         public async Task<IEnumerable<Domain.Customer>> GetAll()
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
-            List<Domain.Customer> entities = await context.Customers.ToListAsync();
-
+            List<Domain.Customer> entities = await _db.Customers.ToListAsync();
             return entities;
         }
 
         public async Task<Domain.Customer> Create(Domain.Customer entity)
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
-            entity.Address.Town = await FindOrAddNewTown(entity.Address.Town);
             entity.Address = await FindOrAddNewAddress(entity.Address);
-            EntityEntry<Domain.Customer> createdEntity = await context.Customers.AddAsync(entity);
-            await context.SaveChangesAsync();
+            EntityEntry<Domain.Customer> createdEntity = await _db.Customers.AddAsync(entity);
+            await _db.SaveChangesAsync();
 
             return createdEntity.Entity;
         }
 
         public async Task<Domain.Customer> Update(int id, Domain.Customer entity)
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
             entity.CustomerId = id;
-            context.Customers.Update(entity);
-            await context.SaveChangesAsync();
+            _db.Customers.Update(entity);
+            await _db.SaveChangesAsync();
 
             return entity;
         }
 
         public async Task<bool> Delete(int id)
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
-            Domain.Customer entity = await context.Customers.FirstOrDefaultAsync(e => e.CustomerId == id);
-            context.Customers.Remove(entity);
-            await context.SaveChangesAsync();
+            Domain.Customer entity = await _db.Customers.FirstOrDefaultAsync(e => e.CustomerId == id);
+            _db.Customers.Remove(entity);
+            await _db.SaveChangesAsync();
 
             return true;
         }
 
         private async Task<Domain.Town> FindOrAddNewTown(Domain.Town town)
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
-            Domain.Town foundTown = await context.Towns.FirstOrDefaultAsync(e =>
+            Domain.Town foundTown = await _db.Towns.FirstOrDefaultAsync(e =>
                 e.Townname == town.Townname &&
                 e.ZipCode == town.ZipCode);
 
@@ -77,8 +68,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
         private async Task<Domain.Address> FindOrAddNewAddress(Domain.Address address)
         {
-            await using AppDbContext context = _dbContextFactory.CreateDbContext();
-            Domain.Address foundAddress = await context.Addresses.FirstOrDefaultAsync(e =>
+            Domain.Address foundAddress = await _db.Addresses
+                .Include(e => e.Town)
+                .FirstOrDefaultAsync(e =>
                 e.BuildingNr == address.BuildingNr &&
                 e.Street == address.Street);
 
