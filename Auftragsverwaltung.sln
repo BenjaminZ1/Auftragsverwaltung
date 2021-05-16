@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{99F652AD-616
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4883C25C-59A0-470A-95A2-BCFEFABF5E3D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auftragsverwaltung.Tests", "source\tests\Auftragsverwaltung.Tests\Auftragsverwaltung.Tests.csproj", "{AABA1952-6128-4012-B0A5-516E79784CD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auftragsverwaltung.Repository.Tests", "source\tests\Auftragsverwaltung.Tests\Auftragsverwaltung.Repository.Tests.csproj", "{AABA1952-6128-4012-B0A5-516E79784CD6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{80461E0C-2A96-4BB8-A3BC-B3AC494FD257}"
 EndProject

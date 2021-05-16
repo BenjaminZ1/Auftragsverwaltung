@@ -22,7 +22,7 @@ namespace Auftragsverwaltung.Infrastructure.Town
             builder.HasKey(t => t.TownId);
 
             builder
-                .HasMany(t => t.Adresses)
+                .HasMany(t => t.Addresses)
                 .WithOne(a => a.Town);
         }
     }

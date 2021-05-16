@@ -25,9 +25,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             builder.HasKey(c => c.CustomerId);
 
             builder
-                .HasOne(c => c.Adress)
+                .HasOne(c => c.Address)
                 .WithMany(a => a.Customers)
-                .HasForeignKey(c => c.AdressId);
+                .HasForeignKey(c => c.AddressId);
         }
     }
 }

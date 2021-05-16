@@ -23,7 +23,7 @@ namespace Auftragsverwaltung.Infrastructure.Address
 
             builder
                 .HasOne(a => a.Town)
-                .WithMany(t => t.Adresses)
+                .WithMany(t => t.Addresses)
                 .HasForeignKey(a => a.TownId);
         }
     }

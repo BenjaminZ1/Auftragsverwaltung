@@ -37,6 +37,8 @@ namespace Auftragsverwaltung.Infrastructure.Customer
         public async Task<Domain.Customer> Create(Domain.Customer entity)
         {
             await using AppDbContext context = _dbContextFactory.CreateDbContext();
+            entity.Address.Town = await FindOrAddNewTown(entity.Address.Town);
+            entity.Address = await FindOrAddNewAddress(entity.Address);
             EntityEntry<Domain.Customer> createdEntity = await context.Customers.AddAsync(entity);
             await context.SaveChangesAsync();
 
@@ -61,6 +63,26 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             await context.SaveChangesAsync();
 
             return true;
+        }
+
+        private async Task<Domain.Town> FindOrAddNewTown(Domain.Town town)
+        {
+            await using AppDbContext context = _dbContextFactory.CreateDbContext();
+            Domain.Town foundTown = await context.Towns.FirstOrDefaultAsync(e =>
+                e.Townname == town.Townname &&
+                e.ZipCode == town.ZipCode);
+
+            return foundTown ?? town;
+        }
+
+        private async Task<Domain.Address> FindOrAddNewAddress(Domain.Address address)
+        {
+            await using AppDbContext context = _dbContextFactory.CreateDbContext();
+            Domain.Address foundAddress = await context.Addresses.FirstOrDefaultAsync(e =>
+                e.BuildingNr == address.BuildingNr &&
+                e.Street == address.Street);
+
+            return foundAddress ?? address;
         }
     }
 }
