@@ -17,6 +17,7 @@ namespace Auftragsverwaltung.Domain
         public string Email { get; set; }
         public string? Website { get; set; }
         public  Byte[] Password { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 #nullable disable
 
     }
