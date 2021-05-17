@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auftragsverwaltung.Infrastr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auftragsverwaltung.Domain", "source\src\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj", "{62BA7762-82CF-4772-B79C-B87500BD11C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auftragsverwaltung.Application", "source\src\Auftragsverwaltung.Application\Auftragsverwaltung.Application\Auftragsverwaltung.Application.csproj", "{25A18AF2-C96D-4A30-8DF6-60BF10D28657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auftragsverwaltung.Application", "source\src\Auftragsverwaltung.Application\Auftragsverwaltung.Application.csproj", "{25A18AF2-C96D-4A30-8DF6-60BF10D28657}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
