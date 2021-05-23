@@ -14,6 +14,11 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         private readonly AppDbContext _db;
 
+        public ArticleRepository(AppDbContextFactory dbContextFactory)
+        {
+            _db = dbContextFactory.CreateDbContext();
+        }
+
         public async Task<Domain.Article> Create(Domain.Article entity)
         {
             
