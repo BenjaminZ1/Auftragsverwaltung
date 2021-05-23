@@ -1,5 +1,6 @@
 ﻿using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,29 +13,44 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         private readonly AppDbContext _db;
 
+        public OrderRepository(AppDbContextFactory dbContextFactory)
+        {
+            _db = dbContextFactory.CreateDbContext();
+        }
+
         public Task<Domain.Order> Create(Domain.Order entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            Domain.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
+            _db.Orders.Remove(entity);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
 
-        public Task<Domain.Order> Get(int id)
+        public async Task<Domain.Order> Get(int id)
         {
-            throw new NotImplementedException();
+            Domain.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
+            return entity;
         }
 
-        public Task<IEnumerable<Domain.Order>> GetAll()
+        public async Task<IEnumerable<Domain.Order>> GetAll()
         {
-            throw new NotImplementedException();
+            List<Domain.Order> entities = await _db.Orders.ToListAsync();
+            return entities;
         }
 
-        public Task<Domain.Order> Update(int id, Domain.Order entity)
+        public async Task<Domain.Order> Update(int id, Domain.Order entity)
         {
-            throw new NotImplementedException();
+            entity.OrderId = id;
+            _db.Orders.Update(entity);
+            await _db.SaveChangesAsync();
+
+            return entity;
         }
     }
 }
