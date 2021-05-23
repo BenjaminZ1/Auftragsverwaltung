@@ -19,9 +19,13 @@ namespace Auftragsverwaltung.Infrastructure.Article
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            Domain.Article entity = await _db.Articles.FirstOrDefaultAsync(e => e.ArticleId == id);
+            _db.Articles.Remove(entity);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<Domain.Article> Get(int id)
