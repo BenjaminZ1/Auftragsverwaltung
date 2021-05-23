@@ -14,9 +14,22 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         private readonly AppDbContext _db;
 
-        public Task<Domain.Article> Create(Domain.Article entity)
+        public async Task<Domain.Article> Create(Domain.Article entity)
         {
-            throw new NotImplementedException();
+            
+            entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
+            EntityEntry<Domain.Article> createdEntity = await _db.Articles.AddAsync(entity);
+            await _db.SaveChangesAsync();
+
+            return createdEntity.Entity;
+        }
+
+        private async Task<Domain.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup articleGroup)
+        {
+            Domain.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
+            e.Name == articleGroup.Name);
+
+            return foundArticleGroup ?? articleGroup;
         }
 
         public async Task<bool> Delete(int id)
