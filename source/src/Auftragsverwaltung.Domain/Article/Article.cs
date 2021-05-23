@@ -13,15 +13,5 @@ namespace Auftragsverwaltung.Domain
         public int ArticleGroupId { get; set; }
         public virtual ArticleGroup ArticleGroup { get; set; }
         public virtual Position Position { get; set; }
-
-        public static implicit operator Article(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Article> v)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static implicit operator Article(Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Article> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
