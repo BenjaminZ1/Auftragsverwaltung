@@ -1,6 +1,7 @@
 ﻿using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,9 +19,12 @@ namespace Auftragsverwaltung.Infrastructure.Order
             _db = dbContextFactory.CreateDbContext();
         }
 
-        public Task<Domain.Order> Create(Domain.Order entity)
+        public async Task<Domain.Order> Create(Domain.Order entity)
         {
-            throw new NotImplementedException();
+            EntityEntry<Domain.Order> createdEntity = await _db.Orders.AddAsync(entity);
+            await _db.SaveChangesAsync();
+
+            return createdEntity.Entity;
         }
 
         public async Task<bool> Delete(int id)
