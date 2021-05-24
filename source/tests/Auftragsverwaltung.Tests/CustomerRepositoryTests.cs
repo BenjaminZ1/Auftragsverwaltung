@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain;
@@ -14,22 +16,22 @@ using NUnit.Framework;
 namespace Auftragsverwaltung.Tests
 {
     [TestFixture]
-    public class CarRepositoryTests
+    public class CustomerRepositoryTests
     {
         private DbContextOptions<AppDbContext> _options;
 
         [OneTimeSetUp]
         public void CarDbContext_BuildDbContext()
         {
-            //_options = new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseInMemoryDatabase("testDb")
-            //    .EnableSensitiveDataLogging()
-            //    .Options;
-
             _options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+                .UseInMemoryDatabase("testDb")
                 .EnableSensitiveDataLogging()
                 .Options;
+
+            //_options = new DbContextOptionsBuilder<AppDbContext>()
+            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .EnableSensitiveDataLogging()
+            //    .Options;
         }
 
         [SetUp]
@@ -40,10 +42,13 @@ namespace Auftragsverwaltung.Tests
             context.Database.EnsureCreated();
         }
 
-        private void AddDbTestEntries()
+        private async Task AddDbTestEntries()
         {
-            using var context = new AppDbContext(_options);
-            context.Customers.Add(new Customer()
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            await customerRepo.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -61,7 +66,7 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.hans.ch",
                 Password = new byte[64]
             });
-            context.Customers.Add(new Customer()
+            await customerRepo.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -79,7 +84,7 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.ida.com",
                 Password = new byte[64]
             });
-            context.Customers.Add(new Customer()
+            await customerRepo.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -97,14 +102,15 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.vreni.ch",
                 Password = new byte[64]
             });
-
-            context.SaveChanges();
         }
 
-        private void AddSingleDbTestEntry()
+        private async Task AddSingleDbTestEntry()
         {
-            using var context = new AppDbContext(_options);
-            context.Customers.Add(new Customer()
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            await customerRepo.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -122,8 +128,6 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.hans.ch",
                 Password = new byte[64]
             });
-
-            context.SaveChanges();
         }
 
         [Test]
@@ -160,13 +164,14 @@ namespace Auftragsverwaltung.Tests
             result.Entity.Address.AddressId.IsSameOrEqualTo(1);
             result.Entity.Address.Town.TownId.IsSameOrEqualTo(1);
             result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
+            result.Flag.Should().BeTrue();
         }
 
         [Test]
         public async Task Create_WhenAddressAndTownAlreadyExist_ReturnsCorrectResult()
         {
             //arrange
-            AddDbTestEntries();
+            await AddDbTestEntries();
             var customer = new Customer()
             {
                 Address = new Address()
@@ -198,13 +203,14 @@ namespace Auftragsverwaltung.Tests
             result.Entity.Address.AddressId.IsSameOrEqualTo(expectedId);
             result.Entity.Address.Town.TownId.IsSameOrEqualTo(expectedId);
             result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
+            result.Flag.Should().BeTrue();
         }
 
         [Test]
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            AddDbTestEntries();
+            await AddDbTestEntries();
 
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
@@ -221,9 +227,28 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
+        public async Task GetAll_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            await AddDbTestEntries();
+
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            //act
+            var result = await customerRepo.GetAll();
+
+            //assert
+            result.Should().BeOfType(typeof(List<Customer>));
+            result.Count().Should().Be(3);
+        }
+
+        [Test]
         public async Task Delete_WhenAddressIsNotInMultipleRelations_ReturnsCorrectResult()
         {
-            AddSingleDbTestEntry();
+            //arrange
+            await AddSingleDbTestEntry();
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
@@ -234,12 +259,14 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Flag.Should().BeTrue();
+            result.NumberOfRows.Should().Be(3);
         }
 
         [Test]
         public async Task Delete_WhenAddressIsInMultipleRelations_ReturnsCorrectResult()
         {
-            AddDbTestEntries();
+            //arrange
+            await AddDbTestEntries();
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
@@ -249,6 +276,29 @@ namespace Auftragsverwaltung.Tests
             var result = await customerRepo.Delete(id);
 
             //assert
+            result.Flag.Should().BeTrue();
+            result.NumberOfRows.Should().Be(1);
+        }
+
+        [Test]
+        public async Task Update_WhenOK_ReturnsCorrectResult()
+        {
+            //arrange
+            await AddDbTestEntries();
+            int id = 1;
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            var entity = customerRepo.Get(id);
+            var customer = entity.Result;
+            customer.Firstname = "Hans-Rudolf";
+
+            //act
+            var result = await customerRepo.Update(id, customer);
+
+            //assert
+            result.Entity.Firstname.Should().BeEquivalentTo(customer.Firstname);
             result.Flag.Should().BeTrue();
         }
     }

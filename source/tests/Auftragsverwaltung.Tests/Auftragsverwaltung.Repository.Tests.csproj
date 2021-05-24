@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Auftragsverwaltung.Application\Auftragsverwaltung.Application.csproj" />
     <ProjectReference Include="..\..\src\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj" />
     <ProjectReference Include="..\..\src\Auftragsverwaltung.Infrastructure\Auftragsverwaltung.Infrastructure.csproj" />
   </ItemGroup>
