@@ -20,7 +20,10 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
         public async Task<Domain.Customer> Get(int id)
         {
-            Domain.Customer entity = await _db.Customers.FirstOrDefaultAsync(e => e.CustomerId == id);
+            Domain.Customer entity = await _db.Customers
+                .Include(c => c.Address)
+                .Include(c => c.Orders)
+                .FirstOrDefaultAsync(e => e.CustomerId == id);
             return entity;
         }
 
