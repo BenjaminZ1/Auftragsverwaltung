@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
@@ -20,15 +21,15 @@ namespace Auftragsverwaltung.Tests
         [OneTimeSetUp]
         public void CarDbContext_BuildDbContext()
         {
-            _options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("testDb")
-                .EnableSensitiveDataLogging()
-                .Options;
-
             //_options = new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .UseInMemoryDatabase("testDb")
             //    .EnableSensitiveDataLogging()
             //    .Options;
+
+            _options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+                .EnableSensitiveDataLogging()
+                .Options;
         }
 
         [SetUp]
@@ -56,8 +57,8 @@ namespace Auftragsverwaltung.Tests
                 },
                 Firstname = "Hans",
                 Lastname = "Müller",
-                Email = "test@test.com",
-                Website = "www.test.ch",
+                Email = "hans@test.com",
+                Website = "www.hans.ch",
                 Password = new byte[64]
             });
             context.Customers.Add(new Customer()
@@ -76,6 +77,49 @@ namespace Auftragsverwaltung.Tests
                 Lastname = "Muster",
                 Email = "ida@gmail.com",
                 Website = "www.ida.com",
+                Password = new byte[64]
+            });
+            context.Customers.Add(new Customer()
+            {
+                Address = new Address()
+                {
+                    Street = "Teststrasse",
+                    BuildingNr = "2",
+                    Town = new Town()
+                    {
+                        Townname = "Herisau",
+                        ZipCode = "9100"
+                    }
+                },
+                Firstname = "Vreni",
+                Lastname = "Müller",
+                Email = "vreni@test.com",
+                Website = "www.vreni.ch",
+                Password = new byte[64]
+            });
+
+            context.SaveChanges();
+        }
+
+        private void AddSingleDbTestEntry()
+        {
+            using var context = new AppDbContext(_options);
+            context.Customers.Add(new Customer()
+            {
+                Address = new Address()
+                {
+                    Street = "Teststrasse",
+                    BuildingNr = "2",
+                    Town = new Town()
+                    {
+                        Townname = "Herisau",
+                        ZipCode = "9100"
+                    }
+                },
+                Firstname = "Hans",
+                Lastname = "Müller",
+                Email = "hans@test.com",
+                Website = "www.hans.ch",
                 Password = new byte[64]
             });
 
@@ -112,10 +156,10 @@ namespace Auftragsverwaltung.Tests
             var result = await customerRepo.Create(customer);
 
             //assert
-            result.Should().BeOfType(typeof(Customer));
-            result.Address.AddressId.IsSameOrEqualTo(1);
-            result.Address.Town.TownId.IsSameOrEqualTo(1);
-            result.AddressId.IsSameOrEqualTo(result.Address.AddressId);
+            result.Should().BeOfType(typeof(ResponseDto<Customer>));
+            result.Entity.Address.AddressId.IsSameOrEqualTo(1);
+            result.Entity.Address.Town.TownId.IsSameOrEqualTo(1);
+            result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
         }
 
         [Test]
@@ -150,10 +194,10 @@ namespace Auftragsverwaltung.Tests
             var result = await customerRepo.Create(customer);
 
             //assert
-            result.Should().BeOfType(typeof(Customer));
-            result.Address.AddressId.IsSameOrEqualTo(expectedId);
-            result.Address.Town.TownId.IsSameOrEqualTo(expectedId);
-            result.AddressId.IsSameOrEqualTo(result.Address.AddressId);
+            result.Should().BeOfType(typeof(ResponseDto<Customer>));
+            result.Entity.Address.AddressId.IsSameOrEqualTo(expectedId);
+            result.Entity.Address.Town.TownId.IsSameOrEqualTo(expectedId);
+            result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
         }
 
         [Test]
@@ -174,6 +218,38 @@ namespace Auftragsverwaltung.Tests
             result.Should().BeOfType(typeof(Customer));
             result.CustomerId.Should().Be(id);
             result.Address.Should().NotBeNull();
+        }
+
+        [Test]
+        public async Task Delete_WhenAddressIsNotInMultipleRelations_ReturnsCorrectResult()
+        {
+            AddSingleDbTestEntry();
+            int id = 1;
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            //act
+            var result = await customerRepo.Delete(id);
+
+            //assert
+            result.Flag.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Delete_WhenAddressIsInMultipleRelations_ReturnsCorrectResult()
+        {
+            AddDbTestEntries();
+            int id = 1;
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            //act
+            var result = await customerRepo.Delete(id);
+
+            //assert
+            result.Flag.Should().BeTrue();
         }
     }
 }

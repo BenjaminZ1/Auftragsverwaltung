@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Auftragsverwaltung.Application\Auftragsverwaltung.Application.csproj" />
     <ProjectReference Include="..\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj" />
   </ItemGroup>
 

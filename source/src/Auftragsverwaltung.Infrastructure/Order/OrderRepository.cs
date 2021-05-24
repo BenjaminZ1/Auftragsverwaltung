@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Dtos;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
@@ -19,21 +20,51 @@ namespace Auftragsverwaltung.Infrastructure.Order
             _db = dbContextFactory.CreateDbContext();
         }
 
-        public async Task<Domain.Order> Create(Domain.Order entity)
+        public async Task<ResponseDto<Domain.Order>> Create(Domain.Order entity)
         {
-            EntityEntry<Domain.Order> createdEntity = await _db.Orders.AddAsync(entity);
-            await _db.SaveChangesAsync();
+            ResponseDto<Domain.Order> response = new ResponseDto<Domain.Order>();
+            try
+            {
+                EntityEntry<Domain.Order> createdEntity = await _db.Orders.AddAsync(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
 
-            return createdEntity.Entity;
+                response.Entity = createdEntity.Entity;
+                response.Flag = true;
+                response.Message = "Has been added.";
+                response.Id = createdEntity.Entity.OrderId;
+
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<ResponseDto<Domain.Order>> Delete(int id)
         {
-            Domain.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
-            _db.Orders.Remove(entity);
-            await _db.SaveChangesAsync();
+            ResponseDto<Domain.Order> response = new ResponseDto<Domain.Order>();
+            try
+            {
+                Domain.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
+                _db.Orders.Remove(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
 
-            return true;
+                response.Entity = entity;
+                response.Flag = true;
+                response.Message = "Has been deleted.";
+                response.Id = entity.OrderId;
+
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
 
         public async Task<Domain.Order> Get(int id)
@@ -48,13 +79,28 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return entities;
         }
 
-        public async Task<Domain.Order> Update(int id, Domain.Order entity)
+        public async Task<ResponseDto<Domain.Order>> Update(int id, Domain.Order entity)
         {
-            entity.OrderId = id;
-            _db.Orders.Update(entity);
-            await _db.SaveChangesAsync();
+            ResponseDto<Domain.Order> response = new ResponseDto<Domain.Order>();
+            try
+            {
+                entity.OrderId = id;
+                _db.Orders.Update(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
 
-            return entity;
+                response.Entity = entity;
+                response.Flag = true;
+                response.Message = "Has been updated.";
+                response.Id = entity.OrderId;
+
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
     }
 }

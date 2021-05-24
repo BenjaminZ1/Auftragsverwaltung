@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Auftragsverwaltung.Domain.Common
+namespace Auftragsverwaltung.Application.Common
 {
     public abstract class EntityBase
     {

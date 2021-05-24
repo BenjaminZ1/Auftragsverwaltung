@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain

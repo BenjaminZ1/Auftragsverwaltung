@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
@@ -21,52 +22,128 @@ namespace Auftragsverwaltung.Infrastructure.Customer
         public async Task<Domain.Customer> Get(int id)
         {
             Domain.Customer entity = await _db.Customers
-                .Include(c => c.Address)
-                .Include(c => c.Orders)
+                .Include(e => e.Address)
+                .Include(e => e.Orders)
                 .FirstOrDefaultAsync(e => e.CustomerId == id);
             return entity;
         }
 
         public async Task<IEnumerable<Domain.Customer>> GetAll()
         {
-            List<Domain.Customer> entities = await _db.Customers.ToListAsync();
+            List<Domain.Customer> entities = await _db.Customers
+                .Include(e => e.Address)
+                .Include(e => e.Orders)
+                .ToListAsync();
             return entities;
         }
 
-        public async Task<Domain.Customer> Create(Domain.Customer entity)
+        public async Task<ResponseDto<Domain.Customer>> Create(Domain.Customer entity)
         {
-            entity.Address = await FindOrAddNewAddress(entity.Address);
-            EntityEntry<Domain.Customer> createdEntity = await _db.Customers.AddAsync(entity);
-            await _db.SaveChangesAsync();
+            ResponseDto<Domain.Customer> response = new ResponseDto<Domain.Customer>();
+            try
+            {
+                entity.Address = await FindOrAddNewAddress(entity.Address);
+                EntityEntry<Domain.Customer> createdEntity = await _db.Customers.AddAsync(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
 
-            return createdEntity.Entity;
+                response.Entity = createdEntity.Entity;
+                response.Flag = true;
+                response.Message = "Has been added.";
+                response.Id = createdEntity.Entity.CustomerId;
+
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
 
-        public async Task<Domain.Customer> Update(int id, Domain.Customer entity)
+        public async Task<ResponseDto<Domain.Customer>> Update(int id, Domain.Customer entity)
         {
-            entity.CustomerId = id;
-            _db.Customers.Update(entity);
-            await _db.SaveChangesAsync();
+            ResponseDto<Domain.Customer> response = new ResponseDto<Domain.Customer>();
+            try
+            {
+                entity.CustomerId = id;
+                _db.Customers.Update(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
 
-            return entity;
+                response.Entity = entity;
+                response.Flag = true;
+                response.Message = "Has been updated.";
+                response.Id = entity.CustomerId;
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<ResponseDto<Domain.Customer>> Delete(int id)
         {
-            Domain.Customer entity = await _db.Customers.FirstOrDefaultAsync(e => e.CustomerId == id);
-            _db.Customers.Remove(entity);
-            await _db.SaveChangesAsync();
+            ResponseDto<Domain.Customer> response = new ResponseDto<Domain.Customer>();
+            try
+            {
+                Domain.Customer entity = await this.Get(id);
+                int addressId = entity.Address.AddressId;
+                int townId = entity.Address.TownId;
 
+                if (!(IsAddressInUse(addressId).Result))
+                {
+                    if (!(IsTownInUse(townId).Result))
+                    {
+                        _db.RemoveRange(entity.Address.Town);
+                        _db.RemoveRange(entity.Address);
+                    }
+                    else
+                        _db.RemoveRange(entity.Address);
+                }
+
+                _db.Customers.Remove(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
+
+                response.Entity = entity;
+                response.Flag = true;
+                response.Message = "Has been deleted.";
+                response.Id = entity.CustomerId;
+
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
+        }
+
+        private async Task<bool> IsAddressInUse(int addressId)
+        {
+            Domain.Address foundAddress = await _db.Addresses
+                .Include(e => e.Customers)
+                .FirstOrDefaultAsync(e =>
+                    e.AddressId == addressId);
+
+            if (foundAddress.Customers.Count <= 1)
+                return false;
             return true;
         }
 
-        private async Task<Domain.Town> FindOrAddNewTown(Domain.Town town)
+        private async Task<bool> IsTownInUse(int townId)
         {
-            Domain.Town foundTown = await _db.Towns.FirstOrDefaultAsync(e =>
-                e.Townname == town.Townname &&
-                e.ZipCode == town.ZipCode);
+            Domain.Town foundTown = await _db.Towns
+                .Include(e => e.Addresses)
+                .FirstOrDefaultAsync(e =>
+                    e.TownId == townId);
 
-            return foundTown ?? town;
+            if (foundTown.Addresses.Count <= 1)
+                return false;
+            return true;
         }
 
         private async Task<Domain.Address> FindOrAddNewAddress(Domain.Address address)

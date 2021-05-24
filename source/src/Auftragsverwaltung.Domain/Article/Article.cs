@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain
