@@ -141,6 +141,7 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.test.ch",
                 Password = new byte[64]
             };
+            int expectedId = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
@@ -150,9 +151,29 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Should().BeOfType(typeof(Customer));
-            result.Address.AddressId.IsSameOrEqualTo(1);
-            result.Address.Town.TownId.IsSameOrEqualTo(1);
+            result.Address.AddressId.IsSameOrEqualTo(expectedId);
+            result.Address.Town.TownId.IsSameOrEqualTo(expectedId);
             result.AddressId.IsSameOrEqualTo(result.Address.AddressId);
+        }
+
+        [Test]
+        public async Task Get_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            AddDbTestEntries();
+
+            int id = 1;
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            //act
+            var result = await customerRepo.Get(id);
+
+            //assert
+            result.Should().BeOfType(typeof(Customer));
+            result.CustomerId.Should().Be(id);
+            result.Address.Should().NotBeNull();
         }
     }
 }
