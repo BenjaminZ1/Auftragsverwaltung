@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Auftragsverwaltung.Infrastructure.Article
 {
-    class ArticleRepository : IAppRepository<Domain.Article>
+    public class ArticleRepository : IAppRepository<Domain.Article>
     {
 
         private readonly AppDbContext _db;
@@ -26,6 +26,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
             try
             {
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
+
                 EntityEntry<Domain.Article> createdEntity = await _db.Articles.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -45,6 +46,17 @@ namespace Auftragsverwaltung.Infrastructure.Article
         }
 
         private async Task<Domain.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup articleGroup)
+        {
+            Domain.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
+                e.Name == articleGroup.Name);
+
+            if (articleGroup.ParentArticleGroup != null)
+                articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
+                
+            return foundArticleGroup ?? articleGroup;
+        }
+
+        private async Task<Domain.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup articleGroup)
         {
             Domain.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
                 e.Name == articleGroup.Name);
@@ -78,7 +90,9 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         public async Task<Domain.Article> Get(int id)
         {
-            Domain.Article entity = await _db.Articles.FirstOrDefaultAsync(e => e.ArticleId == id);
+            Domain.Article entity = await _db.Articles
+                .Include(a => a.ArticleGroup)
+                .FirstOrDefaultAsync(e => e.ArticleId == id); 
             return entity;
         }
 

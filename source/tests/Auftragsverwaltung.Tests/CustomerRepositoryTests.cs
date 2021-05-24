@@ -5,6 +5,7 @@ using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
+using Auftragsverwaltung.Repository.Tests;
 using FakeItEasy;
 using FluentAssertions;
 using FluentAssertions.Common;
@@ -13,7 +14,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
-namespace Auftragsverwaltung.Tests
+namespace Auftragsverwaltung.Repository.Tests
 {
     [TestFixture]
     public class CustomerRepositoryTests
@@ -21,25 +22,15 @@ namespace Auftragsverwaltung.Tests
         private DbContextOptions<AppDbContext> _options;
 
         [OneTimeSetUp]
-        public void CarDbContext_BuildDbContext()
+        public void BuidDbContext()
         {
-            _options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("testDb")
-                .EnableSensitiveDataLogging()
-                .Options;
-
-            //_options = new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
-            //    .EnableSensitiveDataLogging()
-            //    .Options;
+            _options = InstanceHelper.AppDbContext_BuildDbContext();
         }
 
         [SetUp]
         public void ResetDb()
         {
-            using var context = new AppDbContext(_options);
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            InstanceHelper.ResetDb(_options);
         }
 
         private async Task AddDbTestEntries()

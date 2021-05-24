@@ -10,7 +10,7 @@ using Auftragsverwaltung.Application.Dtos;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
-    class OrderRepository : IAppRepository<Domain.Order>
+    public class OrderRepository : IAppRepository<Domain.Order>
     {
 
         private readonly AppDbContext _db;
