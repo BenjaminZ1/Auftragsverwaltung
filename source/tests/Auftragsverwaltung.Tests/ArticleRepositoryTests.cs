@@ -99,18 +99,18 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestArticle(_options);
+            int articleId = 1;
 
-            int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             //act
-            var result = await articleRepository.Get(id);
+            var result = await articleRepository.Get(articleId);
 
             //assert
             result.Should().BeOfType(typeof(Article));
-            result.ArticleId.Should().Be(id);
+            result.ArticleId.Should().Be(articleId);
             result.ArticleGroup.Should().NotBeNull();
         }
 
@@ -128,8 +128,9 @@ namespace Auftragsverwaltung.Repository.Tests
             var result = await articleRepository.GetAll();
 
             //assert
-            result.Should().BeOfType(typeof(List<Article>));
-            result.Count().Should().Be(1);
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Article>));
+            resultList.Count().Should().Be(1);
         }
 
         [Test]
@@ -137,13 +138,14 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestArticle(_options);
-            int id = 1;
+            int articleId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             //act
-            var result = await articleRepository.Delete(id);
+            var result = await articleRepository.Delete(articleId);
 
             //assert
             result.Flag.Should().BeTrue();
@@ -154,20 +156,22 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestArticle(_options);
-            int id = 1;
+            int articleId = 1;
+            string newArticleDescription = "NewName";
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
-            var entity = articleRepository.Get(id);
+            var entity = articleRepository.Get(articleId);
             var article = entity.Result;
-            article.Description = "NewName";
+            article.Description = newArticleDescription;
 
             //act
-            var result = await articleRepository.Update(id, article);
+            var result = await articleRepository.Update(articleId, article);
 
             //assert
-            result.Entity.Description.Should().BeEquivalentTo(article.Description);
+            result.Entity.Description.Should().BeEquivalentTo(newArticleDescription);
             result.Flag.Should().BeTrue();
         }
 
@@ -177,13 +181,14 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestOrder(_options);
-            int id = 1;
+            int articleId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             //act
-            var result = await articleRepository.Delete(id);
+            var result = await articleRepository.Delete(articleId);
 
             //assert
             result.Flag.Should().BeTrue();
