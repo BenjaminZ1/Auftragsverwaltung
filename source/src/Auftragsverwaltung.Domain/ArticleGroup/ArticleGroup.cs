@@ -13,7 +13,7 @@ namespace Auftragsverwaltung.Domain
         public string Name { get; set; }
         public int? ParentArticleGroupId { get; set; }
         public virtual ICollection<Article> Articles { get; set; }
-        public virtual ArticleGroup ParentArticleGroup { get; set; }
+        public virtual ArticleGroup? ParentArticleGroup { get; set; }
         public virtual ICollection<ArticleGroup> ChildArticlesGroups { get; set; }
 #nullable disable
     }
