@@ -33,68 +33,6 @@ namespace Auftragsverwaltung.Repository.Tests
             InstanceHelper.ResetDb(_options);
         }
 
-        private async Task AddDbTestEntries()
-        {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
-
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "hans@test.com",
-                Website = "www.hans.ch",
-                Password = new byte[64]
-            });
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Hauptstrasse",
-                    BuildingNr = "44",
-                    Town = new Town()
-                    {
-                        Townname = "St. Gallen",
-                        ZipCode = "9001"
-                    }
-                },
-                Firstname = "Ida",
-                Lastname = "Muster",
-                Email = "ida@gmail.com",
-                Website = "www.ida.com",
-                Password = new byte[64]
-            });
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Vreni",
-                Lastname = "Müller",
-                Email = "vreni@test.com",
-                Website = "www.vreni.ch",
-                Password = new byte[64]
-            });
-        }
-        
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
@@ -136,7 +74,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Create_WhenAddressAndTownAlreadyExist_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
             var customer = new Customer()
             {
                 Address = new Address()
@@ -175,7 +113,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
 
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
@@ -195,7 +133,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
@@ -231,7 +169,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Delete_WhenAddressIsInMultipleRelations_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
@@ -249,7 +187,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));

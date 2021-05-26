@@ -64,6 +64,68 @@ namespace Auftragsverwaltung.Repository.Tests
             });
         }
 
+        public static async Task AddDbTestCustomers(DbContextOptions<AppDbContext> options)
+        {
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+
+            await customerRepo.Create(new Customer()
+            {
+                Address = new Address()
+                {
+                    Street = "Teststrasse",
+                    BuildingNr = "2",
+                    Town = new Town()
+                    {
+                        Townname = "Herisau",
+                        ZipCode = "9100"
+                    }
+                },
+                Firstname = "Hans",
+                Lastname = "Müller",
+                Email = "hans@test.com",
+                Website = "www.hans.ch",
+                Password = new byte[64]
+            });
+            await customerRepo.Create(new Customer()
+            {
+                Address = new Address()
+                {
+                    Street = "Hauptstrasse",
+                    BuildingNr = "44",
+                    Town = new Town()
+                    {
+                        Townname = "St. Gallen",
+                        ZipCode = "9001"
+                    }
+                },
+                Firstname = "Ida",
+                Lastname = "Muster",
+                Email = "ida@gmail.com",
+                Website = "www.ida.com",
+                Password = new byte[64]
+            });
+            await customerRepo.Create(new Customer()
+            {
+                Address = new Address()
+                {
+                    Street = "Teststrasse",
+                    BuildingNr = "2",
+                    Town = new Town()
+                    {
+                        Townname = "Herisau",
+                        ZipCode = "9100"
+                    }
+                },
+                Firstname = "Vreni",
+                Lastname = "Müller",
+                Email = "vreni@test.com",
+                Website = "www.vreni.ch",
+                Password = new byte[64]
+            });
+        }
+
         public static async Task AddDbTestArticle(DbContextOptions<AppDbContext> options)
         {
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
