@@ -19,15 +19,15 @@ namespace Auftragsverwaltung.Repository.Tests
         
         public static DbContextOptions<AppDbContext> AppDbContext_BuildDbContext()
         {
-            //return new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseInMemoryDatabase("testDb")
-            //    .EnableSensitiveDataLogging()
-            //    .Options;
-
             return new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+                .UseInMemoryDatabase("testDb")
                 .EnableSensitiveDataLogging()
                 .Options;
+
+            //return new DbContextOptionsBuilder<AppDbContext>()
+            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .EnableSensitiveDataLogging()
+            //    .Options;
         }
 
         
