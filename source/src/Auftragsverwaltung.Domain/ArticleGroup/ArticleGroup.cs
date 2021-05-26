@@ -10,11 +10,11 @@ namespace Auftragsverwaltung.Domain
     {
 #nullable enable
         public int ArticleGroupId { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         public int? ParentArticleGroupId { get; set; }
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Article> Articles { get; set; } = default!;
         public virtual ArticleGroup? ParentArticleGroup { get; set; }
-        public virtual ICollection<ArticleGroup> ChildArticlesGroups { get; set; }
+        public virtual ICollection<ArticleGroup> ChildArticlesGroups { get; set; } = default!;
 #nullable disable
     }
 }

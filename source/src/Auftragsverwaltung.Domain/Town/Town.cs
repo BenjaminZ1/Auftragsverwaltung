@@ -10,9 +10,9 @@ namespace Auftragsverwaltung.Domain
     {
 #nullable enable
         public int TownId { get; set; }
-        public string ZipCode { get; set; }
-        public string Townname { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
+        public string ZipCode { get; set; } = default!;
+        public string Townname { get; set; } = default!;
+        public virtual ICollection<Address> Addresses { get; set; } = default!;
 #nullable disable
     }
 }
