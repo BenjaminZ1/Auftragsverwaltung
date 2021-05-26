@@ -55,6 +55,8 @@ namespace Auftragsverwaltung.Repository.Tests
                 Website = "www.test.ch",
                 Password = new byte[64]
             };
+            int expectedId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
@@ -64,8 +66,8 @@ namespace Auftragsverwaltung.Repository.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.Should().Be(1);
-            result.Entity.Address.Town.TownId.Should().Be(1);
+            result.Entity.Address.AddressId.Should().Be(expectedId);
+            result.Entity.Address.Town.TownId.Should().Be(expectedId);
             result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
             result.Flag.Should().BeTrue();
         }
@@ -94,6 +96,7 @@ namespace Auftragsverwaltung.Repository.Tests
                 Password = new byte[64]
             };
             int expectedId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
@@ -114,18 +117,18 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestCustomers(_options);
+            int customerId = 1;
 
-            int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Get(id);
+            var result = await customerRepo.Get(customerId);
 
             //assert
             result.Should().BeOfType(typeof(Customer));
-            result.CustomerId.Should().Be(id);
+            result.CustomerId.Should().Be(customerId);
             result.Address.Should().NotBeNull();
         }
 
@@ -143,8 +146,9 @@ namespace Auftragsverwaltung.Repository.Tests
             var result = await customerRepo.GetAll();
 
             //assert
-            result.Should().BeOfType(typeof(List<Customer>));
-            result.Count().Should().Be(3);
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Customer>));
+            resultList.Count().Should().Be(3);
         }
 
         [Test]
@@ -152,17 +156,19 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestCustomer(_options);
-            int id = 1;
+            int customerId = 1;
+            int expectedRows = 3;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Delete(id);
+            var result = await customerRepo.Delete(customerId);
 
             //assert
             result.Flag.Should().BeTrue();
-            result.NumberOfRows.Should().Be(3);
+            result.NumberOfRows.Should().Be(expectedRows);
         }
 
         [Test]
@@ -170,17 +176,19 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestCustomers(_options);
-            int id = 1;
+            int customerId = 1;
+            int expectedRows = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Delete(id);
+            var result = await customerRepo.Delete(customerId);
 
             //assert
             result.Flag.Should().BeTrue();
-            result.NumberOfRows.Should().Be(1);
+            result.NumberOfRows.Should().Be(expectedRows);
         }
 
         [Test]
@@ -188,20 +196,22 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestCustomers(_options);
-            int id = 1;
+            int customerId = 1;
+            string newFirstname = "Hans-Rudolf";
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var customerRepo = new CustomerRepository(dbContextFactoryFake);
 
-            var entity = customerRepo.Get(id);
+            var entity = customerRepo.Get(customerId);
             var customer = entity.Result;
-            customer.Firstname = "Hans-Rudolf";
+            customer.Firstname = newFirstname;
 
             //act
-            var result = await customerRepo.Update(id, customer);
+            var result = await customerRepo.Update(customerId, customer);
 
             //assert
-            result.Entity.Firstname.Should().BeEquivalentTo(customer.Firstname);
+            result.Entity.Firstname.Should().BeEquivalentTo(newFirstname);
             result.Flag.Should().BeTrue();
         }
     }
