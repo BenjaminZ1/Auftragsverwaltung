@@ -97,7 +97,7 @@ namespace Auftragsverwaltung.Repository.Tests
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var orderRepository = new OrderRepository(dbContextFactoryFake);
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             await InstanceHelper.AddDbTestCustomer(_options);
@@ -106,7 +106,7 @@ namespace Auftragsverwaltung.Repository.Tests
             var order = new Order()
             {
                 Date = new DateTime(2020, 03, 03),
-                Customer = await customerRepo.Get(1),
+                Customer = await customerRepository.Get(1),
                     Positions = new List<Position>
                     {
                         new Position()

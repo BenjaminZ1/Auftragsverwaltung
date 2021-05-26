@@ -59,10 +59,10 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Create(customer);
+            var result = await customerRepository.Create(customer);
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
@@ -99,10 +99,10 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Create(customer);
+            var result = await customerRepository.Create(customer);
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
@@ -121,10 +121,10 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Get(customerId);
+            var result = await customerRepository.Get(customerId);
 
             //assert
             result.Should().BeOfType(typeof(Customer));
@@ -140,10 +140,10 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.GetAll();
+            var result = await customerRepository.GetAll();
 
             //assert
             var resultList = result.ToList();
@@ -161,10 +161,10 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Delete(customerId);
+            var result = await customerRepository.Delete(customerId);
 
             //assert
             result.Flag.Should().BeTrue();
@@ -181,10 +181,10 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Delete(customerId);
+            var result = await customerRepository.Delete(customerId);
 
             //assert
             result.Flag.Should().BeTrue();
@@ -201,14 +201,14 @@ namespace Auftragsverwaltung.Repository.Tests
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
-            var entity = customerRepo.Get(customerId);
+            var entity = customerRepository.Get(customerId);
             var customer = entity.Result;
             customer.Firstname = newFirstname;
 
             //act
-            var result = await customerRepo.Update(customerId, customer);
+            var result = await customerRepository.Update(customerId, customer);
 
             //assert
             result.Entity.Firstname.Should().BeEquivalentTo(newFirstname);
