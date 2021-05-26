@@ -69,13 +69,23 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         public async Task<Domain.Order> Get(int id)
         {
-            Domain.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
+            Domain.Order entity = await _db.Orders
+                .Include(o => o.Positions)
+                .ThenInclude(o => o.Article)
+                .ThenInclude(o => o.ArticleGroup)
+                .Include(o => o.Customer)
+                .FirstOrDefaultAsync(e => e.OrderId == id);
             return entity;
         }
 
         public async Task<IEnumerable<Domain.Order>> GetAll()
         {
-            List<Domain.Order> entities = await _db.Orders.ToListAsync();
+            List<Domain.Order> entities = await _db.Orders
+                .Include(o => o.Positions)
+                .ThenInclude(o => o.Article)
+                .ThenInclude(o => o.ArticleGroup)
+                .Include(o => o.Customer)
+                .ToListAsync();
             return entities;
         }
 

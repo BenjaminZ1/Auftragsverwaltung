@@ -94,33 +94,7 @@ namespace Auftragsverwaltung.Repository.Tests
                 Password = new byte[64]
             });
         }
-
-        private async Task AddSingleDbTestEntry()
-        {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
-
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "hans@test.com",
-                Website = "www.hans.ch",
-                Password = new byte[64]
-            });
-        }
-
+        
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
@@ -152,9 +126,9 @@ namespace Auftragsverwaltung.Repository.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.IsSameOrEqualTo(1);
-            result.Entity.Address.Town.TownId.IsSameOrEqualTo(1);
-            result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
+            result.Entity.Address.AddressId.Should().Be(1);
+            result.Entity.Address.Town.TownId.Should().Be(1);
+            result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
             result.Flag.Should().BeTrue();
         }
 
@@ -191,9 +165,9 @@ namespace Auftragsverwaltung.Repository.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.IsSameOrEqualTo(expectedId);
-            result.Entity.Address.Town.TownId.IsSameOrEqualTo(expectedId);
-            result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
+            result.Entity.Address.AddressId.Should().Be(expectedId);
+            result.Entity.Address.Town.TownId.Should().Be(expectedId);
+            result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
             result.Flag.Should().BeTrue();
         }
 
@@ -239,7 +213,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Delete_WhenAddressIsNotInMultipleRelations_ReturnsCorrectResult()
         {
             //arrange
-            await AddSingleDbTestEntry();
+            await InstanceHelper.AddDbTestCustomer(_options);
             int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));

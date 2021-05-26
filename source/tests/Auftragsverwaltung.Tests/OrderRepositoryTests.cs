@@ -33,44 +33,6 @@ namespace Auftragsverwaltung.Repository.Tests
             InstanceHelper.ResetDb(_options);
         }
 
-        private async Task AddDbTestEntries()
-        {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
-
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "hans@test.com",
-                Website = "www.hans.ch",
-                Password = new byte[64]
-            });
-
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
-
-            await articleRepository.Create(new Article()
-            {
-                ArticleGroup = new ArticleGroup()
-                {
-                    Name = "testarticle"
-                },
-                Description = "TestArticleDescription2",
-                Price = 22,
-            });
-        }
-
         [Test]
         public async Task Create_WhenAllNew_ReturnsCorrectResult()
         {
@@ -131,37 +93,57 @@ namespace Auftragsverwaltung.Repository.Tests
         [Test]
         public async Task Create_WhenCustomerAndArticleExists_ReturnsCorrectResult()
         {
-            await AddDbTestEntries();
-
             //arrange
-            var order = new Order()
-            {
-                Date = new DateTime(2020, 03, 03),
-                CustomerId = 1,
-                Positions = new List<Position>
-                {
-                    new Position()
-                    {
-                        Amount = 2,
-                        ArticleId = 1
-                    },
-                },
-            };
-
-
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var orderRepository = new OrderRepository(dbContextFactoryFake);
+            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+
+            await InstanceHelper.AddDbTestCustomer(_options);
+            await InstanceHelper.AddDbTestArticle(_options);
+
+            var order = new Order()
+            {
+                Date = new DateTime(2020, 03, 03),
+                Customer = await customerRepo.Get(1),
+                    Positions = new List<Position>
+                    {
+                        new Position()
+                        {
+                            Amount = 2,
+                            Article = await articleRepository.Get(1)
+                        },
+                    },
+            };
 
             //act
             var result = await orderRepository.Create(order);
 
             //assert
             result.Entity.Customer.Firstname.Should().Be("Hans");
+            result.Entity.Positions.First().Article.Description.Should().Be("TestArticleDescription2");
             result.Should().BeOfType(typeof(ResponseDto<Order>));
             result.Flag.Should().BeTrue();
         }
 
+        [Test]
+        public async Task Get_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var orderRepository = new OrderRepository(dbContextFactoryFake);
 
+            await InstanceHelper.AddDbTestOrder(_options);
+
+            //act
+            var result = await orderRepository.Get(1);
+
+            //assert
+            result.Should().BeOfType(typeof(Order));
+            result.CustomerId.Should().Be(1);
+            result.Positions.Count.Should().Be(2);
+        }
     }
 }
