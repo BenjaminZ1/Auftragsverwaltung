@@ -62,7 +62,7 @@ namespace Auftragsverwaltung.Repository.Tests
 
 
         [Test]
-        public async Task CreateWithParentArticleGroup_WhenNewArticleGroupWithExistingParentArtileGroup_ReturnsCorrectResult()
+        public async Task CreateWithParentArticleGroup_WhenNewArticleGroupWithExistingParentArtikleGroup_ReturnsCorrectResult()
         {
             await InstanceHelper.AddDbTestArticle(_options);
 
