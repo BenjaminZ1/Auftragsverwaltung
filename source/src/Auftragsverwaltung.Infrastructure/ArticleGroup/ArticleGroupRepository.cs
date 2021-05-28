@@ -77,9 +77,29 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             return entities;
         }
 
-        public Task<ResponseDto<Domain.ArticleGroup>> Update(int id, Domain.ArticleGroup entity)
+        public async Task<ResponseDto<Domain.ArticleGroup>> Update(int id, Domain.ArticleGroup entity)
         {
-            throw new NotImplementedException();
+            ResponseDto<Domain.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup>();
+            try
+            {
+                entity.ArticleGroupId = id;
+                _db.ArticleGroups.Update(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
+
+                response.Entity = entity;
+                response.Flag = true;
+                response.Message = "Has been updated.";
+                response.Id = entity.ArticleGroupId;
+
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
+
         }
     }
 }
