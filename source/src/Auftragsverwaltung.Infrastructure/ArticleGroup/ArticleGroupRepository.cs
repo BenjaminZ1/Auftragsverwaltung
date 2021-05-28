@@ -1,6 +1,7 @@
 ﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -41,9 +42,27 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             return response;
         }
 
-        public Task<ResponseDto<Domain.ArticleGroup>> Delete(int id)
+        public async Task<ResponseDto<Domain.ArticleGroup>> Delete(int id)
         {
-            throw new NotImplementedException();
+            ResponseDto<Domain.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup>();
+            try
+            {
+                Domain.ArticleGroup entity = await _db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
+                _db.ArticleGroups.Remove(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
+
+                response.Entity = entity;
+                response.Flag = true;
+                response.Message = "Has been deleted.";
+                response.Id = entity.ArticleGroupId;
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
 
         public Task<Domain.ArticleGroup> Get(int id)
