@@ -65,14 +65,16 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             return response;
         }
 
-        public Task<Domain.ArticleGroup> Get(int id)
+        public async Task<Domain.ArticleGroup> Get(int id)
         {
-            throw new NotImplementedException();
+            Domain.ArticleGroup entity = await _db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
+            return entity;
         }
 
-        public Task<IEnumerable<Domain.ArticleGroup>> GetAll()
+        public async Task<IEnumerable<Domain.ArticleGroup>> GetAll()
         {
-            throw new NotImplementedException();
+            List<Domain.ArticleGroup> entities = await _db.ArticleGroups.ToListAsync();
+            return entities;
         }
 
         public Task<ResponseDto<Domain.ArticleGroup>> Update(int id, Domain.ArticleGroup entity)
