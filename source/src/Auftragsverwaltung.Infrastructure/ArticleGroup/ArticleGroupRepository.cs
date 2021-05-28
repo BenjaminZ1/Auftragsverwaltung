@@ -1,6 +1,7 @@
 ﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,9 +19,26 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             _db = dbContextFactory.CreateDbContext();
         }
 
-        public Task<ResponseDto<Domain.ArticleGroup>> Create(Domain.ArticleGroup entity)
+        public async Task<ResponseDto<Domain.ArticleGroup>> Create(Domain.ArticleGroup entity)
         {
-            throw new NotImplementedException();
+            ResponseDto<Domain.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup>();
+            try
+            {
+                EntityEntry<Domain.ArticleGroup> createdEntity = await _db.ArticleGroups.AddAsync(entity);
+                response.NumberOfRows = await _db.SaveChangesAsync();
+
+                response.Entity = createdEntity.Entity;
+                response.Flag = true;
+                response.Message = "Has been added.";
+                response.Id = createdEntity.Entity.ArticleGroupId;
+            }
+            catch (Exception e)
+            {
+                response.Flag = false;
+                response.Message = e.ToString();
+            }
+
+            return response;
         }
 
         public Task<ResponseDto<Domain.ArticleGroup>> Delete(int id)
