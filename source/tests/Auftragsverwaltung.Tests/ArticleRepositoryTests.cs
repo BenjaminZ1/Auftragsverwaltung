@@ -32,25 +32,7 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             InstanceHelper.ResetDb(_options);
         }
-
-        private async Task AddDbTestEntries()
-        {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
-
-            await articleRepository.Create(new Article()
-            {
-                ArticleGroup = new ArticleGroup()
-                {
-                    Name = "ParentArticleGroup"
-                },
-                Description = "TestArticleDescription2",
-                Price = 22,
-            });
-        }
-
-
+        
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
@@ -73,16 +55,16 @@ namespace Auftragsverwaltung.Repository.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Article>));
-            result.Entity.ArticleGroup.ArticleGroupId.IsSameOrEqualTo(1);
-            result.Entity.ArticleGroupId.IsSameOrEqualTo(result.Entity.ArticleGroup.ArticleGroupId);
+            result.Entity.ArticleGroup.ArticleGroupId.Should().Be(1);
+            result.Entity.ArticleGroupId.Should().Be(result.Entity.ArticleGroup.ArticleGroupId);
             result.Flag.Should().BeTrue();
         }
 
 
         [Test]
-        public async Task CreateWithParentArticleGroup_WhenNewArticleGroupWithExistingParentArtileGroup_ReturnsCorrectResult()
+        public async Task CreateWithParentArticleGroup_WhenNewArticleGroupWithExistingParentArticleGroup_ReturnsCorrectResult()
         {
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestArticle(_options);
 
             //arrange
             var article = new Article()
@@ -116,19 +98,19 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestArticle(_options);
+            int articleId = 1;
 
-            int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             //act
-            var result = await articleRepository.Get(id);
+            var result = await articleRepository.Get(articleId);
 
             //assert
             result.Should().BeOfType(typeof(Article));
-            result.ArticleId.Should().Be(id);
+            result.ArticleId.Should().Be(articleId);
             result.ArticleGroup.Should().NotBeNull();
         }
 
@@ -136,7 +118,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestArticle(_options);
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
@@ -146,22 +128,24 @@ namespace Auftragsverwaltung.Repository.Tests
             var result = await articleRepository.GetAll();
 
             //assert
-            result.Should().BeOfType(typeof(List<Article>));
-            result.Count().Should().Be(1);
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Article>));
+            resultList.Count().Should().Be(1);
         }
 
         [Test]
         public async Task Delete_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
-            int id = 1;
+            await InstanceHelper.AddDbTestArticle(_options);
+            int articleId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             //act
-            var result = await articleRepository.Delete(id);
+            var result = await articleRepository.Delete(articleId);
 
             //assert
             result.Flag.Should().BeTrue();
@@ -171,23 +155,43 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
-            int id = 1;
+            await InstanceHelper.AddDbTestArticle(_options);
+            int articleId = 1;
+            string newArticleDescription = "NewName";
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
-            var entity = articleRepository.Get(id);
+            var entity = articleRepository.Get(articleId);
             var article = entity.Result;
-            article.Description = "NewName";
+            article.Description = newArticleDescription;
 
             //act
-            var result = await articleRepository.Update(id, article);
+            var result = await articleRepository.Update(articleId, article);
 
             //assert
-            result.Entity.Description.Should().BeEquivalentTo(article.Description);
+            result.Entity.Description.Should().BeEquivalentTo(newArticleDescription);
             result.Flag.Should().BeTrue();
         }
 
+        [Ignore("behaviour not defined")]
+        [Test]
+        public async Task Delete_WhenInOrder_ReturnsCorrectResult()
+        {
+            //arrange
+            await InstanceHelper.AddDbTestOrder(_options);
+            int articleId = 1;
+
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+
+            //act
+            var result = await articleRepository.Delete(articleId);
+
+            //assert
+            result.Flag.Should().BeTrue();
+        }
     }
 }

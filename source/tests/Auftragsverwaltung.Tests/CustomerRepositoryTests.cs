@@ -33,94 +33,6 @@ namespace Auftragsverwaltung.Repository.Tests
             InstanceHelper.ResetDb(_options);
         }
 
-        private async Task AddDbTestEntries()
-        {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
-
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "hans@test.com",
-                Website = "www.hans.ch",
-                Password = new byte[64]
-            });
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Hauptstrasse",
-                    BuildingNr = "44",
-                    Town = new Town()
-                    {
-                        Townname = "St. Gallen",
-                        ZipCode = "9001"
-                    }
-                },
-                Firstname = "Ida",
-                Lastname = "Muster",
-                Email = "ida@gmail.com",
-                Website = "www.ida.com",
-                Password = new byte[64]
-            });
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Vreni",
-                Lastname = "Müller",
-                Email = "vreni@test.com",
-                Website = "www.vreni.ch",
-                Password = new byte[64]
-            });
-        }
-
-        private async Task AddSingleDbTestEntry()
-        {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
-
-            await customerRepo.Create(new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "hans@test.com",
-                Website = "www.hans.ch",
-                Password = new byte[64]
-            });
-        }
-
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
@@ -143,18 +55,20 @@ namespace Auftragsverwaltung.Repository.Tests
                 Website = "www.test.ch",
                 Password = new byte[64]
             };
+            int expectedId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Create(customer);
+            var result = await customerRepository.Create(customer);
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.IsSameOrEqualTo(1);
-            result.Entity.Address.Town.TownId.IsSameOrEqualTo(1);
-            result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
+            result.Entity.Address.AddressId.Should().Be(expectedId);
+            result.Entity.Address.Town.TownId.Should().Be(expectedId);
+            result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
             result.Flag.Should().BeTrue();
         }
 
@@ -162,7 +76,7 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Create_WhenAddressAndTownAlreadyExist_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
             var customer = new Customer()
             {
                 Address = new Address()
@@ -182,18 +96,19 @@ namespace Auftragsverwaltung.Repository.Tests
                 Password = new byte[64]
             };
             int expectedId = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Create(customer);
+            var result = await customerRepository.Create(customer);
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.IsSameOrEqualTo(expectedId);
-            result.Entity.Address.Town.TownId.IsSameOrEqualTo(expectedId);
-            result.Entity.AddressId.IsSameOrEqualTo(result.Entity.Address.AddressId);
+            result.Entity.Address.AddressId.Should().Be(expectedId);
+            result.Entity.Address.Town.TownId.Should().Be(expectedId);
+            result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
             result.Flag.Should().BeTrue();
         }
 
@@ -201,19 +116,19 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
+            int customerId = 1;
 
-            int id = 1;
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Get(id);
+            var result = await customerRepository.Get(customerId);
 
             //assert
             result.Should().BeOfType(typeof(Customer));
-            result.CustomerId.Should().Be(id);
+            result.CustomerId.Should().Be(customerId);
             result.Address.Should().NotBeNull();
         }
 
@@ -221,75 +136,82 @@ namespace Auftragsverwaltung.Repository.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
+            await InstanceHelper.AddDbTestCustomers(_options);
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.GetAll();
+            var result = await customerRepository.GetAll();
 
             //assert
-            result.Should().BeOfType(typeof(List<Customer>));
-            result.Count().Should().Be(3);
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Customer>));
+            resultList.Count().Should().Be(3);
         }
 
         [Test]
         public async Task Delete_WhenAddressIsNotInMultipleRelations_ReturnsCorrectResult()
         {
             //arrange
-            await AddSingleDbTestEntry();
-            int id = 1;
+            await InstanceHelper.AddDbTestCustomer(_options);
+            int customerId = 1;
+            int expectedRows = 3;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Delete(id);
+            var result = await customerRepository.Delete(customerId);
 
             //assert
             result.Flag.Should().BeTrue();
-            result.NumberOfRows.Should().Be(3);
+            result.NumberOfRows.Should().Be(expectedRows);
         }
 
         [Test]
         public async Task Delete_WhenAddressIsInMultipleRelations_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
-            int id = 1;
+            await InstanceHelper.AddDbTestCustomers(_options);
+            int customerId = 1;
+            int expectedRows = 1;
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
             //act
-            var result = await customerRepo.Delete(id);
+            var result = await customerRepository.Delete(customerId);
 
             //assert
             result.Flag.Should().BeTrue();
-            result.NumberOfRows.Should().Be(1);
+            result.NumberOfRows.Should().Be(expectedRows);
         }
 
         [Test]
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await AddDbTestEntries();
-            int id = 1;
+            await InstanceHelper.AddDbTestCustomers(_options);
+            int customerId = 1;
+            string newFirstname = "Hans-Rudolf";
+
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
 
-            var entity = customerRepo.Get(id);
+            var entity = customerRepository.Get(customerId);
             var customer = entity.Result;
-            customer.Firstname = "Hans-Rudolf";
+            customer.Firstname = newFirstname;
 
             //act
-            var result = await customerRepo.Update(id, customer);
+            var result = await customerRepository.Update(customerId, customer);
 
             //assert
-            result.Entity.Firstname.Should().BeEquivalentTo(customer.Firstname);
+            result.Entity.Firstname.Should().BeEquivalentTo(newFirstname);
             result.Flag.Should().BeTrue();
         }
     }

@@ -12,8 +12,8 @@ namespace Auftragsverwaltung.Domain
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual ICollection<Position> Positions { get; set; }
+        public virtual Customer Customer { get; set; } = default!;
+        public virtual ICollection<Position> Positions { get; set; } = default!;
 #nullable disable
     }
 }

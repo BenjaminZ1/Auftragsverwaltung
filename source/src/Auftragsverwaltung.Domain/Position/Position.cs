@@ -12,8 +12,8 @@ namespace Auftragsverwaltung.Domain
         public int OrderId { get; set; }
         public int ArticleId { get; set; }
         public int Amount { get; set; }
-        public virtual Order Order { get; set; }
-        public virtual Article Article { get; set; }
+        public virtual Order Order { get; set; } = default!;
+        public virtual Article Article { get; set; } = default!;
 #nullable disable
     }
 }

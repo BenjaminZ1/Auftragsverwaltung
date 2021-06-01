@@ -10,11 +10,11 @@ namespace Auftragsverwaltung.Domain
     {
 #nullable enable
         public int AddressId { get; set; }
-        public string Street { get; set; }
+        public string Street { get; set; } = default!;
         public string? BuildingNr { get; set; }
         public int TownId { get; set; }
-        public virtual Town Town { get; set; }
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual Town Town { get; set; } = default!;
+        public virtual ICollection<Customer> Customers { get; set; } = default!;
 #nullable disable
     }
 }
