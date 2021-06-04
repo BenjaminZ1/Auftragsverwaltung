@@ -42,6 +42,25 @@ namespace Auftragsverwaltung.Repository.Tests
             //assert
             result.Should().BeEquivalentTo(expectedResult);
         }
-        
+
+        [Test]
+        public async Task Get_WhenOk_GetCalledOnce()
+        {
+            //arrange
+            int id = 1;
+            var customerStub = _customerTestData[0];
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+            var expectedResult = new CustomerDto(customerStub);
+
+            //act
+            var result = await customerService.Get(id);
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Get(id)).MustHaveHappenedOnceExactly();
+        }
+
     }
 }
