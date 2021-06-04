@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Domain;
+﻿using Auftragsverwaltung.Domain.Address;
+using Auftragsverwaltung.Domain.Article;
+using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Customer;
+using Auftragsverwaltung.Domain.Order;
+using Auftragsverwaltung.Domain.Position;
+using Auftragsverwaltung.Domain.Town;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
 using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Repository.Tests
 {
     public static class InstanceHelper
     {
-        
+
         public static DbContextOptions<AppDbContext> AppDbContext_BuildDbContext()
         {
             return new DbContextOptionsBuilder<AppDbContext>()
@@ -30,7 +33,7 @@ namespace Auftragsverwaltung.Repository.Tests
             //    .Options;
         }
 
-        
+
         public static void ResetDb(DbContextOptions<AppDbContext> options)
         {
             using var context = new AppDbContext(options);
@@ -130,7 +133,7 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
-            
+
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             await articleRepository.Create(new Article()

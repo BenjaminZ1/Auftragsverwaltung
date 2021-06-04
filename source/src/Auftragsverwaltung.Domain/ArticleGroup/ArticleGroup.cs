@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Auftragsverwaltung.Domain.Common;
 using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Domain.Common;
 
-namespace Auftragsverwaltung.Domain
+namespace Auftragsverwaltung.Domain.ArticleGroup
 {
     public class ArticleGroup : EntityBase
     {
@@ -12,7 +9,7 @@ namespace Auftragsverwaltung.Domain
         public int ArticleGroupId { get; set; }
         public string Name { get; set; } = default!;
         public int? ParentArticleGroupId { get; set; }
-        public virtual ICollection<Article> Articles { get; set; } = default!;
+        public virtual ICollection<Article.Article> Articles { get; set; } = default!;
         public virtual ArticleGroup? ParentArticleGroup { get; set; }
         public virtual ICollection<ArticleGroup> ChildArticlesGroups { get; set; } = default!;
 #nullable disable

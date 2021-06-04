@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Infrastructure.Common;
+﻿using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Auftragsverwaltung.Infrastructure.Article
 {
-    public class ArticleConfiguration : AppEntityConfigurations<Domain.Article>
+    public class ArticleConfiguration : AppEntityConfigurations<Domain.Article.Article>
     {
-        public override void Configure(EntityTypeBuilder<Domain.Article> builder)
+        public override void Configure(EntityTypeBuilder<Domain.Article.Article> builder)
         {
             base.Configure(builder);
 

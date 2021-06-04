@@ -4,13 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
-    public class OrderRepository : IAppRepository<Domain.Order>
+    public class OrderRepository : IAppRepository<Domain.Order.Order>
     {
 
         private readonly AppDbContext _db;
@@ -20,12 +18,12 @@ namespace Auftragsverwaltung.Infrastructure.Order
             _db = dbContextFactory.CreateDbContext();
         }
 
-        public async Task<ResponseDto<Domain.Order>> Create(Domain.Order entity)
+        public async Task<ResponseDto<Domain.Order.Order>> Create(Domain.Order.Order entity)
         {
-            ResponseDto<Domain.Order> response = new ResponseDto<Domain.Order>();
+            ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                EntityEntry<Domain.Order> createdEntity = await _db.Orders.AddAsync(entity);
+                EntityEntry<Domain.Order.Order> createdEntity = await _db.Orders.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = createdEntity.Entity;
@@ -43,12 +41,12 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return response;
         }
 
-        public async Task<ResponseDto<Domain.Order>> Delete(int id)
+        public async Task<ResponseDto<Domain.Order.Order>> Delete(int id)
         {
-            ResponseDto<Domain.Order> response = new ResponseDto<Domain.Order>();
+            ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                Domain.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
+                Domain.Order.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
                 _db.Orders.Remove(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -67,9 +65,9 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return response;
         }
 
-        public async Task<Domain.Order> Get(int id)
+        public async Task<Domain.Order.Order> Get(int id)
         {
-            Domain.Order entity = await _db.Orders
+            Domain.Order.Order entity = await _db.Orders
                 .Include(o => o.Positions)
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
@@ -78,9 +76,9 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return entity;
         }
 
-        public async Task<IEnumerable<Domain.Order>> GetAll()
+        public async Task<IEnumerable<Domain.Order.Order>> GetAll()
         {
-            List<Domain.Order> entities = await _db.Orders
+            List<Domain.Order.Order> entities = await _db.Orders
                 .Include(o => o.Positions)
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
@@ -89,9 +87,9 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return entities;
         }
 
-        public async Task<ResponseDto<Domain.Order>> Update(int id, Domain.Order entity)
+        public async Task<ResponseDto<Domain.Order.Order>> Update(int id, Domain.Order.Order entity)
         {
-            ResponseDto<Domain.Order> response = new ResponseDto<Domain.Order>();
+            ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
                 entity.OrderId = id;

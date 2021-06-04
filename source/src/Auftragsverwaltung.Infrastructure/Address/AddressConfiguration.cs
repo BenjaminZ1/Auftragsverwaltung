@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Infrastructure.Common;
+﻿using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Auftragsverwaltung.Infrastructure.Address
 {
-    public class AddressConfiguration : AppEntityConfigurations<Domain.Address>
+    public class AddressConfiguration : AppEntityConfigurations<Domain.Address.Address>
     {
-        public override void Configure(EntityTypeBuilder<Domain.Address> builder)
+        public override void Configure(EntityTypeBuilder<Domain.Address.Address> builder)
         {
             base.Configure(builder);
 

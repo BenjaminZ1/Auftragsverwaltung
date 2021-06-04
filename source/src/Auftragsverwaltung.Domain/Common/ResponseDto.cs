@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Common;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-
-namespace Auftragsverwaltung.Application.Dtos
+﻿namespace Auftragsverwaltung.Domain.Common
 {
     public class ResponseDto<T> where T : EntityBase
     {

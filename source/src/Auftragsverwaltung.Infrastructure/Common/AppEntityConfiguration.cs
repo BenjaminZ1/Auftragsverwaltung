@@ -1,5 +1,4 @@
-﻿using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

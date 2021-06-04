@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain;
+﻿using Auftragsverwaltung.Domain.Article;
+using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
-using Auftragsverwaltung.Infrastructure.Customer;
 using FakeItEasy;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Repository.Tests
 {
@@ -32,7 +29,7 @@ namespace Auftragsverwaltung.Repository.Tests
         {
             InstanceHelper.ResetDb(_options);
         }
-        
+
         [Test]
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {

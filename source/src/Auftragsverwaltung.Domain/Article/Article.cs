@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
 
-namespace Auftragsverwaltung.Domain
+namespace Auftragsverwaltung.Domain.Article
 {
     public class Article : EntityBase
     {
@@ -12,7 +8,7 @@ namespace Auftragsverwaltung.Domain
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int ArticleGroupId { get; set; }
-        public virtual ArticleGroup ArticleGroup { get; set; }
-        public virtual Position Position { get; set; }
+        public virtual ArticleGroup.ArticleGroup ArticleGroup { get; set; }
+        public virtual Position.Position Position { get; set; }
     }
 }

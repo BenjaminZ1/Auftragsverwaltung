@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Auftragsverwaltung.Infrastructure.Customer
 {
-    public class CustomerConfiguration : AppEntityConfigurations<Domain.Customer>
+    public class CustomerConfiguration : AppEntityConfigurations<Domain.Customer.Customer>
     {
-        public override void Configure(EntityTypeBuilder<Domain.Customer> builder)
+        public override void Configure(EntityTypeBuilder<Domain.Customer.Customer> builder)
         {
             base.Configure(builder);
 

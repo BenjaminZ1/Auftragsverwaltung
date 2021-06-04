@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain;
+﻿using Auftragsverwaltung.Domain.Address;
+using Auftragsverwaltung.Domain.Article;
+using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Common;
+using Auftragsverwaltung.Domain.Customer;
+using Auftragsverwaltung.Domain.Order;
+using Auftragsverwaltung.Domain.Position;
+using Auftragsverwaltung.Domain.Town;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
 using FakeItEasy;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Repository.Tests
 {
@@ -39,7 +43,7 @@ namespace Auftragsverwaltung.Repository.Tests
             //arrange
             var order = new Order()
             {
-                Date = new DateTime(2020,03,03),
+                Date = new DateTime(2020, 03, 03),
                 Customer = new Customer()
                 {
                     Address = new Address()
@@ -107,7 +111,7 @@ namespace Auftragsverwaltung.Repository.Tests
             {
                 Date = new DateTime(2020, 03, 03),
                 Customer = await customerRepository.Get(1),
-                    Positions = new List<Position>
+                Positions = new List<Position>
                     {
                         new Position()
                         {

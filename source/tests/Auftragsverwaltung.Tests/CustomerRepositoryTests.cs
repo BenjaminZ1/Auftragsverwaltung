@@ -1,18 +1,16 @@
+using Auftragsverwaltung.Domain.Address;
+using Auftragsverwaltung.Domain.Common;
+using Auftragsverwaltung.Domain.Customer;
+using Auftragsverwaltung.Domain.Town;
+using Auftragsverwaltung.Infrastructure.Common;
+using Auftragsverwaltung.Infrastructure.Customer;
+using FakeItEasy;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain;
-using Auftragsverwaltung.Infrastructure.Common;
-using Auftragsverwaltung.Infrastructure.Customer;
-using Auftragsverwaltung.Repository.Tests;
-using FakeItEasy;
-using FluentAssertions;
-using FluentAssertions.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
 
 namespace Auftragsverwaltung.Repository.Tests
 {

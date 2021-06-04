@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
 
-namespace Auftragsverwaltung.Domain
+namespace Auftragsverwaltung.Domain.Position
 {
     public class Position : EntityBase
     {
@@ -12,8 +8,8 @@ namespace Auftragsverwaltung.Domain
         public int OrderId { get; set; }
         public int ArticleId { get; set; }
         public int Amount { get; set; }
-        public virtual Order Order { get; set; } = default!;
-        public virtual Article Article { get; set; } = default!;
+        public virtual Order.Order Order { get; set; } = default!;
+        public virtual Article.Article Article { get; set; } = default!;
 #nullable disable
     }
 }

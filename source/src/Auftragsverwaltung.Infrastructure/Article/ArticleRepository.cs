@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Infrastructure.Article
 {
-    public class ArticleRepository : IAppRepository<Domain.Article>
+    public class ArticleRepository : IAppRepository<Domain.Article.Article>
     {
 
         private readonly AppDbContext _db;
@@ -20,14 +18,14 @@ namespace Auftragsverwaltung.Infrastructure.Article
             _db = dbContextFactory.CreateDbContext();
         }
 
-        public async Task<ResponseDto<Domain.Article>> Create(Domain.Article entity)
+        public async Task<ResponseDto<Domain.Article.Article>> Create(Domain.Article.Article entity)
         {
-            ResponseDto<Domain.Article> response = new ResponseDto<Domain.Article>();
+            ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
 
-                EntityEntry<Domain.Article> createdEntity = await _db.Articles.AddAsync(entity);
+                EntityEntry<Domain.Article.Article> createdEntity = await _db.Articles.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = createdEntity.Entity;
@@ -45,31 +43,31 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return response;
         }
 
-        private async Task<Domain.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup articleGroup)
+        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
         {
-            Domain.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
                 e.Name == articleGroup.Name);
 
             if (articleGroup.ParentArticleGroup != null)
                 articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
-                
+
             return foundArticleGroup ?? articleGroup;
         }
 
-        private async Task<Domain.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup articleGroup)
+        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
         {
-            Domain.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
                 e.Name == articleGroup.Name);
 
             return foundArticleGroup ?? articleGroup;
         }
 
-        public async Task<ResponseDto<Domain.Article>> Delete(int id)
+        public async Task<ResponseDto<Domain.Article.Article>> Delete(int id)
         {
-            ResponseDto<Domain.Article> response = new ResponseDto<Domain.Article>();
+            ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
-                Domain.Article entity = await _db.Articles.FirstOrDefaultAsync(e => e.ArticleId == id);
+                Domain.Article.Article entity = await _db.Articles.FirstOrDefaultAsync(e => e.ArticleId == id);
                 _db.Articles.Remove(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -88,23 +86,23 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return response;
         }
 
-        public async Task<Domain.Article> Get(int id)
+        public async Task<Domain.Article.Article> Get(int id)
         {
-            Domain.Article entity = await _db.Articles
+            Domain.Article.Article entity = await _db.Articles
                 .Include(a => a.ArticleGroup)
-                .FirstOrDefaultAsync(e => e.ArticleId == id); 
+                .FirstOrDefaultAsync(e => e.ArticleId == id);
             return entity;
         }
 
-        public async Task<IEnumerable<Domain.Article>> GetAll()
+        public async Task<IEnumerable<Domain.Article.Article>> GetAll()
         {
-            List<Domain.Article> entities = await _db.Articles.ToListAsync();
+            List<Domain.Article.Article> entities = await _db.Articles.ToListAsync();
             return entities;
         }
 
-        public async Task<ResponseDto<Domain.Article>> Update(int id, Domain.Article entity)
+        public async Task<ResponseDto<Domain.Article.Article>> Update(int id, Domain.Article.Article entity)
         {
-            ResponseDto<Domain.Article> response = new ResponseDto<Domain.Article>();
+            ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
                 entity.ArticleId = id;

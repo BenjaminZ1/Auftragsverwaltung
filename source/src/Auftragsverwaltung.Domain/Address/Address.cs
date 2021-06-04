@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Auftragsverwaltung.Domain.Common;
 using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Domain.Common;
 
-namespace Auftragsverwaltung.Domain
+namespace Auftragsverwaltung.Domain.Address
 {
     public class Address : EntityBase
     {
@@ -13,8 +10,8 @@ namespace Auftragsverwaltung.Domain
         public string Street { get; set; } = default!;
         public string? BuildingNr { get; set; }
         public int TownId { get; set; }
-        public virtual Town Town { get; set; } = default!;
-        public virtual ICollection<Customer> Customers { get; set; } = default!;
+        public virtual Town.Town Town { get; set; } = default!;
+        public virtual ICollection<Customer.Customer> Customers { get; set; } = default!;
 #nullable disable
     }
 }

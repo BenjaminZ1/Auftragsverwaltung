@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Infrastructure.Common;
+﻿using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Auftragsverwaltung.Infrastructure.Town
 {
-    public class TownConfiguration : AppEntityConfigurations<Domain.Town>
+    public class TownConfiguration : AppEntityConfigurations<Domain.Town.Town>
     {
-        public override void Configure(EntityTypeBuilder<Domain.Town> builder)
+        public override void Configure(EntityTypeBuilder<Domain.Town.Town> builder)
         {
             base.Configure(builder);
 
