@@ -4,20 +4,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 
 namespace Auftragsverwaltung.Application.Service
 {
-    public class CustomerService : IAppService<CustomerDto>
+    class CustomerService : IAppService<CustomerDto, Customer>
     {
-        private readonly IAppRepository<Customer> _db;
-
-        public CustomerService(IAppRepository<Customer> db)
-        {
-            _db = db;
-        }
-
         public async Task<CustomerDto> Get(int id)
         {
             throw new NotImplementedException();
@@ -28,12 +20,12 @@ namespace Auftragsverwaltung.Application.Service
             throw new NotImplementedException();
         }
 
-        public async Task<CustomerDto> Create(CustomerDto entity)
+        public async Task<CustomerDto> Create(Customer entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CustomerDto> Update(int id, CustomerDto entity)
+        public async Task<CustomerDto> Update(int id, Customer entity)
         {
             throw new NotImplementedException();
         }
