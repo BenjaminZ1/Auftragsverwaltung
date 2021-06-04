@@ -206,5 +206,80 @@ namespace Auftragsverwaltung.Repository.Tests
                 },
             });
         }
+
+        public static List<Customer> GenerateCustomerServiceTestData()
+        {
+            var list = new List<Customer>()
+            {
+                new Customer()
+                {
+                    Address = new Address()
+                    {
+                        AddressId = 1,
+                        BuildingNr = "2",
+                        Street = "Teststrasse",
+                        Town = new Town()
+                        {
+                            TownId = 1,
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    AddressId = 1,
+                    CustomerId = 1,
+                    Email = "hans@test.ch",
+                    Firstname = "Hans",
+                    Lastname = "Müller",
+                    Password = new byte[64],
+                    Website = "www.hans.ch"
+                },
+                new Customer()
+                {
+                    Address = new Address()
+                    {
+                        AddressId = 2,
+                        BuildingNr = "44",
+                        Street = "Hauptstrasse",
+                        Town = new Town()
+                        {
+                            TownId = 2,
+                            Townname = "St. Gallen",
+                            ZipCode = "9001"
+                        }
+                    },
+                    AddressId = 2,
+                    CustomerId = 2,
+                    Email = "ida@gmail.com",
+                    Firstname = "Ida",
+                    Lastname = "Muster",
+                    Password = new byte[64],
+                    Website = "www.ida.com"
+                },
+                new Customer()
+                {
+                    Address = new Address()
+                    {
+                        AddressId = 1,
+                        BuildingNr = "2",
+                        Street = "Teststrasse",
+                        Town = new Town()
+                        {
+                            TownId = 1,
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    AddressId = 1,
+                    CustomerId = 3,
+                    Email = "vreni@test.ch",
+                    Firstname = "Vreni",
+                    Lastname = "Müller",
+                    Password = new byte[64],
+                    Website = "www.vreni.ch"
+                }
+            };
+
+            return list;
+        }
     }
 }

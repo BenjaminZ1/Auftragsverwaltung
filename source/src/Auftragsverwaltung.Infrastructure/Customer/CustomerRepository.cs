@@ -21,6 +21,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
         {
             Domain.Customer.Customer entity = await _db.Customers
                 .Include(e => e.Address)
+                .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
                 .FirstOrDefaultAsync(e => e.CustomerId == id);
             return entity;
@@ -30,6 +31,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
         {
             List<Domain.Customer.Customer> entities = await _db.Customers
                 .Include(e => e.Address)
+                .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
                 .ToListAsync();
             return entities;

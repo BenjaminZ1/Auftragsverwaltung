@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Auftragsverwaltung.Application.Service
 {
-    class CustomerService : IAppService<CustomerDto, Customer>
+    public class CustomerService : IAppService<CustomerDto, Customer>
     {
         private readonly IAppRepository<Customer> _repository;
         public CustomerService(IAppRepository<Customer> repository)
