@@ -1,0 +1,25 @@
+﻿<Window x:Class="Auftragsverwaltung.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Auftragsverwaltung.WPF.Controls"
+
+        RenderOptions.EdgeMode="Aliased"
+        mc:Ignorable="d"
+        Title="Auftragsverwaltung" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Auftragsverwaltung" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" FontSize="28"  Background="{StaticResource BrushDeepGreen}" Foreground="White"/>
+        <controls:NavigationBar Grid.Column="0" Grid.Row="1"  DataContext="{Binding Navigator}"/>
+        <ContentControl Grid.Row="1" Grid.Column="1"  Content="{Binding Navigator.CurrentViewModel}"/>
+    </Grid>
+</Window>
