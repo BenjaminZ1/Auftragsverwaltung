@@ -1,6 +1,6 @@
 ﻿namespace Auftragsverwaltung.Application.Dtos
 {
-    public class CustomerDto
+    public class CustomerDto : AppDto
     {
     }
 }
