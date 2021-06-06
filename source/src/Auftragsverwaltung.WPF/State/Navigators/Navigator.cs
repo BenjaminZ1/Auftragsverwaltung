@@ -2,6 +2,7 @@
 using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.ViewModels;
+using Auftragsverwaltung.WPF.ViewModels.Factories;
 
 namespace Auftragsverwaltung.WPF.State.Navigators
 {
@@ -18,6 +19,11 @@ namespace Auftragsverwaltung.WPF.State.Navigators
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
-        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
+        public ICommand UpdateCurrentViewModelCommand { get; set; }
+
+        public Navigator(IAppViewModelAbstractFactory viewModelFactory)
+        {
+            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
+        }
     }
 }

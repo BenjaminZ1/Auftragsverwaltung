@@ -2,17 +2,20 @@
 using System.Windows.Input;
 using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels;
+using Auftragsverwaltung.WPF.ViewModels.Factories;
 
 namespace Auftragsverwaltung.WPF.Commands
 {
     public class UpdateCurrentViewModelCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private INavigator _navigator;
+        private readonly INavigator _navigator;
+        private readonly IAppViewModelAbstractFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, IAppViewModelAbstractFactory viewModelFactory)
         {
             _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
         }
 
         public bool CanExecute(object parameter)
@@ -25,23 +28,7 @@ namespace Auftragsverwaltung.WPF.Commands
             if(parameter is ViewType)
             {
                 ViewType viewType = (ViewType)parameter;
-                switch(viewType)
-                {
-                    case ViewType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel();
-                        break;
-                    case ViewType.Customer:
-                        _navigator.CurrentViewModel = new CustomerViewModel();
-                        break;
-                    case ViewType.Article:
-                        _navigator.CurrentViewModel = new ArticleViewModel();
-                        break;
-                    case ViewType.Order:
-                        _navigator.CurrentViewModel = new OrderViewModel();
-                        break;
-                    default:
-                        break;
-                }
+                _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
             }
         }
     }
