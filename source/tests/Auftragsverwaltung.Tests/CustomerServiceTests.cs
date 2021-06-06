@@ -98,5 +98,50 @@ namespace Auftragsverwaltung.Repository.Tests
             A.CallTo(() => customerRepositoryFake.GetAll()).MustHaveHappenedOnceExactly();
         }
 
+        [Test]
+        public async Task Create_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            var customerStub = _customerTestData[0];
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = customerStub
+            };
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Create(customerStub)).Returns(responseDto);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+
+
+            //act
+            var result = await customerService.Create(customerStub);
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Create(customerStub)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Create_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerStub = _customerTestData[0];
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = customerStub
+            };
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Create(customerStub)).Returns(responseDto);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+
+
+            //act
+            var result = await customerService.Create(customerStub);
+
+            //assert
+            result.Should().BeOfType(typeof(CustomerDto));
+            result.Response.Entity.Should().BeNull();
+            result.CustomerId.Should().Be(customerStub.CustomerId);
+        }
     }
 }
