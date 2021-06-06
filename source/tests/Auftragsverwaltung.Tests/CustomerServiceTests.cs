@@ -143,5 +143,58 @@ namespace Auftragsverwaltung.Repository.Tests
             result.Response.Entity.Should().BeNull();
             result.CustomerId.Should().Be(customerStub.CustomerId);
         }
+
+        [Test]
+        public async Task Update_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            int id = 1;
+            var customerStub = _customerTestData[0];
+            var changedCustomerStub = customerStub;
+            changedCustomerStub.Firstname = "Rudolf";
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = changedCustomerStub
+            };
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).Returns(responseDto);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+
+
+            //act
+            var result = await customerService.Update(id, changedCustomerStub);
+
+            //assert
+            result.Should().BeOfType(typeof(CustomerDto));
+            result.Response.Entity.Should().BeNull();
+            result.CustomerId.Should().Be(customerStub.CustomerId);
+            result.Firstname.Should().Be(changedCustomerStub.Firstname);
+        }
+
+        [Test]
+        public async Task Update_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            int id = 1;
+            var customerStub = _customerTestData[0];
+            var changedCustomerStub = customerStub;
+            changedCustomerStub.Firstname = "Rudolf";
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = changedCustomerStub
+            };
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).Returns(responseDto);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+
+
+            //act
+            var result = await customerService.Update(id, changedCustomerStub);
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).MustHaveHappenedOnceExactly();
+        }
     }
 }
