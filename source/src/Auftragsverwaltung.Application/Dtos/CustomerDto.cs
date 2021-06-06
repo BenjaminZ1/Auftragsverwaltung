@@ -10,13 +10,13 @@ namespace Auftragsverwaltung.Application.Dtos
     public class CustomerDto : AppDto
     {
         public int CustomerId { get; set; }
-        public string Firstname { get; set; } = default!;
-        public string Lastname { get; set; } = default!;
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
         public int AddressId { get; set; }
         public  Domain.Address.Address Address { get; set; }
-        public string Email { get; set; } = default!;
+        public string Email { get; set; }
         public string Website { get; set; }
-        public Byte[] Password { get; set; } = default!;
+        public Byte[] Password { get; set; }
         public  ICollection<Domain.Order.Order> Orders { get; set; }
         public ResponseDto<Customer> Response { get; set; }
 
