@@ -1,4 +1,7 @@
-﻿using Auftragsverwaltung.Domain.Article;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Article;
@@ -7,11 +10,8 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Auftragsverwaltung.Repository.Tests
+namespace Auftragsverwaltung.Tests
 {
     [TestFixture]
     public class ArticleRepositoryTests

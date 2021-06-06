@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
@@ -8,11 +11,8 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Auftragsverwaltung.Repository.Tests
+namespace Auftragsverwaltung.Tests
 {
     [TestFixture]
     public class CustomerRepositoryTests

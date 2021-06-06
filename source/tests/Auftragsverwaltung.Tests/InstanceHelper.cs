@@ -1,4 +1,7 @@
-﻿using Auftragsverwaltung.Domain.Address;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Customer;
@@ -11,11 +14,8 @@ using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
 using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Auftragsverwaltung.Repository.Tests
+namespace Auftragsverwaltung.Tests
 {
     public static class InstanceHelper
     {

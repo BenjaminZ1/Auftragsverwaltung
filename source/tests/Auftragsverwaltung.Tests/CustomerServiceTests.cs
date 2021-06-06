@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
-using Auftragsverwaltung.Infrastructure.Customer;
 using FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Auftragsverwaltung.Repository.Tests
+namespace Auftragsverwaltung.Tests
 {
     [TestFixture]
     class CustomerServiceTests

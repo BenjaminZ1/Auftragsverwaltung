@@ -1,4 +1,8 @@
-﻿using Auftragsverwaltung.Domain.Address;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Common;
@@ -14,12 +18,8 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Auftragsverwaltung.Repository.Tests
+namespace Auftragsverwaltung.Tests
 {
     public class OrderRepositoryTests
     {
