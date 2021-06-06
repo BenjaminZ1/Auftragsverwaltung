@@ -131,6 +131,24 @@ namespace Auftragsverwaltung.Repository.Tests
         }
 
         [Test]
+        public async Task Get_WhenCustomerNotExists_ReturnsCorrectResult()
+        {
+            //arrange
+            await InstanceHelper.AddDbTestCustomers(_options);
+            int notExistingCustomerId = 4;
+
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+
+            //act
+            var result = await customerRepository.Get(notExistingCustomerId);
+
+            //assert
+            result.Should().BeNull();
+        }
+
+        [Test]
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
@@ -147,6 +165,22 @@ namespace Auftragsverwaltung.Repository.Tests
             var resultList = result.ToList();
             resultList.Should().BeOfType(typeof(List<Customer>));
             resultList.Count().Should().Be(3);
+        }
+
+        [Test]
+        public async Task GetAll_WhenNoCustomerExists_ReturnsCorrectResult()
+        {
+            //arrange
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+
+            //act
+            var result = await customerRepository.GetAll();
+
+            //assert
+            var resultList = result.ToList();
+            resultList.Should().BeEmpty();
         }
 
         [Test]
