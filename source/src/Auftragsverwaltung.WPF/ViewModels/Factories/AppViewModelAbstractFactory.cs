@@ -25,19 +25,14 @@ namespace Auftragsverwaltung.WPF.ViewModels.Factories
 
         public ViewModelBase CreateViewModel(ViewType viewType)
         {
-            switch (viewType)
+            return viewType switch
             {
-                case ViewType.Home:
-                    return _homeViewModelFactory.CreateViewModel();
-                case ViewType.Customer:
-                    return _customerViewModelFactory.CreateViewModel();
-                case ViewType.Article:
-                    return _articleViewModelFactory.CreateViewModel();
-                case ViewType.Order:
-                    return _orderViewModelFactory.CreateViewModel();
-                default:
-                    throw new ArgumentException("The ViewType does not have a ViewModel.", nameof(viewType));
-            }
+                ViewType.Home => _homeViewModelFactory.CreateViewModel(),
+                ViewType.Customer => _customerViewModelFactory.CreateViewModel(),
+                ViewType.Article => _articleViewModelFactory.CreateViewModel(),
+                ViewType.Order => _orderViewModelFactory.CreateViewModel(),
+                _ => throw new ArgumentException("The ViewType does not have a ViewModel.", nameof(viewType))
+            };
         }
     }
 }
