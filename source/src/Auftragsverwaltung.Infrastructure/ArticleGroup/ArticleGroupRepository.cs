@@ -63,6 +63,11 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             return response;
         }
 
+        public async Task<IEnumerable<Domain.ArticleGroup.ArticleGroup>> Search(string searchString)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Domain.ArticleGroup.ArticleGroup> Get(int id)
         {
             Domain.ArticleGroup.ArticleGroup entity = await _db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);

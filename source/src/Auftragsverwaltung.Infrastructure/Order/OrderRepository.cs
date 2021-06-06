@@ -65,6 +65,11 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return response;
         }
 
+        public async Task<IEnumerable<Domain.Order.Order>> Search(string searchString)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Domain.Order.Order> Get(int id)
         {
             Domain.Order.Order entity = await _db.Orders

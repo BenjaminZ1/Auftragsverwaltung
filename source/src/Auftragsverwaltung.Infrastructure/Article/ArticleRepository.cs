@@ -86,6 +86,11 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return response;
         }
 
+        public async Task<IEnumerable<Domain.Article.Article>> Search(string searchString)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Domain.Article.Article> Get(int id)
         {
             Domain.Article.Article entity = await _db.Articles

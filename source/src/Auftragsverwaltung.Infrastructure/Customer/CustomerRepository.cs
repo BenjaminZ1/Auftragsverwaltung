@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Infrastructure.Customer
@@ -120,6 +121,11 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             }
 
             return response;
+        }
+
+        public async Task<IEnumerable<Domain.Customer.Customer>> Search(string searchString)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<bool> IsAddressInUse(int addressId)
