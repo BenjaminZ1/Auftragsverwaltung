@@ -196,5 +196,51 @@ namespace Auftragsverwaltung.Repository.Tests
             //assert
             A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).MustHaveHappenedOnceExactly();
         }
+
+        [Test]
+        public async Task Delete_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            int id = 1;
+            var customerStub = _customerTestData[0];
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = customerStub
+            };
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Delete(id)).Returns(responseDto);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+
+            //act
+            var result = await customerService.Delete(id);
+
+            //assert
+            result.Should().BeOfType(typeof(CustomerDto));
+            result.Response.Entity.Should().BeNull();
+            result.CustomerId.Should().Be(customerStub.CustomerId);
+        }
+
+        [Test]
+        public async Task Delete_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            int id = 1;
+            var customerStub = _customerTestData[0];
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = customerStub
+            };
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.Delete(id)).Returns(responseDto);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+
+            //act
+            var result = await customerService.Delete(id);
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Delete(id)).MustHaveHappenedOnceExactly();
+        }
     }
 }
