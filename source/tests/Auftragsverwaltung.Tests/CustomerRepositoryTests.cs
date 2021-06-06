@@ -246,28 +246,5 @@ namespace Auftragsverwaltung.Repository.Tests
             result.Entity.Firstname.Should().BeEquivalentTo(newFirstname);
             result.Flag.Should().BeTrue();
         }
-
-        [Test]
-        public async Task Search_WhenOK_ReturnsCorrectResult()
-        {
-            //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
-            int customerId = 1;
-            string searchString = "Hans";
-
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
-
-            var entity = customerRepository.Get(customerId);
-            var customer = entity.Result;
-
-
-            //act
-            var result = await customerRepository.Search(searchString);
-
-            //assert
-
-        }
     }
 }
