@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Dtos;
@@ -53,13 +54,48 @@ namespace Auftragsverwaltung.Repository.Tests
             A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
 
             var customerService = new CustomerService(customerRepositoryFake);
-            var expectedResult = new CustomerDto(customerStub);
 
             //act
             var result = await customerService.Get(id);
 
             //assert
             A.CallTo(() => customerRepositoryFake.Get(id)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task GetAll_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerStubs = _customerTestData;
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+            var expectedResult = customerStubs.Select(c => new CustomerDto(c));
+
+            //act
+            var result = await customerService.GetAll();
+
+            //assert
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task GetAll_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            var customerStubs = _customerTestData;
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
+
+            var customerService = new CustomerService(customerRepositoryFake);
+            
+
+            //act
+            var result = await customerService.GetAll();
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.GetAll()).MustHaveHappenedOnceExactly();
         }
 
     }
