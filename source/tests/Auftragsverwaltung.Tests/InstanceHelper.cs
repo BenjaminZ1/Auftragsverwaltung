@@ -9,6 +9,7 @@ using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.Domain.Town;
 using Auftragsverwaltung.Infrastructure.Article;
+using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
@@ -144,6 +145,19 @@ namespace Auftragsverwaltung.Tests
                 },
                 Description = "TestArticleDescription2",
                 Price = 22,
+            });
+        }
+
+        public static async Task AddDbTestArticleGroup(DbContextOptions<AppDbContext> options)
+        {
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
+
+            var articleGroupRepository = new ArticleGroupRepository(dbContextFactoryFake);
+
+            await articleGroupRepository.Create(new ArticleGroup()
+            {
+                Name = "TestArticleGroup"
             });
         }
 
