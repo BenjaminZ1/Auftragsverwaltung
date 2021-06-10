@@ -14,13 +14,16 @@ namespace Auftragsverwaltung.WPF.ViewModels
     {
         public GetCustomerCommand GetCustomerCommand { get; set; }
 
-        
+        private ICustomerService _customerService;
 
 
-        public CustomerViewModel()
+        public CustomerViewModel(ICustomerService customerService)
         {
-            this.GetCustomerCommand = new GetCustomerCommand(this, null);
+            _customerService = customerService;
+            this.GetCustomerCommand = new GetCustomerCommand(this, customerService);
         }
+
+
 
     }
 }

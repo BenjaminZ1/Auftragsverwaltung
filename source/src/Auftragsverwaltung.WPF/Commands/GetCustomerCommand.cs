@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.WPF.ViewModels;
 using Auftragsverwaltung.WPF.Views;
@@ -15,9 +16,9 @@ namespace Auftragsverwaltung.WPF.Commands
     {
         private CustomerViewModel _customerViewModel;
 
-        private IAppService<CustomerDto, Customer> _customerService;
+        private ICustomerService _customerService;
 
-        public GetCustomerCommand(CustomerViewModel customerViewModel, IAppService<CustomerDto, Customer> customerService)
+        public GetCustomerCommand(CustomerViewModel customerViewModel, ICustomerService customerService)
         {
             _customerViewModel = customerViewModel;
             _customerService = customerService;

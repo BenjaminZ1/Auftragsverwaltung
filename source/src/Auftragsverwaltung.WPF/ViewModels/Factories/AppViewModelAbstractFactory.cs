@@ -7,15 +7,15 @@ namespace Auftragsverwaltung.WPF.ViewModels.Factories
 {
     public class AppViewModelAbstractFactory : IAppViewModelAbstractFactory
     {
-        private readonly IAppViewModelFactory<HomeViewModel> _homeViewModelFactory;
-        private readonly IAppViewModelFactory<CustomerViewModel> _customerViewModelFactory;
-        private readonly IAppViewModelFactory<OrderViewModel> _orderViewModelFactory;
-        private readonly IAppViewModelFactory<ArticleViewModel> _articleViewModelFactory;
+        private readonly CreateViewModel<HomeViewModel> _homeViewModelFactory;
+        private readonly CreateViewModel<CustomerViewModel> _customerViewModelFactory;
+        private readonly CreateViewModel<OrderViewModel> _orderViewModelFactory;
+        private readonly CreateViewModel<ArticleViewModel> _articleViewModelFactory;
 
-        public AppViewModelAbstractFactory(IAppViewModelFactory<HomeViewModel> homeViewModelFactory,
-            IAppViewModelFactory<CustomerViewModel> customerViewModelFactory,
-            IAppViewModelFactory<OrderViewModel> orderViewModelFactory,
-            IAppViewModelFactory<ArticleViewModel> articleViewModelFactory)
+        public AppViewModelAbstractFactory(CreateViewModel<HomeViewModel> homeViewModelFactory,
+            CreateViewModel<CustomerViewModel> customerViewModelFactory,
+            CreateViewModel<OrderViewModel> orderViewModelFactory,
+            CreateViewModel<ArticleViewModel> articleViewModelFactory)
         {
             _homeViewModelFactory = homeViewModelFactory;
             _customerViewModelFactory = customerViewModelFactory;
@@ -27,10 +27,10 @@ namespace Auftragsverwaltung.WPF.ViewModels.Factories
         {
             return viewType switch
             {
-                ViewType.Home => _homeViewModelFactory.CreateViewModel(),
-                ViewType.Customer => _customerViewModelFactory.CreateViewModel(),
-                ViewType.Article => _articleViewModelFactory.CreateViewModel(),
-                ViewType.Order => _orderViewModelFactory.CreateViewModel(),
+                ViewType.Home => _homeViewModelFactory(),
+                ViewType.Customer => _customerViewModelFactory(),
+                ViewType.Article => _articleViewModelFactory(),
+                ViewType.Order => _orderViewModelFactory(),
                 _ => throw new ArgumentException("The ViewType does not have a ViewModel.", nameof(viewType))
             };
         }

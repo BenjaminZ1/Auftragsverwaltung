@@ -1,6 +1,18 @@
-﻿namespace Auftragsverwaltung.WPF.ViewModels
+﻿using System.ComponentModel;
+
+namespace Auftragsverwaltung.WPF.ViewModels
 {
-    public class ViewModelBase
+    public delegate TViewModel CreateViewModel<TViewModel>() where TViewModel : ViewModelBase;
+
+    public class ViewModelBase : INotifyPropertyChanged
     {
+        public virtual void Dispose() { }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

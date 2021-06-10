@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Auftragsverwaltung.WPF.ViewModels;
 
 namespace Auftragsverwaltung.WPF.State.Navigators
@@ -13,6 +14,7 @@ namespace Auftragsverwaltung.WPF.State.Navigators
     public interface INavigator
     {
         ViewModelBase CurrentViewModel { get; set; }
-        ICommand UpdateCurrentViewModelCommand { get; }
+        event Action StateChanged;
+
     }
 }

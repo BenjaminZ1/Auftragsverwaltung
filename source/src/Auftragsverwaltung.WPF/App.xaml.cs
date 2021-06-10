@@ -22,10 +22,8 @@ namespace Auftragsverwaltung.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
-            IAppService<CustomerDto, Customer> customerService =
-                serviceProvider.GetRequiredService<IAppService<CustomerDto, Customer>>();
-
-            Window window = new MainWindow();
+            
+            Window window = serviceProvider.GetRequiredService<MainWindow>();
             window.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
             window.Show();
 
@@ -36,20 +34,39 @@ namespace Auftragsverwaltung.WPF
         {
             IServiceCollection services = new ServiceCollection();
 
+
             services.AddSingleton<AppDbContextFactory>();
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
-            services.AddSingleton<IAppService<CustomerDto, Customer>, CustomerService>();
+            services.AddSingleton<ICustomerService, CustomerService>();
+            services.AddScoped<INavigator, Navigator>();
+
+
+            services.AddTransient(Test.CreateHomeViewModel);
+            services.AddTransient<CustomerViewModel>();
+            services.AddTransient<ArticleViewModel>();
+            services.AddTransient<OrderViewModel>();
+            services.AddTransient<MainViewModel>();
+
+            services.AddSingleton<CreateViewModel<HomeViewModel>>(services => () => services.GetRequiredService<HomeViewModel>());
+            services.AddSingleton<CreateViewModel<CustomerViewModel>>(services => () => services.GetRequiredService<CustomerViewModel>());
+            services.AddSingleton<CreateViewModel<ArticleViewModel>>(services => () => services.GetRequiredService<ArticleViewModel>());
+            services.AddSingleton<CreateViewModel<OrderViewModel>>(services => () => services.GetRequiredService<OrderViewModel>());
+            services.AddSingleton<CreateViewModel<MainViewModel>>(services => () => services.GetRequiredService<MainViewModel>());
 
             services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
-            services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
 
-            services.AddScoped<INavigator, Navigator>();
-            services.AddScoped<MainViewModel>();
+            services.AddSingleton<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
 
             return services.BuildServiceProvider();
         }
     }
+
+    public static class Test
+    {
+        public static HomeViewModel CreateHomeViewModel(IServiceProvider services)
+        {
+            return new HomeViewModel();
+        }
+    }
+
 }
