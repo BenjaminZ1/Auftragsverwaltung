@@ -14,28 +14,14 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         public IEnumerable<CustomerDto> Customers
         {
-            get
-            {
-                return _customers;
-            }
-            set
-            {
-                _customers = value;
-                OnPropertyChanged(nameof(Customers));
-            }
+            get => _customers;
+            set { _customers = value; OnPropertyChanged(nameof(Customers)); }
         }
 
         public CustomerDto SelectedListItem
         {
-            get
-            {
-                return _selectedListItem;
-            }
-            set
-            {
-                _selectedListItem = value;
-                OnPropertyChanged(nameof(SelectedListItem));
-            }
+            get => _selectedListItem;
+            set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
 
         public CustomerListViewModel(ICustomerService customerService)
