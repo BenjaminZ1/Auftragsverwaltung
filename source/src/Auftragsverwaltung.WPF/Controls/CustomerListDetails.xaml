@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Auftragsverwaltung.WPF.Controls.CustomerListDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Auftragsverwaltung.WPF.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border BorderBrush="{StaticResource BrushLightGrey}" BorderThickness="1" CornerRadius="8">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Vorname"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedListItem.Firstname}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Nachname"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedListItem.Lastname}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Email"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedListItem.Email}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Website"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedListItem.Website}"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Postleitzahl"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedListItem.Address.Town.ZipCode}"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Stadt"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SelectedListItem.Address.Town.Townname}"/>
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Strasse"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SelectedListItem.Address.Street}"/>
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="HausNr"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding SelectedListItem.Address.BuildingNr}"/>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
