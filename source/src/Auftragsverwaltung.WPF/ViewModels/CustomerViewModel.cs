@@ -12,15 +12,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
 {
     public class CustomerViewModel : ViewModelBase
     {
-        public GetCustomerCommand GetCustomerCommand { get; set; }
+        public CustomerListViewModel CustomerListViewModel { get; set; }
 
-        
-
-
-        public CustomerViewModel()
+        public CustomerViewModel(CustomerListViewModel customerListViewModel)
         {
-            this.GetCustomerCommand = new GetCustomerCommand(this, null);
+            CustomerListViewModel = customerListViewModel;
         }
-
     }
 }

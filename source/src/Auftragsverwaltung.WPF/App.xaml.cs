@@ -42,6 +42,7 @@ namespace Auftragsverwaltung.WPF
             services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
             services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
             services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
+            services.AddSingleton<IAppViewModelFactory<CustomerListViewModel>, CustomerListViewModelFactory>();
 
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();

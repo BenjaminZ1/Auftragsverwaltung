@@ -10,12 +10,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid>
-        <Grid.Resources>
-            <vm:CustomerViewModel x:Key="ViewModel"/>
-        </Grid.Resources>
-
         <TextBlock Text="CustomerView"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="289,225,0,0" VerticalAlignment="Top" 
-                Command="{Binding Path=GetCustomerCommand, Mode=OneWay, Source={StaticResource ViewModel}}"/>
     </Grid>
 </UserControl>
