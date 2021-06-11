@@ -1,6 +1,8 @@
-﻿namespace Auftragsverwaltung.WPF.ViewModels
+﻿using Auftragsverwaltung.WPF.Models;
+
+namespace Auftragsverwaltung.WPF.ViewModels
 {
-    public class ViewModelBase
+    public class ViewModelBase : ObservableObject
     {
     }
 }
