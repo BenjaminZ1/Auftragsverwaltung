@@ -11,6 +11,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -21,5 +22,6 @@
         <Button Grid.Column="0" Content="Hinzufügen"/>
         <Button Grid.Column="1" Content="Bearbeiten"/>
         <Button Grid.Column="2" Content="Löschen"/>
+        <Button Grid.Column="4" Content="Änderungen speichern"/>
     </Grid>
 </UserControl>
