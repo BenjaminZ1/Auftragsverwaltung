@@ -37,13 +37,13 @@
             <RadioButton Grid.Column="0" Grid.Row="0" Content="Home" 
                          IsChecked="{Binding CurrentViewModel, Mode=OneTime, Converter={StaticResource EqualValueToParameterConverter},
                          ConverterParameter={x:Type vm:HomeViewModel}}" 
-                         Background="{StaticResource BrushGreen}" Foreground="White" 
+                         Background="{StaticResource BrushGreen}" 
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}"/>
-            <RadioButton Grid.Column="0" Grid.Row="1" Content="Customers" Background="{StaticResource BrushGreen}" Foreground="White"
+            <RadioButton Grid.Column="0" Grid.Row="1" Content="Customers" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Customer}"/>
-            <RadioButton Grid.Column="0" Grid.Row="2" Content="Articles" Background="{StaticResource BrushGreen}" Foreground="White"
+            <RadioButton Grid.Column="0" Grid.Row="2" Content="Articles" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Article}"/>
-            <RadioButton Grid.Column="0" Grid.Row="3" Content="Orders" Background="{StaticResource BrushGreen}" Foreground="White"
+            <RadioButton Grid.Column="0" Grid.Row="3" Content="Orders" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Order}"/>
         </Grid>
     </Grid>
