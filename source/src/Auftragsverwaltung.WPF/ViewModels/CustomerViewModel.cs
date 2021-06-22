@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.WPF.Commands;
+using Auftragsverwaltung.WPF.State;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -42,9 +44,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _saveButtonEnabled = value; OnPropertyChanged(nameof(SaveButtonEnabled)); }
         }
 
+        public ICommand ControlBarButtonActionCommand { get; set; }
+
         public CustomerViewModel(ICustomerService customerService)
         {
             _customerService = customerService;
+            ControlBarButtonActionCommand = new BaseCommand(ControlBarButtonAction);
         }
 
         public static CustomerViewModel LoadCustomerListViewModel(ICustomerService customerService)
@@ -61,6 +66,24 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 if (task.Exception == null)
                     Customers = task.Result;
             });
+        }
+
+        private void ControlBarButtonAction(object parameter)
+        {
+            if (parameter is ButtonAction)
+            {
+                ButtonAction buttonAction = (ButtonAction) parameter;
+                switch (buttonAction)
+                {
+                    case ButtonAction.Create:
+                        TextBoxEnabled = true;
+                        SaveButtonEnabled = true;
+                        SelectedListItem = null;
+                        break;
+                    default:
+                        throw new ArgumentException("The ButtonAction has no definied action", nameof(ButtonAction));
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Auftragsverwaltung.WPF.Controls"
+             xmlns:state="clr-namespace:Auftragsverwaltung.WPF.State"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{StaticResource BrushGreen}">
@@ -19,7 +20,8 @@
             <Style TargetType="Button" BasedOn="{StaticResource ControlButton}"/>
         </Grid.Resources>
 
-        <Button Grid.Column="0" Content="Hinzufügen"/>
+        <Button Grid.Column="0" Content="Hinzufügen" Command="{Binding ControlBarButtonActionCommand}"
+                CommandParameter="{x:Static state:ButtonAction.Create }"/>
         <Button Grid.Column="1" Content="Bearbeiten"/>
         <Button Grid.Column="2" Content="Löschen"/>
         <Button Grid.Column="4" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"/>
