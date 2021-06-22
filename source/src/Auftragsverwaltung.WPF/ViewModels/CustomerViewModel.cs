@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
@@ -19,6 +20,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private CustomerDto _selectedListItem;
         private bool _textBoxEnabled;
         private bool _saveButtonEnabled;
+        private Visibility _customerDataGridVisibility;
 
         public IEnumerable<CustomerDto> Customers
         {
@@ -44,12 +46,19 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _saveButtonEnabled = value; OnPropertyChanged(nameof(SaveButtonEnabled)); }
         }
 
+        public Visibility CustomerDataGridVisibility
+        {
+            get => _customerDataGridVisibility;
+            set { _customerDataGridVisibility = value; OnPropertyChanged(nameof(CustomerDataGridVisibility)); }
+        }
+
         public ICommand ControlBarButtonActionCommand { get; set; }
 
         public CustomerViewModel(ICustomerService customerService)
         {
             _customerService = customerService;
             ControlBarButtonActionCommand = new BaseCommand(ControlBarButtonAction);
+            CustomerDataGridVisibility = Visibility.Visible;
         }
 
         public static CustomerViewModel LoadCustomerListViewModel(ICustomerService customerService)
@@ -78,6 +87,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                     case ButtonAction.Create:
                         TextBoxEnabled = true;
                         SaveButtonEnabled = true;
+                        CustomerDataGridVisibility = Visibility.Hidden;
                         SelectedListItem = null;
                         break;
                     default:
