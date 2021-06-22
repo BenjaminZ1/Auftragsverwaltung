@@ -10,9 +10,11 @@
              RenderOptions.EdgeMode="Aliased"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.Resources>
         <converters:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter"/>
     </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -21,7 +23,7 @@
 
         <Grid  Background="{StaticResource BrushGreen}">
             <Grid.Resources>
-                <Style TargetType="RadioButton" BasedOn="{StaticResource NavButton}"></Style>
+                <Style TargetType="RadioButton" BasedOn="{StaticResource NavButton}"/>
             </Grid.Resources>
 
             <Grid.RowDefinitions>

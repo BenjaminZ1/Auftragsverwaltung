@@ -6,37 +6,44 @@
              xmlns:local="clr-namespace:Auftragsverwaltung.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="10">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.005*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0.3*">
-            </RowDefinition>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True" 
-                  SelectedItem="{Binding SelectedListItem}" DataContext="{Binding CustomerListViewModel}"
-                  ItemsSource="{Binding Customers}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerId}"/>
-                <DataGridTextColumn Header="Vorname" Binding="{Binding Firstname}"/>
-                <DataGridTextColumn Header="Nachname" Binding="{Binding Lastname}"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
+        <local:ControlBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
 
-                <DataGridTextColumn Header="Postleitzahl" Binding="{Binding Address.Town.ZipCode}"/>
-                <DataGridTextColumn Header="Stadt" Binding="{Binding Address.Town.Townname}"/>
+        <Grid Grid.Row="1" Grid.Column="0" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
 
-                <DataGridTextColumn Header="Strasse" Binding="{Binding Address.Street}"/>
-                <DataGridTextColumn Header="HausNr" Binding="{Binding Address.BuildingNr}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+            <DataGrid Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" 
+                      SelectedItem="{Binding SelectedListItem}" DataContext="{Binding CustomerListViewModel}"
+                      ItemsSource="{Binding Customers}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerId}"/>
+                    <DataGridTextColumn Header="Vorname" Binding="{Binding Firstname}"/>
+                    <DataGridTextColumn Header="Nachname" Binding="{Binding Lastname}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                    <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
 
-        <local:CustomerListDetails Grid.Row="2" Grid.Column="1" Margin="0 10" DataContext="{Binding CustomerListViewModel}"/>
-</Grid>
+                    <DataGridTextColumn Header="Postleitzahl" Binding="{Binding Address.Town.ZipCode}"/>
+                    <DataGridTextColumn Header="Stadt" Binding="{Binding Address.Town.Townname}"/>
+
+                    <DataGridTextColumn Header="Strasse" Binding="{Binding Address.Street}"/>
+                    <DataGridTextColumn Header="HausNr" Binding="{Binding Address.BuildingNr}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <local:CustomerListDetails Grid.Row="1" Margin="0 10" DataContext="{Binding CustomerListViewModel}"/>
+
+        </Grid>
+    </Grid>
 </UserControl>
