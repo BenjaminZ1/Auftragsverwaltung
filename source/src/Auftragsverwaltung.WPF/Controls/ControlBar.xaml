@@ -22,6 +22,6 @@
         <Button Grid.Column="0" Content="Hinzufügen"/>
         <Button Grid.Column="1" Content="Bearbeiten"/>
         <Button Grid.Column="2" Content="Löschen"/>
-        <Button Grid.Column="4" Content="Änderungen speichern"/>
+        <Button Grid.Column="4" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"/>
     </Grid>
 </UserControl>
