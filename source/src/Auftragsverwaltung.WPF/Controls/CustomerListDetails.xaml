@@ -30,22 +30,22 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Vorname"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedListItem.Firstname}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedListItem.Firstname}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Nachname"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedListItem.Lastname}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedListItem.Lastname}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Email"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedListItem.Email}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedListItem.Email}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Website"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedListItem.Website}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedListItem.Website}" IsEnabled="{Binding TextBoxEnabled}"/>
 
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Postleitzahl"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedListItem.Address.Town.ZipCode}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedListItem.Address.Town.ZipCode}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Stadt"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SelectedListItem.Address.Town.Townname}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SelectedListItem.Address.Town.Townname}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Strasse"/>
-                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SelectedListItem.Address.Street}"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding SelectedListItem.Address.Street}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBlock Grid.Row="7" Grid.Column="0" Text="HausNr"/>
-                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding SelectedListItem.Address.BuildingNr}"/>
+                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding SelectedListItem.Address.BuildingNr}" IsEnabled="{Binding TextBoxEnabled}"/>
             </Grid>
         </Grid>
     </Border>

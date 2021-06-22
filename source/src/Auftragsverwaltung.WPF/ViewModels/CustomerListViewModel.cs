@@ -11,6 +11,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private readonly ICustomerService _customerService;
         private IEnumerable<CustomerDto> _customers;
         private CustomerDto _selectedListItem;
+        private bool _textBoxEnabled;
 
         public IEnumerable<CustomerDto> Customers
         {
@@ -22,6 +23,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _selectedListItem;
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
+        }
+
+        public bool TextBoxEnabled
+        {
+            get => _textBoxEnabled;
+            set { _textBoxEnabled = value; OnPropertyChanged(nameof(TextBoxEnabled)); }
         }
 
         public CustomerListViewModel(ICustomerService customerService)
