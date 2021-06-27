@@ -15,7 +15,7 @@ namespace Auftragsverwaltung.WPF.ViewModels.Factories
         }
         public ArticleViewModel CreateViewModel()
         {
-            
+            return ArticleViewModel.LoadArticleListViewModel(_articleService);
         }
     }
 }
