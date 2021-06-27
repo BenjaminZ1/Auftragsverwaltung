@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Auftragsverwaltung.Application.Dtos
 {
-    class ArticleDto : AppDto
+    public class ArticleDto : AppDto
     {
         public int ArticleId { get; set; }
         public string Description { get; set; }
