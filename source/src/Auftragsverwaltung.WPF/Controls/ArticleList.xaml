@@ -39,6 +39,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
+            <local:ArticleListDetails Grid.Row="1" Margin="0, 10" Width="Auto"/>
 
         </Grid>
     </Grid>
