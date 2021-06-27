@@ -62,6 +62,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             ArticleDataGridVisibility = Visibility.Visible;
         }
 
+        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService)
+        {
+            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService);
+            articleListviewModel.LoadArticles();
+            return articleListviewModel;
+        }
+
         private void LoadArticles()
         {
             _articleService.GetAll().ContinueWith(task =>
