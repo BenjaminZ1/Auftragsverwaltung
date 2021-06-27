@@ -36,6 +36,7 @@ namespace Auftragsverwaltung.WPF
             services.AddSingleton<AppDbContextFactory>();
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
             services.AddSingleton<ICustomerService, CustomerService>();
+            services.AddSingleton<IArticleService, ArticleService>();
 
             services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
             services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
