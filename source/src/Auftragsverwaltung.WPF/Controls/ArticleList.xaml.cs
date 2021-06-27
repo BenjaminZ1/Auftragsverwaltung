@@ -16,7 +16,7 @@ namespace Auftragsverwaltung.WPF.Controls
     /// <summary>
     /// Interaction logic for ArticleList.xaml
     /// </summary>
-    public partial class ArticleList : Page
+    public partial class ArticleList : UserControl
     {
         public ArticleList()
         {
