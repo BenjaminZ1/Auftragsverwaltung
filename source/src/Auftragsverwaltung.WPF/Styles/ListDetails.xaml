@@ -4,6 +4,7 @@
         <Setter Property="Margin" Value="0,5"/>
         <Setter Property="Height" Value="26"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="300"/>
     </Style>
     <Style x:Key="DetailsLabel" TargetType="Label">
         <Setter Property="VerticalContentAlignment" Value="Center"/>

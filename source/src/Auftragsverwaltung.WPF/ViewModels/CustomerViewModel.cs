@@ -87,7 +87,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                     case ButtonAction.Create:
                         TextBoxEnabled = true;
                         SaveButtonEnabled = true;
-                        CustomerDataGridVisibility = Visibility.Hidden;
+                        CustomerDataGridVisibility = Visibility.Collapsed;
                         SelectedListItem = null;
                         break;
                     default:
