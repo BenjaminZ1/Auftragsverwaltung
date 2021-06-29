@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
+using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.State;
@@ -21,6 +22,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _textBoxEnabled;
         private bool _saveButtonEnabled;
         private Visibility _customerDataGridVisibility;
+        private ButtonAction _buttonActionState;
 
         public IEnumerable<CustomerDto> Customers
         {
@@ -52,6 +54,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _customerDataGridVisibility = value; OnPropertyChanged(nameof(CustomerDataGridVisibility)); }
         }
 
+
         public ICommand ControlBarButtonActionCommand { get; set; }
 
         public CustomerViewModel(ICustomerService customerService)
@@ -77,7 +80,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             });
         }
 
-        private void ControlBarButtonAction(object parameter)
+        private async void ControlBarButtonAction(object parameter)
         {
             if (parameter is ButtonAction)
             {
@@ -85,13 +88,43 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 switch (buttonAction)
                 {
                     case ButtonAction.Create:
-                        TextBoxEnabled = true;
-                        SaveButtonEnabled = true;
-                        CustomerDataGridVisibility = Visibility.Collapsed;
-                        SelectedListItem = null;
+                        Create();
+                        break;
+                    case ButtonAction.Save:
+                        await Save();
                         break;
                     default:
                         throw new ArgumentException("The ButtonAction has no definied action", nameof(ButtonAction));
+                }
+            }
+        }
+
+        private void Create()
+        {
+            _buttonActionState = ButtonAction.Create;
+            TextBoxEnabled = true;
+            SaveButtonEnabled = true;
+            CustomerDataGridVisibility = Visibility.Collapsed;
+            SelectedListItem = new CustomerDto();
+        }
+
+        private async Task Save()
+        {
+            if (_buttonActionState == ButtonAction.Create)
+            {
+                var serviceTask = await _customerService.Create(_customerService.ConvertToEntity(SelectedListItem));
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else
+                {
+                    if (serviceTask.Response != null)
+                        MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                        $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                 }
             }
         }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.Common;
@@ -9,12 +7,10 @@ using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
-using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
 using Microsoft.Extensions.DependencyInjection;
-using Auftragsverwaltung.Domain.Article;
 
 namespace Auftragsverwaltung.WPF
 {

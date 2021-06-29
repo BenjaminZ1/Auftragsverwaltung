@@ -24,6 +24,8 @@
                 CommandParameter="{x:Static state:ButtonAction.Create }"/>
         <Button Grid.Column="1" Content="Bearbeiten"/>
         <Button Grid.Column="2" Content="Löschen"/>
-        <Button Grid.Column="4" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"/>
+        <Button Grid.Column="4" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
+                Command="{Binding ControlBarButtonActionCommand}"
+                CommandParameter="{x:Static state:ButtonAction.Save }"/>
     </Grid>
 </UserControl>

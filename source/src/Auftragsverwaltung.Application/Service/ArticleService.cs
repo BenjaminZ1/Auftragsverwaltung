@@ -51,5 +51,16 @@ namespace Auftragsverwaltung.Application.Service
             var mappedResponse = new ArticleDto(response);
             return mappedResponse;
         }
+
+        public Article ConvertToEntity(ArticleDto articleDto)
+        {
+            return new Article()
+            {
+                ArticleGroup = articleDto.ArticleGroup,
+                Description = articleDto.Description,
+                Position = articleDto.Position,
+                Price = articleDto.Price
+            };
+        }
     }
 }

@@ -14,9 +14,16 @@ namespace Auftragsverwaltung.Application.Dtos
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int ArticleGroupId { get; set; }
-        public virtual ArticleGroup ArticleGroup { get; set; }
-        public virtual Position Position { get; set; }
+        public ArticleGroup ArticleGroup { get; set; }
+        public Position Position { get; set; }
         public ResponseDto<Article> Response { get; set; }
+
+        public ArticleDto()
+        {
+            ArticleGroup = new ArticleGroup();
+            Position = new Position();
+
+        }
 
         public ArticleDto(Article article)
         {

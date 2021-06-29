@@ -4,6 +4,7 @@ using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
+using Auftragsverwaltung.Domain.Town;
 
 namespace Auftragsverwaltung.Application.Dtos
 {
@@ -19,6 +20,11 @@ namespace Auftragsverwaltung.Application.Dtos
         public Byte[] Password { get; set; }
         public  ICollection<Domain.Order.Order> Orders { get; set; }
         public ResponseDto<Customer> Response { get; set; }
+
+        public CustomerDto()
+        {
+            Address = new Address {Town = new Town()};
+        }
 
         public CustomerDto(Customer customer)
         {
@@ -36,15 +42,18 @@ namespace Auftragsverwaltung.Application.Dtos
         public CustomerDto(ResponseDto<Customer> response)
         {
             Response = response;
-            CustomerId = response.Entity.CustomerId;
-            Firstname = response.Entity.Firstname;
-            Lastname = response.Entity.Lastname;
-            AddressId = response.Entity.AddressId;
-            Address = response.Entity.Address;
-            Email = response.Entity.Email;
-            Website = response.Entity.Website;
-            Password = response.Entity.Password;
-            Orders = response.Entity.Orders;
+            if (response.Entity != null)
+            {
+                CustomerId = response.Entity.CustomerId;
+                Firstname = response.Entity.Firstname;
+                Lastname = response.Entity.Lastname;
+                AddressId = response.Entity.AddressId;
+                Address = response.Entity.Address;
+                Email = response.Entity.Email;
+                Website = response.Entity.Website;
+                Password = response.Entity.Password;
+                Orders = response.Entity.Orders;
+            }
             response.Entity = null;
         }
     }

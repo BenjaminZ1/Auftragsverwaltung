@@ -52,5 +52,19 @@ namespace Auftragsverwaltung.Application.Service
             var mappedResponse = new CustomerDto(response);
             return mappedResponse;
         }
+
+        public Customer ConvertToEntity(CustomerDto customerDto)
+        {
+            return new Customer()
+            {
+                Firstname = customerDto.Firstname,
+                Lastname = customerDto.Lastname,
+                Email = customerDto.Email,
+                Website = customerDto.Website,
+                Address = customerDto.Address,
+                Orders = customerDto.Orders,
+                Password = new byte[64]
+            };
+        }
     }
 }
