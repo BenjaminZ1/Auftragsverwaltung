@@ -12,27 +12,40 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <StackPanel Grid.Column="0" Margin="0, 0, 10, 0">
-                <TextBlock Height="18" Text="Vorname:"/>
-                <TextBlock Height="18" Text="Nachname:"/>
-                <TextBlock Height="18" Text="Email:"/>
-                <TextBlock Height="18" Text="Website:"/>
-                <TextBlock Height="18" Text="Postleitzahl:"/>
-                <TextBlock Height="18" Text="Stadt:"/>
-                <TextBlock Height="18" Text="Strasse:"/>
-                <TextBlock Height="18" Text="HausNr:"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1">
-                <TextBox Text="{Binding SelectedListItem.Firstname}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Lastname}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Email}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Website}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Address.Town.ZipCode}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Address.Town.Townname}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Address.Street}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Address.BuildingNr}" IsEnabled="{Binding TextBoxEnabled}"/>
-            </StackPanel>
+            <Grid.Resources>
+                <Style TargetType="TextBox" BasedOn="{StaticResource DetailsTextBox}"/>
+                <Style TargetType="Label" BasedOn="{StaticResource DetailsLabel}"/>
+            </Grid.Resources>
+
+            <Label Grid.Column="0" Grid.Row="0" Content="Vorname:"/>
+            <Label Grid.Column="0" Grid.Row="1" Content="Nachname:"/>
+            <Label Grid.Column="0" Grid.Row="2" Content="Email:"/>
+            <Label Grid.Column="0" Grid.Row="3" Content="Website:"/>
+            <Label Grid.Column="0" Grid.Row="4" Content="Postleitzahl:"/>
+            <Label Grid.Column="0" Grid.Row="5" Content="Stadt:"/>
+            <Label Grid.Column="0" Grid.Row="6" Content="Strasse:"/>
+            <Label Grid.Column="0" Grid.Row="7" Content="HausNr:"/>
+
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SelectedListItem.Firstname}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedListItem.Lastname}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedListItem.Email}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedListItem.Website}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SelectedListItem.Address.Town.ZipCode}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SelectedListItem.Address.Town.Townname}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SelectedListItem.Address.Street}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SelectedListItem.Address.BuildingNr}" IsEnabled="{Binding TextBoxEnabled}"/>
         </Grid>
     </Border>
 </UserControl>
