@@ -3,8 +3,10 @@ using System.Windows;
 using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
+using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
+using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.WPF.State.Navigators;
@@ -35,7 +37,9 @@ namespace Auftragsverwaltung.WPF
 
             services.AddSingleton<AppDbContextFactory>();
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
+            services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
             services.AddSingleton<ICustomerService, CustomerService>();
+            services.AddSingleton<IArticleService, ArticleService>();
 
             services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
             services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
