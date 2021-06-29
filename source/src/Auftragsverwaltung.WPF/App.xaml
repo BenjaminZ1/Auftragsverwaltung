@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="/Styles/Common.xaml"/>
                 <ResourceDictionary Source="/Styles/NavigationBar.xaml"/>
                 <ResourceDictionary Source="/Styles/ControlBar.xaml"/>
+                <ResourceDictionary Source="/Styles/ListDetails.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
