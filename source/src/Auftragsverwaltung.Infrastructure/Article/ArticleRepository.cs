@@ -105,12 +105,11 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return entities;
         }
 
-        public async Task<ResponseDto<Domain.Article.Article>> Update(int id, Domain.Article.Article entity)
+        public async Task<ResponseDto<Domain.Article.Article>> Update(Domain.Article.Article entity)
         {
             ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
-                entity.ArticleId = id;
                 _db.Articles.Update(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

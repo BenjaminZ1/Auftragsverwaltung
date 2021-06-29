@@ -11,7 +11,7 @@ namespace Auftragsverwaltung.Application.Common
         public Task<T1> Get(int id);
         public Task<IEnumerable<T1>> GetAll();
         public Task<T1> Create(T2 entity);
-        public Task<T1> Update(int id, T2 entity);
+        public Task<T1> Update(T2 entity);
         public Task<T1> Delete(int id);
         public T2 ConvertToEntity(T1 Dto);
     }

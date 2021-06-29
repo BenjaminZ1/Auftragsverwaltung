@@ -45,9 +45,9 @@ namespace Auftragsverwaltung.Application.Service
             return mappedData;
         }
 
-        public async Task<ArticleDto> Update(int id, Article entity)
+        public async Task<ArticleDto> Update(Article entity)
         {
-            var response = await _repository.Update(id, entity);
+            var response = await _repository.Update(entity);
             var mappedResponse = new ArticleDto(response);
             return mappedResponse;
         }

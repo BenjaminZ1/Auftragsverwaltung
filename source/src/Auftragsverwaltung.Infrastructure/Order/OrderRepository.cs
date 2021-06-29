@@ -92,12 +92,11 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return entities;
         }
 
-        public async Task<ResponseDto<Domain.Order.Order>> Update(int id, Domain.Order.Order entity)
+        public async Task<ResponseDto<Domain.Order.Order>> Update(Domain.Order.Order entity)
         {
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                entity.OrderId = id;
                 _db.Orders.Update(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

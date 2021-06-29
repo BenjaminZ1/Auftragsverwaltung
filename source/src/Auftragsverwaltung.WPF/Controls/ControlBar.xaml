@@ -20,9 +20,12 @@
             <Style TargetType="Button" BasedOn="{StaticResource ControlButton}"/>
         </Grid.Resources>
 
-        <Button Grid.Column="0" Content="Hinzufügen" Command="{Binding ControlBarButtonActionCommand}"
+        <Button Grid.Column="0" Content="Hinzufügen" 
+                Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Create }"/>
-        <Button Grid.Column="1" Content="Bearbeiten"/>
+        <Button Grid.Column="1" Content="Bearbeiten"
+                Command="{Binding ControlBarButtonActionCommand}"
+                CommandParameter="{x:Static state:ButtonAction.Modify }"/>
         <Button Grid.Column="2" Content="Löschen"
                 Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Delete }"/>

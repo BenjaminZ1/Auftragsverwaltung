@@ -90,6 +90,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
                     case ButtonAction.Create:
                         CreateView();
                         break;
+                    case ButtonAction.Modify:
+                        ModifyView();
+                        break;
                     case ButtonAction.Delete:
                         await Delete();
                         break;
@@ -100,6 +103,53 @@ namespace Auftragsverwaltung.WPF.ViewModels
                         throw new ArgumentException("The ButtonAction has no definied action", nameof(ButtonAction));
                 }
             }
+        }
+        private async Task Save()
+        {
+            if (_buttonActionState == ButtonAction.Create)
+            {
+                var serviceTask = await _customerService.Create(_customerService.ConvertToEntity(SelectedListItem));
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else
+                {
+                    if (serviceTask.Response != null)
+                        MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                        $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                }
+
+                DefautlView();
+            }
+
+            if (_buttonActionState == ButtonAction.Modify)
+            {
+                await Modify();
+            }
+        }
+
+        private async Task Modify()
+        {
+            var serviceTask = await _customerService.Update(_customerService.ConvertToEntity(SelectedListItem));
+            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            {
+                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else
+            {
+                if (serviceTask.Response != null)
+                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+            }
+
+            DefautlView();
         }
 
         private async Task Delete()
@@ -122,29 +172,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DefautlView();
         }
 
-        private async Task Save()
-        {
-            if (_buttonActionState == ButtonAction.Create)
-            {
-                var serviceTask = await _customerService.Create(_customerService.ConvertToEntity(SelectedListItem));
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
-                {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else
-                {
-                    if (serviceTask.Response != null)
-                        MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                        $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                }
-
-                DefautlView();
-            }
-        }
-
         private void DefautlView()
         {
             _buttonActionState = ButtonAction.None;
@@ -161,6 +188,14 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             CustomerDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new CustomerDto();
+        }
+
+        private void ModifyView()
+        {
+            _buttonActionState = ButtonAction.Modify;
+            TextBoxEnabled = true;
+            SaveButtonEnabled = true;
+            CustomerDataGridVisibility = Visibility.Collapsed;
         }
     }
 }

@@ -39,9 +39,9 @@ namespace Auftragsverwaltung.Application.Service
             return mappedResponse;
         }
 
-        public async Task<CustomerDto> Update(int id, Customer entity)
+        public async Task<CustomerDto> Update(Customer entity)
         {
-            var response = await _repository.Update(id, entity);
+            var response = await _repository.Update(entity);
             var mappedResponse = new CustomerDto(response);
             return mappedResponse;
         }

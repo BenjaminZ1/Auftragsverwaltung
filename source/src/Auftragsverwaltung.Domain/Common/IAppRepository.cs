@@ -8,7 +8,7 @@ namespace Auftragsverwaltung.Domain.Common
         public Task<T> Get(int id);
         public Task<IEnumerable<T>> GetAll();
         public Task<ResponseDto<T>> Create(T entity);
-        public Task<ResponseDto<T>> Update(int id, T entity);
+        public Task<ResponseDto<T>> Update(T entity);
         public Task<ResponseDto<T>> Delete(int id);
         public Task<IEnumerable<T>> Search(string searchString);
     }

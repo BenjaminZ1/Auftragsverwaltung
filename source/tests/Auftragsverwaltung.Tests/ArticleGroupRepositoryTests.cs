@@ -124,7 +124,7 @@ namespace Auftragsverwaltung.Tests
             articleGroup.Name = newArticleGroupName;
 
             //act
-            var result = await articleGroupRepository.Update(articleGroupId, articleGroup);
+            var result = await articleGroupRepository.Update(articleGroup);
 
             //assert
             result.Entity.Name.Should().BeEquivalentTo(newArticleGroupName);

@@ -165,7 +165,7 @@ namespace Auftragsverwaltung.Tests
             article.Description = newArticleDescription;
 
             //act
-            var result = await articleRepository.Update(articleId, article);
+            var result = await articleRepository.Update(article);
 
             //assert
             result.Entity.Description.Should().BeEquivalentTo(newArticleDescription);

@@ -62,12 +62,11 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             return response;
         }
 
-        public async Task<ResponseDto<Domain.Customer.Customer>> Update(int id, Domain.Customer.Customer entity)
+        public async Task<ResponseDto<Domain.Customer.Customer>> Update(Domain.Customer.Customer entity)
         {
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
-                entity.CustomerId = id;
                 _db.Customers.Update(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

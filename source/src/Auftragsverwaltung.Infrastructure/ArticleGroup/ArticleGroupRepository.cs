@@ -80,12 +80,11 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             return entities;
         }
 
-        public async Task<ResponseDto<Domain.ArticleGroup.ArticleGroup>> Update(int id, Domain.ArticleGroup.ArticleGroup entity)
+        public async Task<ResponseDto<Domain.ArticleGroup.ArticleGroup>> Update(Domain.ArticleGroup.ArticleGroup entity)
         {
             ResponseDto<Domain.ArticleGroup.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup.ArticleGroup>();
             try
             {
-                entity.ArticleGroupId = id;
                 _db.ArticleGroups.Update(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

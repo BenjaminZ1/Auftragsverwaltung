@@ -154,13 +154,13 @@ namespace Auftragsverwaltung.Tests
                 Entity = changedCustomerStub
             };
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).Returns(responseDto);
+            A.CallTo(() => customerRepositoryFake.Update(changedCustomerStub)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake);
 
 
             //act
-            var result = await customerService.Update(id, changedCustomerStub);
+            var result = await customerService.Update(changedCustomerStub);
 
             //assert
             result.Should().BeOfType(typeof(CustomerDto));
@@ -182,16 +182,16 @@ namespace Auftragsverwaltung.Tests
                 Entity = changedCustomerStub
             };
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).Returns(responseDto);
+            A.CallTo(() => customerRepositoryFake.Update(changedCustomerStub)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake);
 
 
             //act
-            var result = await customerService.Update(id, changedCustomerStub);
+            var result = await customerService.Update(changedCustomerStub);
 
             //assert
-            A.CallTo(() => customerRepositoryFake.Update(id, changedCustomerStub)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => customerRepositoryFake.Update(changedCustomerStub)).MustHaveHappenedOnceExactly();
         }
 
         [Test]

@@ -240,7 +240,7 @@ namespace Auftragsverwaltung.Tests
             customer.Firstname = newFirstname;
 
             //act
-            var result = await customerRepository.Update(customerId, customer);
+            var result = await customerRepository.Update(customer);
 
             //assert
             result.Entity.Firstname.Should().BeEquivalentTo(newFirstname);
