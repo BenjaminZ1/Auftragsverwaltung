@@ -9,6 +9,7 @@ namespace Auftragsverwaltung.WPF.State
         Create,
         Modify,
         Delete,
-        Save
+        Save,
+        None
     }
 }

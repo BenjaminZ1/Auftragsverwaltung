@@ -88,7 +88,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 switch (buttonAction)
                 {
                     case ButtonAction.Create:
-                        Create();
+                        CreateView();
+                        break;
+                    case ButtonAction.Delete:
+                        await Delete();
                         break;
                     case ButtonAction.Save:
                         await Save();
@@ -99,13 +102,24 @@ namespace Auftragsverwaltung.WPF.ViewModels
             }
         }
 
-        private void Create()
+        private async Task Delete()
         {
-            _buttonActionState = ButtonAction.Create;
-            TextBoxEnabled = true;
-            SaveButtonEnabled = true;
-            CustomerDataGridVisibility = Visibility.Collapsed;
-            SelectedListItem = new CustomerDto();
+            var serviceTask = await _customerService.Delete(SelectedListItem.CustomerId);
+            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            {
+                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else
+            {
+                if (serviceTask.Response != null)
+                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+            }
+
+            DefautlView();
         }
 
         private async Task Save()
@@ -126,7 +140,27 @@ namespace Auftragsverwaltung.WPF.ViewModels
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);
                 }
+
+                DefautlView();
             }
+        }
+
+        private void DefautlView()
+        {
+            _buttonActionState = ButtonAction.None;
+            TextBoxEnabled = false;
+            SaveButtonEnabled = false;
+            CustomerDataGridVisibility = Visibility.Visible;
+            LoadCustomers();
+        }
+
+        private void CreateView()
+        {
+            _buttonActionState = ButtonAction.Create;
+            TextBoxEnabled = true;
+            SaveButtonEnabled = true;
+            CustomerDataGridVisibility = Visibility.Collapsed;
+            SelectedListItem = new CustomerDto();
         }
     }
 }

@@ -94,9 +94,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 int addressId = entity.Address.AddressId;
                 int townId = entity.Address.TownId;
 
-                if (!(IsAddressInUse(addressId).Result))
+                if (!(await IsAddressInUse(addressId)))
                 {
-                    if (!(IsTownInUse(townId).Result))
+                    if (!(await IsTownInUse(townId)))
                     {
                         _db.RemoveRange(entity.Address.Town);
                         _db.RemoveRange(entity.Address);
