@@ -145,7 +145,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            int id = 1;
             var customerStub = _customerTestData[0];
             var changedCustomerStub = customerStub;
             changedCustomerStub.Firstname = "Rudolf";
@@ -173,7 +172,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOk_GetsCalledOnce()
         {
             //arrange
-            int id = 1;
             var customerStub = _customerTestData[0];
             var changedCustomerStub = customerStub;
             changedCustomerStub.Firstname = "Rudolf";
