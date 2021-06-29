@@ -110,7 +110,8 @@ namespace Auftragsverwaltung.Infrastructure.Article
             ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
-                _db.Articles.Update(entity);
+                var entry = await this.Get(entity.ArticleId);
+                _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = entity;

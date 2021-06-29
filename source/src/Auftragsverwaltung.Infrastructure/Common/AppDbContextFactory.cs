@@ -20,6 +20,7 @@ namespace Auftragsverwaltung.Infrastructure.Common
 
             builder.UseSqlServer(connectionString,
                 x => x.MigrationsAssembly(typeof(AppDbContextFactory).Assembly.FullName));
+                //.EnableSensitiveDataLogging();
 
             return new AppDbContext(builder.Options);
         }

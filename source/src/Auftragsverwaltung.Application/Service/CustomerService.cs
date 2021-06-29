@@ -57,13 +57,15 @@ namespace Auftragsverwaltung.Application.Service
         {
             return new Customer()
             {
+                CustomerId = customerDto.CustomerId,
                 Firstname = customerDto.Firstname,
                 Lastname = customerDto.Lastname,
+                AddressId = customerDto.AddressId,
+                Address = customerDto.Address,
                 Email = customerDto.Email,
                 Website = customerDto.Website,
-                Address = customerDto.Address,
-                Orders = customerDto.Orders,
-                Password = new byte[64]
+                Password = new byte[64],
+                Orders = customerDto.Orders
             };
         }
     }

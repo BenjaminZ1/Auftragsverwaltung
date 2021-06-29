@@ -85,7 +85,8 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             ResponseDto<Domain.ArticleGroup.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup.ArticleGroup>();
             try
             {
-                _db.ArticleGroups.Update(entity);
+                var entry = await this.Get(entity.ArticleGroupId);
+                _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = entity;

@@ -67,7 +67,8 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
-                _db.Customers.Update(entity);
+                var entry = await this.Get(entity.CustomerId);
+                _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = entity;

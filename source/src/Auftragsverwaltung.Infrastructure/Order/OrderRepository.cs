@@ -97,7 +97,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                _db.Orders.Update(entity);
+                var entry = await this.Get(entity.CustomerId);
+                _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = entity;
