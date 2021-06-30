@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Auftragsverwaltung.Application.Service
 {
-    public interface IArticleService : IAppService<ArticleDto, Article>
+    public interface IArticleService : IAppService<ArticleDto>
     {
     }
 }

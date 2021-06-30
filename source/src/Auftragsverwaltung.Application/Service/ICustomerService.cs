@@ -7,7 +7,7 @@ using Auftragsverwaltung.Domain.Customer;
 
 namespace Auftragsverwaltung.Application.Service
 {
-    public interface ICustomerService : IAppService<CustomerDto, Customer>
+    public interface ICustomerService : IAppService<CustomerDto>
     {
     }
 }

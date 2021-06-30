@@ -6,7 +6,7 @@ using Auftragsverwaltung.Domain.Customer;
 
 namespace Auftragsverwaltung.Application.Common
 {
-    public interface IAppService<TDto,TEntity> where TDto : AppDto where TEntity : EntityBase
+    public interface IAppService<TDto> where TDto : AppDto
     {
         public Task<TDto> Get(int id);
         public Task<IEnumerable<TDto>> GetAll();
