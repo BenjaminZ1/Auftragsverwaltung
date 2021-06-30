@@ -17,8 +17,10 @@ namespace Auftragsverwaltung.Application.Service
             _repository = repository;
         }
 
-        public async Task<ArticleDto> Create(Article entity)
+        public async Task<ArticleDto> Create(ArticleDto dto)
         {
+            var entity = ConvertToEntity(dto);
+
             var response = await _repository.Create(entity);
             var mappedResponse = new ArticleDto(response);
             return mappedResponse;
@@ -45,14 +47,16 @@ namespace Auftragsverwaltung.Application.Service
             return mappedData;
         }
 
-        public async Task<ArticleDto> Update(Article entity)
+        public async Task<ArticleDto> Update(ArticleDto dto)
         {
+            var entity = ConvertToEntity(dto);
+
             var response = await _repository.Update(entity);
             var mappedResponse = new ArticleDto(response);
             return mappedResponse;
         }
 
-        public Article ConvertToEntity(ArticleDto articleDto)
+        private Article ConvertToEntity(ArticleDto articleDto)
         {
             return new Article()
             {

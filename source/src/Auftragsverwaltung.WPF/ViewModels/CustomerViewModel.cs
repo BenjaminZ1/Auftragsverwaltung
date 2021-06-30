@@ -108,7 +108,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             if (_buttonActionState == ButtonAction.Create)
             {
-                var serviceTask = await _customerService.Create(_customerService.ConvertToEntity(SelectedListItem));
+                var serviceTask = await _customerService.Create(SelectedListItem);
                 if (serviceTask.Response != null && !serviceTask.Response.Flag)
                 {
                     MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
@@ -134,7 +134,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Modify()
         {
-            var serviceTask = await _customerService.Update(_customerService.ConvertToEntity(SelectedListItem));
+            var serviceTask = await _customerService.Update(SelectedListItem);
             if (serviceTask.Response != null && !serviceTask.Response.Flag)
             {
                 MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,

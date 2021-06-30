@@ -10,9 +10,8 @@ namespace Auftragsverwaltung.Application.Common
     {
         public Task<TDto> Get(int id);
         public Task<IEnumerable<TDto>> GetAll();
-        public Task<TDto> Create(TEntity entity);
-        public Task<TDto> Update(TEntity entity);
+        public Task<TDto> Create(TDto entity);
+        public Task<TDto> Update(TDto entity);
         public Task<TDto> Delete(int id);
-        public TEntity ConvertToEntity(TDto Dto);
     }
 }
