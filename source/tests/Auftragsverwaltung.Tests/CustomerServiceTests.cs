@@ -100,21 +100,21 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
+            var customerDtoStub = new CustomerDto(_customerTestData[0]);
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = customerStub
             };
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Create(customerStub)).Returns(responseDto);
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake);
 
-
             //act
-            var result = await customerService.Create(customerStub);
+            var result = await customerService.Create(customerDtoStub);
 
             //assert
-            A.CallTo(() => customerRepositoryFake.Create(customerStub)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         [Test]
@@ -122,18 +122,18 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
+            var customerDtoStub = new CustomerDto(_customerTestData[0]);
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = customerStub
             };
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Create(customerStub)).Returns(responseDto);
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake);
 
-
             //act
-            var result = await customerService.Create(customerStub);
+            var result = await customerService.Create(customerDtoStub);
 
             //assert
             result.Should().BeOfType(typeof(CustomerDto));
@@ -146,20 +146,26 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
+            var customerDtoStub = new CustomerDto(_customerTestData[0]);
+
             var changedCustomerStub = customerStub;
+            var changedCustomerDtoStub = customerDtoStub;
             changedCustomerStub.Firstname = "Rudolf";
+            changedCustomerDtoStub.Firstname = "Rudolf";
+
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = changedCustomerStub
             };
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Update(changedCustomerStub)).Returns(responseDto);
+            A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake);
 
 
             //act
-            var result = await customerService.Update(changedCustomerStub);
+            var result = await customerService.Update(changedCustomerDtoStub);
 
             //assert
             result.Should().BeOfType(typeof(CustomerDto));
@@ -173,23 +179,29 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
+            var customerDtoStub = new CustomerDto(_customerTestData[0]);
+
             var changedCustomerStub = customerStub;
+            var changedCustomerDtoStub = customerDtoStub;
             changedCustomerStub.Firstname = "Rudolf";
+            changedCustomerDtoStub.Firstname = "Rudolf";
+
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = changedCustomerStub
             };
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Update(changedCustomerStub)).Returns(responseDto);
+            A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake);
 
 
             //act
-            var result = await customerService.Update(changedCustomerStub);
+            var result = await customerService.Update(changedCustomerDtoStub);
 
             //assert
-            A.CallTo(() => customerRepositoryFake.Update(changedCustomerStub)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         [Test]

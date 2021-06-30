@@ -13,5 +13,6 @@ namespace Auftragsverwaltung.Application.Common
         public Task<TDto> Create(TDto entity);
         public Task<TDto> Update(TDto entity);
         public Task<TDto> Delete(int id);
+        public TEntity ConvertToEntity(TDto dto);
     }
 }

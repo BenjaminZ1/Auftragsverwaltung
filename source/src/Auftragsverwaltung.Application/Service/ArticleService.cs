@@ -56,7 +56,7 @@ namespace Auftragsverwaltung.Application.Service
             return mappedResponse;
         }
 
-        private Article ConvertToEntity(ArticleDto articleDto)
+        public  Article ConvertToEntity(ArticleDto articleDto)
         {
             return new Article()
             {
