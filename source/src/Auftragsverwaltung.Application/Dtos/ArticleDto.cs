@@ -37,11 +37,16 @@ namespace Auftragsverwaltung.Application.Dtos
         public ArticleDto(ResponseDto<Article> response)
         {
             Response = response;
+            if (response.Entity != null)
+            {
+                Response = response;
             ArticleId = response.Entity.ArticleId;
             Description = response.Entity.Description;
             Price = response.Entity.Price;
             ArticleGroupId = response.Entity.ArticleGroupId;
             Position = response.Entity.Position;
+            }
+            response.Entity = null;
         }
     }
 }

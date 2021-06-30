@@ -25,6 +25,9 @@ namespace Auftragsverwaltung.Infrastructure.Article
             {
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
 
+                //Todo: find better solution
+                entity.Position = null; 
+
                 EntityEntry<Domain.Article.Article> createdEntity = await _db.Articles.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

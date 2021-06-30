@@ -22,6 +22,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _saveButtonEnabled;
         private Visibility _articleDataGridVisibility;
         private readonly IArticleService _articleService;
+        private ButtonAction _buttonActionState;
 
         public IEnumerable<ArticleDto> Articles
         {
@@ -53,12 +54,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _articleDataGridVisibility = value; OnPropertyChanged(nameof(ArticleDataGridVisibility)); }
         }
 
-        public ICommand ControlBartButtonActionCommand { get; set; }
+        public ICommand ControlBarButtonActionCommand { get; set; }
+
 
         public ArticleViewModel(IArticleService articleService)
         {
             _articleService = articleService;
-            ControlBartButtonActionCommand = new BaseCommand(ControlBarButtonAction);
+            ControlBarButtonActionCommand = new BaseCommand(ControlBarButtonAction);
             ArticleDataGridVisibility = Visibility.Visible;
         }
 
@@ -78,7 +80,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             });
         }
 
-        private void ControlBarButtonAction(object parameter)
+        private async void ControlBarButtonAction(object parameter)
         {
             if (parameter is ButtonAction)
             {
@@ -89,12 +91,52 @@ namespace Auftragsverwaltung.WPF.ViewModels
                         TextBoxEnabled = true;
                         SaveButtonEnabled = true;
                         ArticleDataGridVisibility = Visibility.Hidden;
-                        SelectedListItem = null;
+                        SelectedListItem = new ArticleDto();
+                        break;
+                    case ButtonAction.Save:
+                        await Save();
                         break;
                     default:
                         throw new ArgumentException("The ButtonAction has no defined action", nameof(ButtonAction));
                 }
             }
+        }
+
+        private async Task Save()
+        {
+            if (_buttonActionState == ButtonAction.Create)
+            {
+                var serviceTask = await _articleService.Create(SelectedListItem);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else
+                {
+                    if (serviceTask.Response != null)
+                        MessageBox.Show($"Article with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                        $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                }
+
+                DefautlView();
+            }
+
+            if (_buttonActionState == ButtonAction.Modify)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private void DefautlView()
+        {
+            _buttonActionState = ButtonAction.None;
+            TextBoxEnabled = false;
+            SaveButtonEnabled = false;
+            ArticleDataGridVisibility = Visibility.Visible;
+            LoadArticles();
         }
     }   
 }

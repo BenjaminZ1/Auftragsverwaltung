@@ -21,7 +21,7 @@
             <StackPanel Grid.Column="1">
                 <TextBox Text="{Binding SelectedListItem.Description}" IsEnabled="{Binding TextBoxEnabled}"/>
                 <TextBox Text="{Binding SelectedListItem.Price}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.ArticleGroup}" IsEnabled="{Binding TextBoxEnabled}"/>
+                <TextBox Text="{Binding SelectedListItem.ArticleGroup.Name}" IsEnabled="{Binding TextBoxEnabled}"/>
             </StackPanel>
         </Grid>
     </Border>
