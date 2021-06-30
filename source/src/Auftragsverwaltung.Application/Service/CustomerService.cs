@@ -1,16 +1,9 @@
-﻿using System.Runtime.CompilerServices;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Auftragsverwaltung.Application.Service
 {
@@ -61,7 +54,7 @@ namespace Auftragsverwaltung.Application.Service
             return mappedResponse;
         }
 
-        public Customer ConvertToEntity(CustomerDto customerDto)
+        internal Customer ConvertToEntity(CustomerDto customerDto)
         {
             return new Customer()
             {
