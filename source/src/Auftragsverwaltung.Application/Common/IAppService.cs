@@ -6,13 +6,13 @@ using Auftragsverwaltung.Domain.Customer;
 
 namespace Auftragsverwaltung.Application.Common
 {
-    public interface IAppService<T1,T2> where T1 : AppDto where T2 : EntityBase
+    public interface IAppService<TDto,TEntity> where TDto : AppDto where TEntity : EntityBase
     {
-        public Task<T1> Get(int id);
-        public Task<IEnumerable<T1>> GetAll();
-        public Task<T1> Create(T2 entity);
-        public Task<T1> Update(T2 entity);
-        public Task<T1> Delete(int id);
-        public T2 ConvertToEntity(T1 Dto);
+        public Task<TDto> Get(int id);
+        public Task<IEnumerable<TDto>> GetAll();
+        public Task<TDto> Create(TEntity entity);
+        public Task<TDto> Update(TEntity entity);
+        public Task<TDto> Delete(int id);
+        public TEntity ConvertToEntity(TDto Dto);
     }
 }
