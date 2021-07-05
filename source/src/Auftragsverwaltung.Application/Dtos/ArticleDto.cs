@@ -40,11 +40,11 @@ namespace Auftragsverwaltung.Application.Dtos
             if (response.Entity != null)
             {
                 Response = response;
-            ArticleId = response.Entity.ArticleId;
-            Description = response.Entity.Description;
-            Price = response.Entity.Price;
-            ArticleGroupId = response.Entity.ArticleGroupId;
-            Position = response.Entity.Position;
+                ArticleId = response.Entity.ArticleId;
+                Description = response.Entity.Description;
+                Price = response.Entity.Price;
+                ArticleGroupId = response.Entity.ArticleGroupId;
+                Position = response.Entity.Position;
             }
             response.Entity = null;
         }
