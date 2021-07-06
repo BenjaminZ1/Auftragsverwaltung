@@ -50,9 +50,11 @@ namespace Auftragsverwaltung.Application.Service
             return mappedData;
         }
 
-        public Task<IEnumerable<OrderDto>> GetAll()
+        public async Task<IEnumerable<OrderDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var data = await _repository.GetAll();
+            var mappedData = data.Select(x => new OrderDto(x));
+            return mappedData;
         }
 
         public Task<OrderDto> Update(OrderDto entity)
