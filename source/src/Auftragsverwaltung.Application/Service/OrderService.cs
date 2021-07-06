@@ -35,9 +35,11 @@ namespace Auftragsverwaltung.Application.Service
             };
         }
 
-        public Task<OrderDto> Delete(int id)
+        public async Task<OrderDto> Delete(int id)
         {
-            throw new NotImplementedException();
+            var response = await _repository.Delete(id);
+            var mappedResponse = new OrderDto(response);
+            return mappedResponse;
         }
 
         public Task<OrderDto> Get(int id)
