@@ -57,9 +57,13 @@ namespace Auftragsverwaltung.Application.Service
             return mappedData;
         }
 
-        public Task<OrderDto> Update(OrderDto entity)
+        public async Task<OrderDto> Update(OrderDto dto)
         {
-            throw new NotImplementedException();
+            var entity = ConvertToEntity(dto);
+
+            var response = await _repository.Update(entity);
+            var mappedResponse = new OrderDto(response);
+            return mappedResponse;
         }
     }
 }
