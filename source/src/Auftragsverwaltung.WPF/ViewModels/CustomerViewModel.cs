@@ -69,13 +69,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _deleteButtonEnabled = value; OnPropertyChanged(nameof(DeleteButtonEnabled)); }
         }
 
-
         public Visibility CustomerDataGridVisibility
         {
             get => _customerDataGridVisibility;
             set { _customerDataGridVisibility = value; OnPropertyChanged(nameof(CustomerDataGridVisibility)); }
         }
-
 
         public IAsyncCommand ControlBarButtonActionCommand { get; set; }
 
@@ -136,13 +134,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
                     MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
-                else
+                else if(serviceTask.Response != null)
                 {
-                    if (serviceTask.Response != null)
-                        MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                        $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
+                    
+                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                 }
 
                 DefautlView();
@@ -162,13 +160,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
-            else
+            else if (serviceTask.Response != null)
             {
-                if (serviceTask.Response != null)
-                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
+                MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
 
             DefautlView();
@@ -182,13 +179,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
-            else
+            else if (serviceTask.Response != null)
             {
-                if (serviceTask.Response != null)
-                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
+                MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
 
             DefautlView();
