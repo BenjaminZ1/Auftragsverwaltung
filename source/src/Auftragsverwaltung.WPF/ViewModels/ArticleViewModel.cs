@@ -82,9 +82,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task ControlBarButtonAction(object parameter)
         {
-            if (parameter is ButtonAction)
+            var action = parameter as ButtonAction?;
+            if (action != null)
             {
-                ButtonAction buttonAction = (ButtonAction)parameter;
+                ButtonAction buttonAction = action.Value;
                 switch (buttonAction)
                 {
                     case ButtonAction.Create:
@@ -97,7 +98,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                         await Save();
                         break;
                     default:
-                        throw new ArgumentException("The ButtonAction has no defined action", nameof(ButtonAction));
+                        throw new ArgumentException("The ButtonAction has no defined action", nameof(buttonAction));
                 }
             }
         }

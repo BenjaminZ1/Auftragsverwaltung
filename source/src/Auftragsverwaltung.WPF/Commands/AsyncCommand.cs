@@ -21,7 +21,7 @@ namespace Auftragsverwaltung.WPF.Commands
         }
         public override bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            return _canExecute == null || _canExecute(parameter);
         }
         public override Task ExecuteAsync(object parameter)
         {

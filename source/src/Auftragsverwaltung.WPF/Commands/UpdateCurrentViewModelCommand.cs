@@ -25,9 +25,10 @@ namespace Auftragsverwaltung.WPF.Commands
 
         public void Execute(object parameter)
         {
-            if(parameter is ViewType)
+            var type = parameter as ViewType?;
+            if(type != null)
             {
-                ViewType viewType = (ViewType)parameter;
+                ViewType viewType = type.Value;
                 _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
             }
         }
