@@ -21,6 +21,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private CustomerDto _selectedListItem;
         private bool _textBoxEnabled;
         private bool _saveButtonEnabled;
+        private bool _createButtonEnabled;
+        private bool _modifyButtonEnabled;
+        private bool _deleteButtonEnabled;
         private Visibility _customerDataGridVisibility;
         private ButtonAction _buttonActionState;
 
@@ -48,6 +51,25 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _saveButtonEnabled = value; OnPropertyChanged(nameof(SaveButtonEnabled)); }
         }
 
+        public bool CreateButtonEnabled
+        {
+            get => _createButtonEnabled;
+            set { _createButtonEnabled = value; OnPropertyChanged(nameof(CreateButtonEnabled)); }
+        }
+
+        public bool ModifyButtonEnabled
+        {
+            get => _modifyButtonEnabled;
+            set { _modifyButtonEnabled = value; OnPropertyChanged(nameof(ModifyButtonEnabled)); }
+        }
+
+        public bool DeleteButtonEnabled
+        {
+            get => _deleteButtonEnabled;
+            set { _deleteButtonEnabled = value; OnPropertyChanged(nameof(DeleteButtonEnabled)); }
+        }
+
+
         public Visibility CustomerDataGridVisibility
         {
             get => _customerDataGridVisibility;
@@ -61,7 +83,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             _customerService = customerService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
-            CustomerDataGridVisibility = Visibility.Visible;
+            DefautlView();
         }
 
         public static CustomerViewModel LoadCustomerListViewModel(ICustomerService customerService)
@@ -177,6 +199,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _buttonActionState = ButtonAction.None;
             TextBoxEnabled = false;
             SaveButtonEnabled = false;
+            CreateButtonEnabled = true;
+            ModifyButtonEnabled = true;
+            DeleteButtonEnabled = true;
             CustomerDataGridVisibility = Visibility.Visible;
             LoadCustomers();
         }
@@ -186,6 +211,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _buttonActionState = ButtonAction.Create;
             TextBoxEnabled = true;
             SaveButtonEnabled = true;
+            ModifyButtonEnabled = false;
+            DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new CustomerDto();
         }
@@ -195,7 +222,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _buttonActionState = ButtonAction.Modify;
             TextBoxEnabled = true;
             SaveButtonEnabled = true;
+            CreateButtonEnabled = false;
+            DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
         }
+
     }
 }
