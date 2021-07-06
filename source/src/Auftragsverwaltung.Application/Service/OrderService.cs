@@ -3,6 +3,7 @@ using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,9 +43,11 @@ namespace Auftragsverwaltung.Application.Service
             return mappedResponse;
         }
 
-        public Task<OrderDto> Get(int id)
+        public async Task<OrderDto> Get(int id)
         {
-            throw new NotImplementedException();
+            var data = await _repository.Get(id);
+            var mappedData = new OrderDto(data);
+            return mappedData;
         }
 
         public Task<IEnumerable<OrderDto>> GetAll()
