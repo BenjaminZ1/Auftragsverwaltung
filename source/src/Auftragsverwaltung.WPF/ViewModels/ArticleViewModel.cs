@@ -98,7 +98,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                         await Save();
                         break;
                     default:
-                        throw new ArgumentException("The ButtonAction has no defined action", nameof(buttonAction));
+                        throw new ArgumentException("The ButtonAction has no defined action", nameof(parameter));
                 }
             }
         }
