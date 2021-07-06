@@ -6,43 +6,22 @@ using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.Commands
 {
-    public abstract class AsyncCommandBase : ICommand
+    public abstract class AsyncCommandBase : IAsyncCommand
     {
-        private bool _isExecuting;
-        public bool IsExecuting
-        {
-            get
-            {
-                return _isExecuting;
-            }
-            set
-            {
-                _isExecuting = value;
-                OnCanExecuteChanged();
-            }
-        }
-
-        public event EventHandler CanExecuteChanged;
-
-        public virtual bool CanExecute(object parameter)
-        {
-            return !IsExecuting;
-        }
-
+        public abstract bool CanExecute(object parameter);
+        public abstract Task ExecuteAsync(object parameter);
         public async void Execute(object parameter)
         {
-            IsExecuting = true;
-
             await ExecuteAsync(parameter);
-
-            IsExecuting = false;
         }
-
-        public abstract Task ExecuteAsync(object parameter);
-
-        protected void OnCanExecuteChanged()
+        public event EventHandler CanExecuteChanged
         {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+        protected void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

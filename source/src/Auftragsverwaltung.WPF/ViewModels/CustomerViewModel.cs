@@ -55,12 +55,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         }
 
 
-        public ICommand ControlBarButtonActionCommand { get; set; }
+        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
 
         public CustomerViewModel(ICustomerService customerService)
         {
             _customerService = customerService;
-            ControlBarButtonActionCommand = new BaseCommand(ControlBarButtonAction);
+            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             CustomerDataGridVisibility = Visibility.Visible;
         }
 
@@ -80,7 +80,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             });
         }
 
-        private async void ControlBarButtonAction(object parameter)
+        private async Task ControlBarButtonAction(object parameter)
         {
             if (parameter is ButtonAction)
             {

@@ -60,7 +60,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         public ArticleViewModel(IArticleService articleService)
         {
             _articleService = articleService;
-            ControlBarButtonActionCommand = new BaseCommand(ControlBarButtonAction);
+            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             ArticleDataGridVisibility = Visibility.Visible;
         }
 
@@ -80,7 +80,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             });
         }
 
-        private async void ControlBarButtonAction(object parameter)
+        private async Task ControlBarButtonAction(object parameter)
         {
             if (parameter is ButtonAction)
             {
