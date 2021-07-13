@@ -20,6 +20,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private ArticleDto _selectedListItem;
         private bool _textBoxEnabled;
         private bool _saveButtonEnabled;
+        private bool _createButtonEnabled;
+        private bool _modifyButtonEnabled;
+        private bool _deleteButtonEnabled;
         private Visibility _articleDataGridVisibility;
         private readonly IArticleService _articleService;
         private ButtonAction _buttonActionState;
@@ -48,20 +51,38 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _saveButtonEnabled = value; OnPropertyChanged(nameof(SaveButtonEnabled)); }
         }
 
+        public bool CreateButtonEnabled
+        {
+            get => _createButtonEnabled;
+            set { _createButtonEnabled = value; OnPropertyChanged(nameof(CreateButtonEnabled)); }
+        }
+
+        public bool ModifyButtonEnabled
+        {
+            get => _modifyButtonEnabled;
+            set { _modifyButtonEnabled = value; OnPropertyChanged(nameof(ModifyButtonEnabled)); }
+        }
+
+        public bool DeleteButtonEnabled
+        {
+            get => _deleteButtonEnabled;
+            set { _deleteButtonEnabled = value; OnPropertyChanged(nameof(DeleteButtonEnabled)); }
+        }
+
         public Visibility ArticleDataGridVisibility
         {
             get => _articleDataGridVisibility;
             set { _articleDataGridVisibility = value; OnPropertyChanged(nameof(ArticleDataGridVisibility)); }
         }
 
-        public ICommand ControlBarButtonActionCommand { get; set; }
+        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
 
 
         public ArticleViewModel(IArticleService articleService)
         {
             _articleService = articleService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
-            ArticleDataGridVisibility = Visibility.Visible;
+            DefautlView();
         }
 
         public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService)
@@ -89,10 +110,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 switch (buttonAction)
                 {
                     case ButtonAction.Create:
-                        TextBoxEnabled = true;
-                        SaveButtonEnabled = true;
-                        ArticleDataGridVisibility = Visibility.Hidden;
-                        SelectedListItem = new ArticleDto();
+                        CreateView();
+                        break;
+                    case ButtonAction.Modify:
+                        ModifyView();
+                        break;
+                    case ButtonAction.Delete:
+                        await Delete();
                         break;
                     case ButtonAction.Save:
                         await Save();
@@ -127,8 +151,46 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
             if (_buttonActionState == ButtonAction.Modify)
             {
-                throw new NotImplementedException();
+                await Modify();
             }
+        }
+
+        private async Task Modify()
+        {
+            var serviceTask = await _articleService.Update(SelectedListItem);
+            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            {
+                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else if (serviceTask.Response != null)
+            {
+                MessageBox.Show($"Article with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+
+            DefautlView();
+        }
+
+        private async Task Delete()
+        {
+            var serviceTask = await _articleService.Delete(SelectedListItem.ArticleId);
+            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            {
+                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else if (serviceTask.Response != null)
+            {
+                MessageBox.Show($"Article with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
+                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+
+            DefautlView();
         }
 
         private void DefautlView()
@@ -136,8 +198,32 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _buttonActionState = ButtonAction.None;
             TextBoxEnabled = false;
             SaveButtonEnabled = false;
+            CreateButtonEnabled = true;
+            ModifyButtonEnabled = true;
+            DeleteButtonEnabled = true;
             ArticleDataGridVisibility = Visibility.Visible;
             LoadArticles();
+        }
+
+        private void CreateView()
+        {
+            _buttonActionState = ButtonAction.Create;
+            TextBoxEnabled = true;
+            SaveButtonEnabled = true;
+            ModifyButtonEnabled = false;
+            DeleteButtonEnabled = false;
+            ArticleDataGridVisibility = Visibility.Collapsed;
+            SelectedListItem = new ArticleDto();
+        }
+
+        private void ModifyView()
+        {
+            _buttonActionState = ButtonAction.Modify;
+            TextBoxEnabled = true;
+            SaveButtonEnabled = true;
+            CreateButtonEnabled = false;
+            DeleteButtonEnabled = false;
+            ArticleDataGridVisibility = Visibility.Collapsed;
         }
     }   
 }

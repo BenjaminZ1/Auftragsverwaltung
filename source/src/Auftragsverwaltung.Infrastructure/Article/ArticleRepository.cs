@@ -25,9 +25,6 @@ namespace Auftragsverwaltung.Infrastructure.Article
             {
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
 
-                //Todo: find better solution
-                entity.Position = null; 
-
                 EntityEntry<Domain.Article.Article> createdEntity = await _db.Articles.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -104,7 +101,9 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         public async Task<IEnumerable<Domain.Article.Article>> GetAll()
         {
-            List<Domain.Article.Article> entities = await _db.Articles.ToListAsync();
+            List<Domain.Article.Article> entities = await _db.Articles
+                .Include(a => a.ArticleGroup)
+                .ToListAsync();
             return entities;
         }
 
@@ -114,6 +113,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
             try
             {
                 var entry = await this.Get(entity.ArticleId);
+                entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
                 _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

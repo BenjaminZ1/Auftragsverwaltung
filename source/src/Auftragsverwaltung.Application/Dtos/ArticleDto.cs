@@ -21,8 +21,6 @@ namespace Auftragsverwaltung.Application.Dtos
         public ArticleDto()
         {
             ArticleGroup = new ArticleGroup();
-            Position = new Position();
-
         }
 
         public ArticleDto(Article article)
@@ -31,6 +29,7 @@ namespace Auftragsverwaltung.Application.Dtos
             Description = article.Description;
             Price = article.Price;
             ArticleGroupId = article.ArticleGroupId;
+            ArticleGroup = article.ArticleGroup;
             Position = article.Position;
         }
 
@@ -44,6 +43,7 @@ namespace Auftragsverwaltung.Application.Dtos
                 Description = response.Entity.Description;
                 Price = response.Entity.Price;
                 ArticleGroupId = response.Entity.ArticleGroupId;
+                ArticleGroup = response.Entity.ArticleGroup;
                 Position = response.Entity.Position;
             }
             response.Entity = null;

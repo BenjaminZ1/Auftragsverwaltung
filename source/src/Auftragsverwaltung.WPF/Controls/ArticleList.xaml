@@ -33,7 +33,6 @@
                     <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Preis" Binding="{Binding Price}"/>
                     <DataGridTextColumn Header="Artikelgruppennummer" Binding="{Binding ArticleGroupId}"/>
-                    <DataGridTextColumn Header="Position" Binding="{Binding Position}"/>
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -8,7 +8,7 @@ namespace Auftragsverwaltung.Domain.Article
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int ArticleGroupId { get; set; }
-        public virtual ArticleGroup.ArticleGroup ArticleGroup { get; set; }
-        public virtual Position.Position Position { get; set; }
+        public virtual ArticleGroup.ArticleGroup ArticleGroup { get; set; } = default!;
+        public virtual Position.Position Position { get; set; } 
     }
 }
