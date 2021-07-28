@@ -54,7 +54,7 @@ namespace Auftragsverwaltung.Application.Service
             return mappedResponse;
         }
 
-        internal Customer ConvertToEntity(CustomerDto customerDto)
+        internal static  Customer ConvertToEntity(CustomerDto customerDto)
         {
             return new Customer()
             {

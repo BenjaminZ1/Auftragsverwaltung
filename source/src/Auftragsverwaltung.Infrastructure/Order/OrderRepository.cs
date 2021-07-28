@@ -88,6 +88,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
+                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Town)
                 .ToListAsync();
             return entities;
         }
@@ -97,7 +99,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                var entry = await this.Get(entity.CustomerId);
+                var entry = await this.Get(entity.OrderId);
                 _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

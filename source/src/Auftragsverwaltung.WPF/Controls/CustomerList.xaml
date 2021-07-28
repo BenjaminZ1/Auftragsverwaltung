@@ -43,7 +43,8 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <local:CustomerListDetails Grid.Row="1" Margin="0 10" Width="Auto"/>
+            <local:CustomerListDetails Grid.Row="1" Margin="0 10" Width="Auto" 
+                                       CustomerDto="{Binding SelectedListItem}"/>
 
         </Grid>
     </Grid>

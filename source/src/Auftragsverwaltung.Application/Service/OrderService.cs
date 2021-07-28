@@ -28,7 +28,9 @@ namespace Auftragsverwaltung.Application.Service
             return new Order()
             {
                 Date = orderDto.Date,
-                Customer = orderDto.Customer,
+                OrderId = orderDto.OrderId,
+                CustomerId = orderDto.CustomerId,
+                Customer = CustomerService.ConvertToEntity(orderDto.Customer),
                 Positions = orderDto.Positions
             };
         }
