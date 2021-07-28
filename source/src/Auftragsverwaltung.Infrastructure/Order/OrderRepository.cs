@@ -77,6 +77,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
+                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Town)
                 .FirstOrDefaultAsync(e => e.OrderId == id);
             return entity;
         }
