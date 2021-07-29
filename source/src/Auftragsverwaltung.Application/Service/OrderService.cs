@@ -25,13 +25,14 @@ namespace Auftragsverwaltung.Application.Service
 
         internal Order ConvertToEntity(OrderDto orderDto)
         {
+
             return new Order()
             {
                 Date = orderDto.Date,
                 OrderId = orderDto.OrderId,
                 CustomerId = orderDto.CustomerId,
                 Customer = CustomerService.ConvertToEntity(orderDto.Customer),
-                Positions = orderDto.Positions
+                //Positions = orderDto.Positions
             };
         }
 

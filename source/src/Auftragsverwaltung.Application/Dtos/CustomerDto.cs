@@ -14,16 +14,16 @@ namespace Auftragsverwaltung.Application.Dtos
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public int AddressId { get; set; }
-        public  Domain.Address.Address Address { get; set; }
+        public  AddressDto Address { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
         public Byte[] Password { get; set; }
-        public  ICollection<Domain.Order.Order> Orders { get; set; }
+        public  ICollection<OrderDto> Orders { get; set; }
         public ResponseDto<Customer> Response { get; set; }
 
         public CustomerDto()
         {
-            Address = new Address {Town = new Town()};
+            Address = new AddressDto {Town = new TownDto()};
         }
 
         public CustomerDto(Customer customer)
@@ -32,11 +32,11 @@ namespace Auftragsverwaltung.Application.Dtos
             Firstname = customer.Firstname;
             Lastname = customer.Lastname;
             AddressId = customer.AddressId;
-            Address = customer.Address;
+            //Address = customer.Address;
             Email = customer.Email;
             Website = customer.Website;
             Password = customer.Password;
-            Orders = customer.Orders;
+            //Orders = customer.Orders;
         }
 
         public CustomerDto(ResponseDto<Customer> response)
@@ -48,11 +48,11 @@ namespace Auftragsverwaltung.Application.Dtos
                 Firstname = response.Entity.Firstname;
                 Lastname = response.Entity.Lastname;
                 AddressId = response.Entity.AddressId;
-                Address = response.Entity.Address;
+                //Address = response.Entity.Address;
                 Email = response.Entity.Email;
                 Website = response.Entity.Website;
                 Password = response.Entity.Password;
-                Orders = response.Entity.Orders;
+                //Orders = response.Entity.Orders;
             }
             response.Entity = null;
         }

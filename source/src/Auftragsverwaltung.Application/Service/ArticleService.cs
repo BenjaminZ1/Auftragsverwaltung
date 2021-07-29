@@ -59,10 +59,10 @@ namespace Auftragsverwaltung.Application.Service
             return new Article()
             {
                 ArticleId = articleDto.ArticleId,
-                ArticleGroup = articleDto.ArticleGroup,
+                //ArticleGroup = articleDto.ArticleGroup,
                 ArticleGroupId = articleDto.ArticleGroupId,
                 Description = articleDto.Description,
-                Position = articleDto.Position,
+                //Position = articleDto.Position,
                 Price = articleDto.Price
             };
         }

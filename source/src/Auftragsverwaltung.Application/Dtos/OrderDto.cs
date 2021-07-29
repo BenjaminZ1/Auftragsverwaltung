@@ -13,13 +13,13 @@ namespace Auftragsverwaltung.Application.Dtos
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
         public  CustomerDto Customer { get; set; } = default!;
-        public  ICollection<Position> Positions { get; set; } = default!;
+        public  ICollection<PositionDto> Positions { get; set; } = default!;
         public ResponseDto<Order> Response { get; set; }
 
         public OrderDto()
         {
             Customer = new CustomerDto();
-            Positions = new List<Position>();
+            Positions = new List<PositionDto>();
         }
 
         public OrderDto(Order order)
@@ -28,7 +28,7 @@ namespace Auftragsverwaltung.Application.Dtos
             Date = order.Date;
             CustomerId = order.CustomerId;
             Customer = new CustomerDto(order.Customer);
-            Positions = order.Positions;
+            //Positions = order.Positions;
         }
 
         public OrderDto(ResponseDto<Order> response)
@@ -41,7 +41,7 @@ namespace Auftragsverwaltung.Application.Dtos
                 Date = response.Entity.Date;
                 CustomerId = response.Entity.CustomerId;
                 Customer = new CustomerDto(response.Entity.Customer);
-                Positions = response.Entity.Positions;
+                //Positions = response.Entity.Positions;
             }
             response.Entity = null;
         }
