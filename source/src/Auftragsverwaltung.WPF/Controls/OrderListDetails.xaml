@@ -16,6 +16,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -27,12 +28,16 @@
             <Label Grid.Column="0" Grid.Row="0" Content="Bestell-Nr.:"/>
             <Label Grid.Column="0" Grid.Row="1" Content="Bestelldatum:"/>
             <Label Grid.Column="0" Grid.Row="2" Content="Kunde:"/>
+            <Label Grid.Column="0" Grid.Row="3" Content="Bestellpositionen:"/>
 
 
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SelectedListItem.OrderId}" IsEnabled="{Binding TextBoxEnabled}"/>
             <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding SelectedListItem.Date}" IsEnabled="{Binding TextBoxEnabled}"></DatePicker>
             <local:CustomerListDetails Grid.Column="1" Grid.Row="2" Margin="0 10" Width="Auto"
                                        CustomerDto="{Binding SelectedListItem.Customer}"/>
+            <DataGrid Grid.Column="1" Grid.Row="3" x:Name="CustomerDataGrid" AutoGenerateColumns="True" IsReadOnly="True" 
+                      ItemsSource="{Binding SelectedListItem.Positions}"
+                      Visibility="{Binding OrderDataGridVisibility}"></DataGrid>
 
         </Grid>
     </Border>
