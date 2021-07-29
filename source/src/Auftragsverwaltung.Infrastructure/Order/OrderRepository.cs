@@ -13,6 +13,11 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         private readonly AppDbContext _db;
 
+        public OrderRepository(AppDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
         public OrderRepository(AppDbContextFactory dbContextFactory)
         {
             _db = dbContextFactory.CreateDbContext();

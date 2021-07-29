@@ -12,6 +12,7 @@ using Auftragsverwaltung.Infrastructure.Order;
 using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.WPF
@@ -35,7 +36,9 @@ namespace Auftragsverwaltung.WPF
         {
             IServiceCollection services = new ServiceCollection();
 
-            services.AddSingleton<AppDbContextFactory>();
+            //services.AddSingleton<AppDbContextFactory>();
+            services.AddDbContext<AppDbContext>(o => 
+                o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
             services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
             services.AddSingleton<IAppRepository<Order>, OrderRepository>();
