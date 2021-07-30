@@ -12,8 +12,8 @@ namespace Auftragsverwaltung.Application.Dtos
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
-        public  CustomerDto Customer { get; set; } = default!;
-        public  ICollection<PositionDto> Positions { get; set; } = default!;
+        public  CustomerDto Customer { get; set; }
+        public  ICollection<PositionDto> Positions { get; set; }
         public ResponseDto<Order> Response { get; set; }
 
         public OrderDto()
