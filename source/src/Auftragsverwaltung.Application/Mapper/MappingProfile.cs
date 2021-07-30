@@ -72,6 +72,27 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.MapFrom(src => src.Message))
                 .ForPath(dest => dest.Response.NumberOfRows,
                     opt => opt.MapFrom(src => src.NumberOfRows));
+            CreateMap<ResponseDto<Article>, ArticleDto>()
+                .ForMember(dest => dest.ArticleGroup,
+                    opt => opt.MapFrom(src => src.Entity.ArticleGroup))
+                .ForMember(dest => dest.ArticleGroupId,
+                    opt => opt.MapFrom(src => src.Entity.ArticleGroupId))
+                .ForMember(dest => dest.ArticleId,
+                    opt => opt.MapFrom(src => src.Entity.ArticleId))
+                .ForMember(dest => dest.Description,
+                    opt => opt.MapFrom(src => src.Entity.Description))
+                .ForMember(dest => dest.Position,
+                    opt => opt.MapFrom(src => src.Entity.Position))
+                .ForMember(dest => dest.Price,
+                    opt => opt.MapFrom(src => src.Entity.Price))
+                .ForPath(dest => dest.Response.Flag,
+                    opt => opt.MapFrom(src => src.Flag))
+                .ForPath(dest => dest.Response.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Response.Message,
+                    opt => opt.MapFrom(src => src.Message))
+                .ForPath(dest => dest.Response.NumberOfRows,
+                    opt => opt.MapFrom(src => src.NumberOfRows));
 
             CreateMap<CustomerDto, Customer>();
             CreateMap<AddressDto, Address>();
