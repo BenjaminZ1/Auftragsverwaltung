@@ -27,6 +27,7 @@ namespace Auftragsverwaltung.Application.Mapper
             CreateMap<Order, OrderDto>();
             CreateMap<Position, PositionDto>();
             CreateMap<Town, TownDto>();
+
             CreateMap<ResponseDto<Customer>, CustomerDto>()
                 .ForMember(dest => dest.Address,
                     opt => opt.MapFrom(src => src.Entity.Address))
@@ -44,6 +45,25 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.MapFrom(src => src.Entity.Website))
                 .ForMember(dest => dest.Password,
                     opt => opt.MapFrom(src => src.Entity.Password))
+                .ForPath(dest => dest.Response.Flag,
+                    opt => opt.MapFrom(src => src.Flag))
+                .ForPath(dest => dest.Response.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Response.Message,
+                    opt => opt.MapFrom(src => src.Message))
+                .ForPath(dest => dest.Response.NumberOfRows,
+                    opt => opt.MapFrom(src => src.NumberOfRows));
+            CreateMap<ResponseDto<Order>, OrderDto>()
+                .ForMember(dest => dest.CustomerId,
+                    opt => opt.MapFrom(src => src.Entity.CustomerId))
+                .ForMember(dest => dest.Date,
+                    opt => opt.MapFrom(src => src.Entity.Date))
+                .ForMember(dest => dest.Customer,
+                    opt => opt.MapFrom(src => src.Entity.Customer))
+                .ForMember(dest => dest.OrderId,
+                    opt => opt.MapFrom(src => src.Entity.OrderId))
+                .ForMember(dest => dest.Positions,
+                    opt => opt.MapFrom(src => src.Entity.Positions))
                 .ForPath(dest => dest.Response.Flag,
                     opt => opt.MapFrom(src => src.Flag))
                 .ForPath(dest => dest.Response.Id,
