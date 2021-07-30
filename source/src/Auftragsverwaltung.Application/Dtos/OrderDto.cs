@@ -21,29 +21,5 @@ namespace Auftragsverwaltung.Application.Dtos
             Customer = new CustomerDto();
             Positions = new List<PositionDto>();
         }
-
-        public OrderDto(Order order)
-        {
-            OrderId = order.OrderId;
-            Date = order.Date;
-            CustomerId = order.CustomerId;
-            Customer = new CustomerDto(order.Customer);
-            //Positions = order.Positions;
-        }
-
-        public OrderDto(ResponseDto<Order> response)
-        {
-            Response = response;
-            if (response.Entity != null)
-            {
-                Response = response;
-                OrderId = response.Entity.OrderId;
-                Date = response.Entity.Date;
-                CustomerId = response.Entity.CustomerId;
-                Customer = new CustomerDto(response.Entity.Customer);
-                //Positions = response.Entity.Positions;
-            }
-            response.Entity = null;
-        }
     }
 }

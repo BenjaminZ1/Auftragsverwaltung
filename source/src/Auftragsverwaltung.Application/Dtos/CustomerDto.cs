@@ -25,36 +25,5 @@ namespace Auftragsverwaltung.Application.Dtos
         {
             Address = new AddressDto {Town = new TownDto()};
         }
-
-        public CustomerDto(Customer customer)
-        {
-            CustomerId = customer.CustomerId;
-            Firstname = customer.Firstname;
-            Lastname = customer.Lastname;
-            AddressId = customer.AddressId;
-            //Address = customer.Address;
-            Email = customer.Email;
-            Website = customer.Website;
-            Password = customer.Password;
-            //Orders = customer.Orders;
-        }
-
-        public CustomerDto(ResponseDto<Customer> response)
-        {
-            Response = response;
-            if (response.Entity != null)
-            {
-                CustomerId = response.Entity.CustomerId;
-                Firstname = response.Entity.Firstname;
-                Lastname = response.Entity.Lastname;
-                AddressId = response.Entity.AddressId;
-                //Address = response.Entity.Address;
-                Email = response.Entity.Email;
-                Website = response.Entity.Website;
-                Password = response.Entity.Password;
-                //Orders = response.Entity.Orders;
-            }
-            response.Entity = null;
-        }
     }
 }

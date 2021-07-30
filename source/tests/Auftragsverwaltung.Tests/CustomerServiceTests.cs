@@ -103,7 +103,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = new CustomerDto(_customerTestData[0]);
+            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = customerStub
@@ -125,7 +125,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = new CustomerDto(_customerTestData[0]);
+            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = customerStub
@@ -149,7 +149,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = new CustomerDto(_customerTestData[0]);
+            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
 
             var changedCustomerStub = customerStub;
             var changedCustomerDtoStub = customerDtoStub;
@@ -182,7 +182,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = new CustomerDto(_customerTestData[0]);
+            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
 
             var changedCustomerStub = customerStub;
             var changedCustomerDtoStub = customerDtoStub;

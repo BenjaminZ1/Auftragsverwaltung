@@ -9,6 +9,6 @@ namespace Auftragsverwaltung.Application.Dtos
         public int TownId { get; set; }
         public string ZipCode { get; set; } = default!;
         public string Townname { get; set; } = default!;
-        public virtual ICollection<AddressDto> Addresses { get; set; }
+        public ICollection<AddressDto> Addresses { get; set; }
     }
 }
