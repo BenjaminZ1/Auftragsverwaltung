@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Auftragsverwaltung.WPF.Controls.CustomerList"
+﻿<UserControl x:Class="Auftragsverwaltung.WPF.Controls.OrderList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -26,26 +26,15 @@
 
             <DataGrid x:Name="CustomerDataGrid" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" 
                       SelectedItem="{Binding SelectedListItem}"
-                      ItemsSource="{Binding Customers}"
-                      Visibility="{Binding CustomerDataGridVisibility}">
+                      ItemsSource="{Binding Orders}"
+                      Visibility="{Binding OrderDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerId}"/>
-                    <DataGridTextColumn Header="Vorname" Binding="{Binding Firstname}"/>
-                    <DataGridTextColumn Header="Nachname" Binding="{Binding Lastname}"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                    <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
-
-                    <DataGridTextColumn Header="Postleitzahl" Binding="{Binding Address.Town.ZipCode}"/>
-                    <DataGridTextColumn Header="Stadt" Binding="{Binding Address.Town.Townname}"/>
-
-                    <DataGridTextColumn Header="Strasse" Binding="{Binding Address.Street}"/>
-                    <DataGridTextColumn Header="HausNr" Binding="{Binding Address.BuildingNr}"/>
+                    <DataGridTextColumn Header="Bestellnummer" Binding="{Binding OrderId}"/>
+                    <DataGridTextColumn Header="Bestelldatum" Binding="{Binding Date}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <local:CustomerListDetails Grid.Row="1" Margin="0 10" Width="Auto" 
-                                       CustomerDto="{Binding SelectedListItem}"/>
-
+            <local:OrderListDetails Grid.Row="1" Margin="0 10" Width="Auto"/>
         </Grid>
     </Grid>
 </UserControl>

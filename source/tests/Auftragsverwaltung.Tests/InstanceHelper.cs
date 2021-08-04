@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Mapper;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
@@ -13,6 +14,7 @@ using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
+using AutoMapper;
 using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
 
@@ -294,6 +296,17 @@ namespace Auftragsverwaltung.Tests
             };
 
             return list;
+        }
+
+        public static IMapper GetMapper()
+        {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            return mapper;
         }
     }
 }

@@ -13,6 +13,11 @@ namespace Auftragsverwaltung.Infrastructure.Customer
     {
         private readonly AppDbContext _db;
 
+        public CustomerRepository(AppDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
         public CustomerRepository(AppDbContextFactory dbContextFactory)
         {
             _db = dbContextFactory.CreateDbContext();

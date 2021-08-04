@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Auftragsverwaltung.Application.Mapper;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.Common;
@@ -12,6 +13,8 @@ using Auftragsverwaltung.Infrastructure.Order;
 using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.WPF
@@ -35,7 +38,9 @@ namespace Auftragsverwaltung.WPF
         {
             IServiceCollection services = new ServiceCollection();
 
-            services.AddSingleton<AppDbContextFactory>();
+            //services.AddSingleton<AppDbContextFactory>();
+            services.AddDbContext<AppDbContext>(o => 
+                o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
             services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
             services.AddSingleton<IAppRepository<Order>, OrderRepository>();
@@ -53,6 +58,14 @@ namespace Auftragsverwaltung.WPF
             services.AddScoped<MainViewModel>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             return services.BuildServiceProvider();
         }

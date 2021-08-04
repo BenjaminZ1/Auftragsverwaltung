@@ -13,6 +13,11 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         private readonly AppDbContext _db;
 
+        public OrderRepository(AppDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
         public OrderRepository(AppDbContextFactory dbContextFactory)
         {
             _db = dbContextFactory.CreateDbContext();
@@ -77,6 +82,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
+                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Town)
                 .FirstOrDefaultAsync(e => e.OrderId == id);
             return entity;
         }
@@ -88,6 +95,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
+                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Town)
                 .ToListAsync();
             return entities;
         }
@@ -97,7 +106,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                var entry = await this.Get(entity.CustomerId);
+                var entry = await this.Get(entity.OrderId);
                 _db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 

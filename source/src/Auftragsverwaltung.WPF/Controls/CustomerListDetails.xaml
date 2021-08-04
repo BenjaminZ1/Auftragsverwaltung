@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Auftragsverwaltung.WPF.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="Self">
     <Border BorderBrush="{StaticResource BrushLightGrey}" BorderThickness="1" CornerRadius="8">
         <Grid Grid.Row="0" Margin="10">
             <Grid.ColumnDefinitions>
@@ -31,21 +32,23 @@
 
             <Label Grid.Column="0" Grid.Row="0" Content="Vorname:"/>
             <Label Grid.Column="0" Grid.Row="1" Content="Nachname:"/>
-            <Label Grid.Column="0" Grid.Row="2" Content="Email:"/>
-            <Label Grid.Column="0" Grid.Row="3" Content="Website:"/>
-            <Label Grid.Column="0" Grid.Row="4" Content="Postleitzahl:"/>
-            <Label Grid.Column="0" Grid.Row="5" Content="Stadt:"/>
-            <Label Grid.Column="0" Grid.Row="6" Content="Strasse:"/>
-            <Label Grid.Column="0" Grid.Row="7" Content="HausNr:"/>
+            <Label Grid.Column="0" Grid.Row="2" Content="Postleitzahl:"/>
+            <Label Grid.Column="0" Grid.Row="3" Content="Stadt:"/>
+            <Label Grid.Column="0" Grid.Row="4" Content="Strasse:"/>
+            <Label Grid.Column="0" Grid.Row="5" Content="HausNr:"/>
+            <Label Grid.Column="0" Grid.Row="6" Content="Email:"/>
+            <Label Grid.Column="0" Grid.Row="7" Content="Website:"/>
 
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SelectedListItem.Firstname}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedListItem.Lastname}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedListItem.Email}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedListItem.Website}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SelectedListItem.Address.Town.ZipCode}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SelectedListItem.Address.Town.Townname}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SelectedListItem.Address.Street}" IsEnabled="{Binding TextBoxEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SelectedListItem.Address.BuildingNr}" IsEnabled="{Binding TextBoxEnabled}"/>
+
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CustomerDto.Firstname, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CustomerDto.Lastname, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding CustomerDto.Address.Town.ZipCode, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CustomerDto.Address.Town.Townname, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding CustomerDto.Address.Street, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding CustomerDto.Address.BuildingNr, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding CustomerDto.Email, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding CustomerDto.Website, ElementName=Self}" IsEnabled="{Binding TextBoxEnabled}"/>
+
         </Grid>
     </Border>
 </UserControl>

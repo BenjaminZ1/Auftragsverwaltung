@@ -13,6 +13,11 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         private readonly AppDbContext _db;
 
+        public ArticleRepository(AppDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
         public ArticleRepository(AppDbContextFactory dbContextFactory)
         {
             _db = dbContextFactory.CreateDbContext();

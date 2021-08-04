@@ -14,47 +14,16 @@ namespace Auftragsverwaltung.Application.Dtos
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public int AddressId { get; set; }
-        public  Domain.Address.Address Address { get; set; }
+        public  AddressDto Address { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
         public Byte[] Password { get; set; }
-        public  ICollection<Domain.Order.Order> Orders { get; set; }
+        public  ICollection<OrderDto> Orders { get; set; }
         public ResponseDto<Customer> Response { get; set; }
 
         public CustomerDto()
         {
-            Address = new Address {Town = new Town()};
-        }
-
-        public CustomerDto(Customer customer)
-        {
-            CustomerId = customer.CustomerId;
-            Firstname = customer.Firstname;
-            Lastname = customer.Lastname;
-            AddressId = customer.AddressId;
-            Address = customer.Address;
-            Email = customer.Email;
-            Website = customer.Website;
-            Password = customer.Password;
-            Orders = customer.Orders;
-        }
-
-        public CustomerDto(ResponseDto<Customer> response)
-        {
-            Response = response;
-            if (response.Entity != null)
-            {
-                CustomerId = response.Entity.CustomerId;
-                Firstname = response.Entity.Firstname;
-                Lastname = response.Entity.Lastname;
-                AddressId = response.Entity.AddressId;
-                Address = response.Entity.Address;
-                Email = response.Entity.Email;
-                Website = response.Entity.Website;
-                Password = response.Entity.Password;
-                Orders = response.Entity.Orders;
-            }
-            response.Entity = null;
+            Address = new AddressDto {Town = new TownDto()};
         }
     }
 }

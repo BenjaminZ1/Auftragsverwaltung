@@ -6,7 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj" />
