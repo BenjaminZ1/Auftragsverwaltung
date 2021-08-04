@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 
@@ -31,6 +33,19 @@ namespace Auftragsverwaltung.Application.Service
 
         public async Task<CustomerDto> Create(CustomerDto dto)
         {
+            var customerValidator = new CustomerValidator();
+            var result = customerValidator.Validate(dto);
+
+            if (result.IsValid == false)
+            {
+                string errors = "";
+                foreach (var failure in result.Errors)
+                {
+                    errors += $"{failure.PropertyName}: {failure.ErrorMessage } \n";
+                }
+                return new CustomerDto(new ResponseDto<Customer>() { Flag = false, Message = errors });
+            }
+
             var entity = ConvertToEntity(dto);
 
             var response = await _repository.Create(entity);
@@ -40,6 +55,19 @@ namespace Auftragsverwaltung.Application.Service
 
         public async Task<CustomerDto> Update(CustomerDto dto)
         {
+            var customerValidator = new CustomerValidator();
+            var result = customerValidator.Validate(dto);
+
+            if (result.IsValid == false)
+            {
+                string errors = "";
+                foreach (var failure in result.Errors)
+                {
+                    errors += $"{failure.PropertyName}: {failure.ErrorMessage } \n";
+                }
+                return new CustomerDto(new ResponseDto<Customer>() { Flag = false, Message = errors });
+            }
+
             var entity = ConvertToEntity(dto);
 
             var response = await _repository.Update(entity);
@@ -56,6 +84,7 @@ namespace Auftragsverwaltung.Application.Service
 
         internal Customer ConvertToEntity(CustomerDto customerDto)
         {
+
             return new Customer()
             {
                 CustomerId = customerDto.CustomerId,
@@ -69,5 +98,7 @@ namespace Auftragsverwaltung.Application.Service
                 Orders = customerDto.Orders
             };
         }
+
+        
     }
 }
