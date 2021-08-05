@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Mapper;
+using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
@@ -307,6 +308,11 @@ namespace Auftragsverwaltung.Tests
 
             IMapper mapper = mapperConfig.CreateMapper();
             return mapper;
+        }
+
+        public static CustomerValidator GetCustomerValidator()
+        {
+            return new CustomerValidator();
         }
     }
 }

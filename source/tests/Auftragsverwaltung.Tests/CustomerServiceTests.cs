@@ -34,7 +34,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
             var expectedResult = _mapper.Map<CustomerDto>(customerStub);
 
             //act
@@ -53,7 +53,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
             //act
             var result = await customerService.Get(id);
@@ -70,7 +70,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
             var expectedResult = customerStubs.Select(c => _mapper.Map<CustomerDto>(c));
 
             //act
@@ -88,7 +88,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
             
 
             //act
@@ -111,7 +111,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
             //act
             var result = await customerService.Create(customerDtoStub);
@@ -133,7 +133,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
             //act
             var result = await customerService.Create(customerDtoStub);
@@ -164,7 +164,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
 
             //act
@@ -197,7 +197,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
 
             //act
@@ -220,7 +220,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Delete(id)).Returns(responseDto);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
             //act
             var result = await customerService.Delete(id);
@@ -244,7 +244,7 @@ namespace Auftragsverwaltung.Tests
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
             A.CallTo(() => customerRepositoryFake.Delete(id)).Returns(responseDto);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper());
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
 
             //act
             var result = await customerService.Delete(id);

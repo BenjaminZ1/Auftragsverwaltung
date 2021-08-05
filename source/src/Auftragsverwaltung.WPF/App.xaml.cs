@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
 using Auftragsverwaltung.Application.Service;
+using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
@@ -14,6 +16,7 @@ using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -56,6 +59,8 @@ namespace Auftragsverwaltung.WPF
 
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();
+
+            services.AddSingleton<IValidator<CustomerDto>, CustomerValidator>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
 

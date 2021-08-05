@@ -7,6 +7,7 @@ using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using AutoMapper;
+using FluentValidation;
 
 namespace Auftragsverwaltung.Application.Service
 {
@@ -14,10 +15,12 @@ namespace Auftragsverwaltung.Application.Service
     {
         private readonly IAppRepository<Customer> _repository;
         private readonly IMapper _mapper;
-        public CustomerService(IAppRepository<Customer> repository, IMapper mapper)
+        private readonly IValidator<CustomerDto> _validator;
+        public CustomerService(IAppRepository<Customer> repository, IMapper mapper, IValidator<CustomerDto> validator)
         {
             _repository = repository;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public async Task<CustomerDto> Get(int id)
@@ -36,10 +39,9 @@ namespace Auftragsverwaltung.Application.Service
 
         public async Task<CustomerDto> Create(CustomerDto dto)
         {
-            var customerValidator = new CustomerValidator();
-            var result = customerValidator.Validate(dto);
+            var result = _validator.Validate(dto);
 
-            if (result.IsValid == false)
+            if (!result.IsValid )
             {
                 string errors = "";
                 foreach (var failure in result.Errors)
@@ -60,10 +62,9 @@ namespace Auftragsverwaltung.Application.Service
 
         public async Task<CustomerDto> Update(CustomerDto dto)
         {
-            var customerValidator = new CustomerValidator();
-            var result = customerValidator.Validate(dto);
+            var result = _validator.Validate(dto);
 
-            if (result.IsValid == false)
+            if (!result.IsValid)
             {
                 string errors = "";
                 foreach (var failure in result.Errors)
