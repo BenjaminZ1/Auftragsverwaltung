@@ -88,24 +88,5 @@ namespace Auftragsverwaltung.Application.Service
             var mappedResponse = _mapper.Map<CustomerDto>(response);
             return mappedResponse;
         }
-
-        internal static  Customer ConvertToEntity(CustomerDto customerDto)
-        {
-
-            return new Customer()
-            {
-                CustomerId = customerDto.CustomerId,
-                Firstname = customerDto.Firstname,
-                Lastname = customerDto.Lastname,
-                AddressId = customerDto.AddressId,
-                //Address = customerDto.Address,
-                Email = customerDto.Email,
-                Website = customerDto.Website,
-                Password = new byte[64],
-                //Orders = customerDto.Orders
-            };
-        }
-
-        
     }
 }
