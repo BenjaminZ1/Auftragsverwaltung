@@ -13,7 +13,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
     public class OrderViewModel : ViewModelBase
     {
         private readonly IOrderService _orderService;
+        private readonly ICustomerService _customerService;
+        private readonly IArticleService _articleService;
         private IEnumerable<OrderDto> _orders;
+        private IEnumerable<CustomerDto> _customers;
+        private IEnumerable<ArticleDto> _articles;
         private OrderDto _selectedListItem;
         private bool _inputEnabled;
         private bool _saveButtonEnabled;
@@ -27,6 +31,16 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _orders;
             set { _orders = value; OnPropertyChanged(nameof(Orders)); }
+        }
+        public IEnumerable<CustomerDto> Customers
+        {
+            get => _customers;
+            set { _customers = value; OnPropertyChanged(nameof(Customers)); }
+        }
+        public IEnumerable<ArticleDto> Articles
+        {
+            get => _articles;
+            set { _articles = value; OnPropertyChanged(nameof(Articles)); }
         }
 
         public OrderDto SelectedListItem
@@ -73,27 +87,45 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         public IAsyncCommand ControlBarButtonActionCommand { get; set; }
 
-        public OrderViewModel(IOrderService orderService)
+        public OrderViewModel(IOrderService orderService, ICustomerService customerService, IArticleService articleService)
         {
             _orderService = orderService;
+            _customerService = customerService;
+            _articleService = articleService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             DefautlView();
         }
 
-        public static OrderViewModel LoadOrderListViewModel(IOrderService orderService)
+        public static OrderViewModel LoadOrderListViewModel(IOrderService orderService, ICustomerService customerService, IArticleService articleService)
         {
-            OrderViewModel orderListViewModel = new OrderViewModel(orderService);
-            orderListViewModel.LoadOrders();
+            OrderViewModel orderListViewModel = new OrderViewModel(orderService, customerService, articleService);
+            orderListViewModel.LoadData();
             return orderListViewModel;
         }
 
-        private void LoadOrders()
+        private void LoadData()
         {
-            _orderService.GetAll().ContinueWith(task =>
-            {
-                if (task.Exception == null)
-                    Orders = task.Result;
-            });
+            _orderService.GetAll().ContinueWith(orderTask =>
+                {
+                    if (orderTask.Exception == null)
+                        Orders = orderTask.Result;
+                })
+                .ContinueWith(customerTask =>
+                {
+                    _customerService.GetAll().ContinueWith(customerInnerTask =>
+                        {
+                            if (customerInnerTask.Exception == null)
+                                Customers = customerInnerTask.Result;
+                        })
+                        .ContinueWith(articleTask =>
+                        {
+                            _articleService.GetAll().ContinueWith(articleInnerTask =>
+                            {
+                                if (articleInnerTask.Exception == null)
+                                    Articles = articleInnerTask.Result;
+                            });
+                        });
+                });
         }
 
         private async Task ControlBarButtonAction(object parameter)
@@ -196,7 +228,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
             OrderDataGridVisibility = Visibility.Visible;
-            LoadOrders();
+            LoadData();
         }
 
         private void CreateView()
