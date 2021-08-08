@@ -19,9 +19,9 @@
                 <TextBlock Height="18" Text="Artikelgruppe:"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <TextBox Text="{Binding SelectedListItem.Description}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.Price}" IsEnabled="{Binding TextBoxEnabled}"/>
-                <TextBox Text="{Binding SelectedListItem.ArticleGroup.Name}" IsEnabled="{Binding TextBoxEnabled}"/>
+                <TextBox Text="{Binding SelectedListItem.Description}" IsEnabled="{Binding InputEnabled}"/>
+                <TextBox Text="{Binding SelectedListItem.Price}" IsEnabled="{Binding InputEnabled}"/>
+                <TextBox Text="{Binding SelectedListItem.ArticleGroup.Name}" IsEnabled="{Binding InputEnabled}"/>
             </StackPanel>
         </Grid>
     </Border>

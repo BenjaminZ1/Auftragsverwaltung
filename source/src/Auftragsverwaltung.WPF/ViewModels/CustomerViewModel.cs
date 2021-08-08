@@ -14,7 +14,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private readonly ICustomerService _customerService;
         private IEnumerable<CustomerDto> _customers;
         private CustomerDto _selectedListItem;
-        private bool _textBoxEnabled;
+        private bool _inputEnabled;
         private bool _saveButtonEnabled;
         private bool _createButtonEnabled;
         private bool _modifyButtonEnabled;
@@ -34,10 +34,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
 
-        public bool TextBoxEnabled
+        public bool InputEnabled
         {
-            get => _textBoxEnabled;
-            set { _textBoxEnabled = value; OnPropertyChanged(nameof(TextBoxEnabled)); }
+            get => _inputEnabled;
+            set { _inputEnabled = value; OnPropertyChanged(nameof(InputEnabled)); }
         }
 
         public bool SaveButtonEnabled
@@ -189,7 +189,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void DefautlView()
         {
             _buttonActionState = ButtonAction.None;
-            TextBoxEnabled = false;
+            InputEnabled = false;
             SaveButtonEnabled = false;
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
@@ -201,7 +201,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void CreateView()
         {
             _buttonActionState = ButtonAction.Create;
-            TextBoxEnabled = true;
+            InputEnabled = true;
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
@@ -212,7 +212,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void ModifyView()
         {
             _buttonActionState = ButtonAction.Modify;
-            TextBoxEnabled = true;
+            InputEnabled = true;
             SaveButtonEnabled = true;
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
