@@ -45,7 +45,6 @@
                     <DataGridTextColumn Header="Preis pro Stück" Binding="{Binding Article.Price}"/>
                 </DataGrid.Columns>
             </DataGrid>
-
         </Grid>
     </Border>
 </UserControl>

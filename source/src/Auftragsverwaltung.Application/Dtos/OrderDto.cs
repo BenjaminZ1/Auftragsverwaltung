@@ -4,6 +4,7 @@ using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace Auftragsverwaltung.Application.Dtos
 {

@@ -34,7 +34,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <local:OrderListDetails Grid.Row="1" Margin="0 10" Width="Auto"/>
+            <ContentControl Grid.Row="1" Margin="0 10" Width="Auto" Content="{Binding DisplayView}"/>
         </Grid>
     </Grid>
 </UserControl>

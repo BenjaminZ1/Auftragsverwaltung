@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
+using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.WPF.Commands;
+using Auftragsverwaltung.WPF.Controls;
 using Auftragsverwaltung.WPF.State;
 
 namespace Auftragsverwaltung.WPF.ViewModels
@@ -19,6 +23,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private IEnumerable<CustomerDto> _customers;
         private IEnumerable<ArticleDto> _articles;
         private OrderDto _selectedListItem;
+        private ArticleDto _selectedArticleListItem;
+        private ObservableCollection<PositionDto> _addedPositionListItems;
+        private int _amount;
         private bool _inputEnabled;
         private bool _saveButtonEnabled;
         private bool _createButtonEnabled;
@@ -26,6 +33,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _deleteButtonEnabled;
         private Visibility _orderDataGridVisibility;
         private ButtonAction _buttonActionState;
+
+        private UserControl _displayView;
 
         public IEnumerable<OrderDto> Orders
         {
@@ -43,10 +52,28 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _articles = value; OnPropertyChanged(nameof(Articles)); }
         }
 
+        public ObservableCollection<PositionDto> AddedPositionListItems
+        {
+            get => _addedPositionListItems;
+            set { _addedPositionListItems = value; OnPropertyChanged(nameof(AddedPositionListItems)); }
+        }
+
         public OrderDto SelectedListItem
         {
             get => _selectedListItem;
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
+        }
+
+        public ArticleDto SelectedArticleListItem
+        {
+            get => _selectedArticleListItem;
+            set { _selectedArticleListItem = value; OnPropertyChanged(nameof(SelectedArticleListItem)); }
+        }
+
+        public int Amount
+        {
+            get => _amount;
+            set { _amount = value; OnPropertyChanged(nameof(Amount)); }
         }
 
         public bool InputEnabled
@@ -85,7 +112,15 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _orderDataGridVisibility = value; OnPropertyChanged(nameof(OrderDataGridVisibility)); }
         }
 
+        public UserControl DisplayView
+        {
+            get => _displayView;
+            set { _displayView = value; OnPropertyChanged(nameof(DisplayView)); }
+        }
+
         public IAsyncCommand ControlBarButtonActionCommand { get; set; }
+
+        public BaseCommand AddArticleToOrderCommand { get; set; }
 
         public OrderViewModel(IOrderService orderService, ICustomerService customerService, IArticleService articleService)
         {
@@ -93,6 +128,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _customerService = customerService;
             _articleService = articleService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            AddArticleToOrderCommand = new BaseCommand(AddArticleToOrder);
             DefautlView();
         }
 
@@ -219,8 +255,17 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DefautlView();
         }
 
+        private void AddArticleToOrder(object parameter)
+        {
+            PositionDto positionDto = new PositionDto() {Amount = Amount, Article = SelectedArticleListItem};
+            SelectedListItem.Positions.Add(positionDto);
+            AddedPositionListItems.Add(positionDto);
+        }
+
         private void DefautlView()
         {
+            DisplayView = new OrderListDetails();
+            LoadData();
             _buttonActionState = ButtonAction.None;
             InputEnabled = false;
             SaveButtonEnabled = false;
@@ -228,11 +273,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
             OrderDataGridVisibility = Visibility.Visible;
-            LoadData();
         }
 
         private void CreateView()
         {
+            DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Create;
             InputEnabled = true;
             SaveButtonEnabled = true;
@@ -240,6 +285,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DeleteButtonEnabled = false;
             OrderDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto();
+            AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
 
         private void ModifyView()
