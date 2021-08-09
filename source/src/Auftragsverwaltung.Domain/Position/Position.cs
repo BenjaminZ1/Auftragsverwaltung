@@ -1,4 +1,5 @@
-﻿using Auftragsverwaltung.Domain.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain.Position
 {

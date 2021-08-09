@@ -41,11 +41,14 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenAllNew_ReturnsCorrectResult()
         {
             //arrange
+            await InstanceHelper.AddDbTestArticles(_options);
+            await InstanceHelper.AddDbTestCustomer(_options);
             var order = new Order()
             {
                 Date = new DateTime(2020, 03, 03),
                 Customer = new Customer()
                 {
+                    CustomerId = 1,
                     Address = new Address()
                     {
                         Street = "Teststrasse",
@@ -64,17 +67,32 @@ namespace Auftragsverwaltung.Tests
                 },
                 Positions = new List<Position>
                 {
-                    new Position()
+                    new Position
                     {
                         Amount = 2,
                         Article = new Article()
                         {
+                            ArticleId = 1,
                             ArticleGroup = new ArticleGroup()
                             {
                                 Name = "testarticlegroup"
                             },
                             Description = "testarticle",
                             Price = 22,
+                        }
+                    },
+                    new Position
+                    {
+                        Amount = 2,
+                        Article = new Article()
+                        {
+                            ArticleId = 2,
+                            ArticleGroup = new ArticleGroup()
+                            {
+                                Name = "testarticlegroup2"
+                            },
+                            Description = "testarticle2",
+                            Price = 21,
                         }
                     },
                 },
@@ -105,7 +123,7 @@ namespace Auftragsverwaltung.Tests
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
 
             await InstanceHelper.AddDbTestCustomer(_options);
-            await InstanceHelper.AddDbTestArticle(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
 
             var order = new Order()
             {
@@ -135,6 +153,8 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
+            await InstanceHelper.AddDbTestCustomer(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var orderRepository = new OrderRepository(dbContextFactoryFake);

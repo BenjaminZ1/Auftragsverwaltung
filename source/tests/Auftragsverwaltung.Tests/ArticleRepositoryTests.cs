@@ -61,7 +61,7 @@ namespace Auftragsverwaltung.Tests
         [Test]
         public async Task CreateWithParentArticleGroup_WhenNewArticleGroupWithExistingParentArticleGroup_ReturnsCorrectResult()
         {
-            await InstanceHelper.AddDbTestArticle(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
 
             //arrange
             var article = new Article()
@@ -95,7 +95,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticle(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
@@ -115,7 +115,7 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticle(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
@@ -134,7 +134,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Delete_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticle(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
@@ -152,7 +152,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticle(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
             string newArticleDescription = "NewName";
 

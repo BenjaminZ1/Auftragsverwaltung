@@ -26,15 +26,15 @@ namespace Auftragsverwaltung.Tests
 
         public static DbContextOptions<AppDbContext> AppDbContext_BuildDbContext()
         {
-            return new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("testDb")
-                .EnableSensitiveDataLogging()
-                .Options;
-
             //return new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .UseInMemoryDatabase("testDb")
             //    .EnableSensitiveDataLogging()
             //    .Options;
+
+            return new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+                .EnableSensitiveDataLogging()
+                .Options;
         }
 
 
@@ -133,7 +133,7 @@ namespace Auftragsverwaltung.Tests
             });
         }
 
-        public static async Task AddDbTestArticle(DbContextOptions<AppDbContext> options)
+        public static async Task AddDbTestArticles(DbContextOptions<AppDbContext> options)
         {
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
@@ -148,6 +148,16 @@ namespace Auftragsverwaltung.Tests
                 },
                 Description = "TestArticleDescription2",
                 Price = 22,
+            });
+
+            await articleRepository.Create(new Article()
+            {
+                ArticleGroup = new ArticleGroup()
+                {
+                    Name = "testarticlegroup2"
+                },
+                Description = "testarticle2",
+                Price = 21,
             });
         }
 
@@ -176,6 +186,7 @@ namespace Auftragsverwaltung.Tests
                 Date = new DateTime(2020, 03, 03),
                 Customer = new Customer()
                 {
+                    CustomerId = 1,
                     Address = new Address()
                     {
                         Street = "Teststrasse",
@@ -199,6 +210,7 @@ namespace Auftragsverwaltung.Tests
                         Amount = 2,
                         Article = new Article()
                         {
+                            ArticleId = 1,
                             ArticleGroup = new ArticleGroup()
                             {
                                 Name = "testarticlegroup"
@@ -212,6 +224,7 @@ namespace Auftragsverwaltung.Tests
                         Amount = 2,
                         Article = new Article()
                         {
+                            ArticleId = 2,
                             ArticleGroup = new ArticleGroup()
                             {
                                 Name = "testarticlegroup2"

@@ -30,9 +30,20 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                entity.Customer = await GetCustomer(entity.Customer.CustomerId);
-                entity.Positions = await GetPositions(entity);
-
+                entity.Customer = await GetCustomer(entity.Customer);
+                var positions = await GetPositions(entity);
+                entity.Positions = new List<Domain.Position.Position>();
+                
+                await _db.Orders.AddAsync(entity);
+                await _db.SaveChangesAsync();
+                foreach (var position in positions)
+                {
+                    position.Order = entity;
+                    EntityEntry<Domain.Position.Position> createdPositionEntity = await _db.Positions.AddAsync(position);
+                    await _db.SaveChangesAsync();
+                    entity.Positions.Add(createdPositionEntity.Entity);
+                }
+                
                 EntityEntry<Domain.Order.Order> createdEntity = await _db.Orders.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -129,13 +140,15 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return response;
         }
 
-        private async Task<Domain.Customer.Customer> GetCustomer(int id)
+        private async Task<Domain.Customer.Customer> GetCustomer(Domain.Customer.Customer customer)
         {
-            return await _db.Customers
+            var existingCustomer = await _db.Customers
                 .Include(e => e.Address)
                 .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
-                .FirstOrDefaultAsync(e => e.CustomerId == id);
+                .FirstOrDefaultAsync(e => e.CustomerId == customer.CustomerId);
+
+            return existingCustomer;
         }
 
         private async Task<List<Domain.Position.Position>> GetPositions(Domain.Order.Order entity)
