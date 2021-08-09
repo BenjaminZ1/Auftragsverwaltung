@@ -32,22 +32,10 @@ namespace Auftragsverwaltung.Infrastructure.Order
             {
                 entity.Customer = await GetCustomer(entity.Customer);
                 entity.Positions = await GetPositions(entity);
-                //var positions = await GetPositions(entity);
-                //entity.Positions = new List<Domain.Position.Position>();
 
-                //EntityEntry<Domain.Order.Order> createdOrder = await _db.Orders.AddAsync(entity);
-                //await _db.SaveChangesAsync();
-                //foreach (var position in positions)
-                //{
-                //    position.Order = entity;
-                //    EntityEntry<Domain.Position.Position> createdPositionEntity = await _db.Positions.AddAsync(position);
-                //    await _db.SaveChangesAsync();
-                //}
-
-                //createdOrder.Entity.Positions = positions;
                 EntityEntry<Domain.Order.Order> createdEntity = await _db.Orders.AddAsync(entity);
-
                 response.NumberOfRows = await _db.SaveChangesAsync();
+
                 response.Entity = createdEntity.Entity;
                 response.Flag = true;
                 response.Message = "Has been added.";
