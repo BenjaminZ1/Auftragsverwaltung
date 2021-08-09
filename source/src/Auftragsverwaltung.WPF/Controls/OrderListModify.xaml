@@ -20,7 +20,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -29,22 +28,19 @@
                     <Style TargetType="Label" BasedOn="{StaticResource DetailsLabel}"/>
                 </Grid.Resources>
 
-                <Label Grid.Column="0" Grid.Row="0" Content="Bestell-Nr.:"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="Bestelldatum:"/>
-                <Label Grid.Column="0" Grid.Row="2" Content="Kundenummer wählen:"/>
-                <Label Grid.Column="0" Grid.Row="3" Content="Kunde:"/>
-                <Label Grid.Column="0" Grid.Row="4" Content="Artikel wählen:"/>
-                <Label Grid.Column="0" Grid.Row="5" Content="Anzahl:"/>
-                <Label Grid.Column="0" Grid.Row="6" Content="Bestellpositionen:"/>
+                <Label Grid.Column="0" Grid.Row="0" Content="Bestelldatum:"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Kundenummer wählen:"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Kunde:"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Artikel wählen:"/>
+                <Label Grid.Column="0" Grid.Row="4" Content="Anzahl:"/>
+                <Label Grid.Column="0" Grid.Row="5" Content="Bestellpositionen:"/>
 
-
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SelectedListItem.OrderId}" IsEnabled="{Binding InputEnabled}"/>
-                <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding SelectedListItem.Date}" IsEnabled="{Binding InputEnabled}"/>
-                <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Customers}" DisplayMemberPath="CustomerId" SelectedItem="{Binding SelectedListItem.Customer}"/> 
-                <local:CustomerListDetails Grid.Column="1" Grid.Row="3" Margin="0 10" Width="Auto"
+                <DatePicker Grid.Column="1" Grid.Row="0" SelectedDate="{Binding SelectedListItem.Date}" IsEnabled="{Binding InputEnabled}"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Customers}" DisplayMemberPath="CustomerId" SelectedItem="{Binding SelectedListItem.Customer}"/> 
+                <local:CustomerListDetails Grid.Column="1" Grid.Row="2" Margin="0 10" Width="Auto"
                                        CustomerDto="{Binding SelectedListItem.Customer}"/>
 
-                <DataGrid Grid.Column="1" Grid.Row="4" x:Name="ArticleDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
+                <DataGrid Grid.Column="1" Grid.Row="3" x:Name="ArticleDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
                           ItemsSource="{Binding Articles}"
                           SelectedItem="{Binding SelectedArticleListItem}">
                     <DataGrid.Columns>
@@ -53,12 +49,12 @@
                         <DataGridTextColumn Header="Preis pro Stück" Binding="{Binding Price}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel Grid.Column="1" Grid.Row="5">
+                <StackPanel Grid.Column="1" Grid.Row="4">
                     <TextBox Text="{Binding Amount}"/>
                     <Button  Content="Artikel hinzufügen" Command="{Binding AddArticleToOrderCommand}"/>
                 </StackPanel>
 
-                <DataGrid Grid.Column="1" Grid.Row="6" x:Name="PositionDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
+                <DataGrid Grid.Column="1" Grid.Row="5" x:Name="PositionDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
                       ItemsSource="{Binding AddedPositionListItems}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Artikel" Binding="{Binding Article.Description}"/>

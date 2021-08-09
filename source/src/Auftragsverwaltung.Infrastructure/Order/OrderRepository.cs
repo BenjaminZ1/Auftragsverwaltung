@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Infrastructure.Position;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
@@ -28,6 +30,9 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
+                entity.Customer = await GetCustomer(entity.Customer.CustomerId);
+                entity.Positions = await GetPositions(entity);
+
                 EntityEntry<Domain.Order.Order> createdEntity = await _db.Orders.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -35,7 +40,6 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 response.Flag = true;
                 response.Message = "Has been added.";
                 response.Id = createdEntity.Entity.OrderId;
-
             }
             catch (Exception e)
             {
@@ -123,6 +127,39 @@ namespace Auftragsverwaltung.Infrastructure.Order
             }
 
             return response;
+        }
+
+        private async Task<Domain.Customer.Customer> GetCustomer(int id)
+        {
+            return await _db.Customers
+                .Include(e => e.Address)
+                .ThenInclude(e => e.Town)
+                .Include(e => e.Orders)
+                .FirstOrDefaultAsync(e => e.CustomerId == id);
+        }
+
+        private async Task<List<Domain.Position.Position>> GetPositions(Domain.Order.Order entity)
+        {
+            List<int> articleIds = new List<int>();
+
+            foreach (var position in entity.Positions)
+            {
+                articleIds.Add(position.Article.ArticleId);
+            }
+
+            List<Domain.Position.Position> positionEntities = entity.Positions.ToList();
+
+
+            foreach (var id in articleIds)
+            {
+                int i = 0;
+                var article = await _db.Articles
+                    .Include(p => p.ArticleGroup)
+                    .FirstOrDefaultAsync(a => a.ArticleId == id);
+
+                positionEntities[i].Article = article;
+            }
+            return positionEntities;
         }
     }
 }
