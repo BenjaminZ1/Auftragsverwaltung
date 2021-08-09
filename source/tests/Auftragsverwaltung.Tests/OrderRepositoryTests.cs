@@ -38,7 +38,7 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
-        public async Task Create_WhenAllNew_ReturnsCorrectResult()
+        public async Task Create_WhenOk_ReturnsCorrectResult()
         {
             //arrange
             await InstanceHelper.AddDbTestArticles(_options);
@@ -75,9 +75,9 @@ namespace Auftragsverwaltung.Tests
                             ArticleId = 1,
                             ArticleGroup = new ArticleGroup()
                             {
-                                Name = "testarticlegroup"
+                                Name = "testarticle"
                             },
-                            Description = "testarticle",
+                            Description = "TestArticleDescription2",
                             Price = 22,
                         }
                     },
@@ -107,7 +107,7 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Entity.Customer.Firstname.Should().Be("Hans");
-            result.Entity.Positions.Count.Should().Be(1);
+            result.Entity.Positions.Count.Should().Be(2);
             result.Should().BeOfType(typeof(ResponseDto<Order>));
             result.Flag.Should().BeTrue();
         }

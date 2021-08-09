@@ -82,7 +82,7 @@ namespace Auftragsverwaltung.Application.Mapper
                 .ForMember(dest => dest.Description,
                     opt => opt.MapFrom(src => src.Entity.Description))
                 .ForMember(dest => dest.Position,
-                    opt => opt.MapFrom(src => src.Entity.Position))
+                    opt => opt.MapFrom(src => src.Entity.Positions))
                 .ForMember(dest => dest.Price,
                     opt => opt.MapFrom(src => src.Entity.Price))
                 .ForPath(dest => dest.Response.Flag,

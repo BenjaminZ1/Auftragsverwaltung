@@ -41,7 +41,6 @@ namespace Auftragsverwaltung.WPF
         {
             IServiceCollection services = new ServiceCollection();
 
-            //services.AddSingleton<AppDbContextFactory>();
             services.AddDbContext<AppDbContext>(o => 
                 o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();

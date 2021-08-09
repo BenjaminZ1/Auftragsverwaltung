@@ -19,7 +19,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
             builder.HasKey(a => a.ArticleId);
 
             builder
-                .HasOne(a => a.Position)
+                .HasMany(a => a.Positions)
                 .WithOne(p => p.Article);
         }
     }

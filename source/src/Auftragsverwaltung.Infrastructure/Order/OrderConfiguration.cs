@@ -17,6 +17,10 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .HasOne(o => o.Customer)
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.CustomerId);
+
+            builder
+                .HasMany(o => o.Positions)
+                .WithOne(o => o.Order);
         }
     }
 }
