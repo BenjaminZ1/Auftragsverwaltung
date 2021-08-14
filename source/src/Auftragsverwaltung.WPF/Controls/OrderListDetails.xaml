@@ -32,7 +32,8 @@
 
 
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SelectedListItem.OrderId}" IsEnabled="{Binding InputEnabled}"/>
-            <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding SelectedListItem.Date}" IsEnabled="{Binding InputEnabled}"></DatePicker>
+            <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding SelectedListItem.Date}"
+                        IsEnabled="{Binding DateTimePickerEnabled}"/>
             <local:CustomerListDetails Grid.Column="1" Grid.Row="2" Margin="0 10" Width="Auto"
                                        CustomerDto="{Binding SelectedListItem.Customer}"/>
             <DataGrid Grid.Column="1" Grid.Row="3" x:Name="CustomerDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 

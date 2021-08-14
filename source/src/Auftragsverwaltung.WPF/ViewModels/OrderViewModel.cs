@@ -29,11 +29,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private PositionDto _selectedAddedPositionListItem;
         private int _amount;
         private bool _inputEnabled;
+        private bool _dateTimePickerEnabled;
         private bool _saveButtonEnabled;
         private bool _createButtonEnabled;
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
-        //private Visibility _orderDataGridVisibility;
         private ButtonAction _buttonActionState;
 
         private UserControl _displayView;
@@ -88,6 +88,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _inputEnabled;
             set { _inputEnabled = value; OnPropertyChanged(nameof(InputEnabled)); }
+        }
+
+        public bool DateTimePickerEnabled
+        {
+            get => _dateTimePickerEnabled;
+            set { _dateTimePickerEnabled = value; OnPropertyChanged(nameof(DateTimePickerEnabled)); }
         }
 
         public bool SaveButtonEnabled
@@ -311,6 +317,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             LoadData();
             _buttonActionState = ButtonAction.None;
             InputEnabled = false;
+            DateTimePickerEnabled = false;
             SaveButtonEnabled = false;
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
@@ -321,12 +328,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Create;
-            InputEnabled = true;
+            InputEnabled = false;
+            DateTimePickerEnabled = true;
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
-            SelectedListItem = new OrderDto();
-            SelectedListItem.Date = DateTime.Now;
+            SelectedListItem = new OrderDto {Date = DateTime.Now};
             AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
 
