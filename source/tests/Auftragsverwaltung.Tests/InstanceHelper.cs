@@ -144,9 +144,9 @@ namespace Auftragsverwaltung.Tests
             {
                 ArticleGroup = new ArticleGroup()
                 {
-                    Name = "testarticle"
+                    Name = "testArticleGroup"
                 },
-                Description = "TestArticleDescription2",
+                Description = "testArticleDescription",
                 Price = 22,
             });
 
@@ -154,9 +154,9 @@ namespace Auftragsverwaltung.Tests
             {
                 ArticleGroup = new ArticleGroup()
                 {
-                    Name = "testarticlegroup2"
+                    Name = "testArticleGroup2"
                 },
-                Description = "testarticle2",
+                Description = "testArticleDescription2",
                 Price = 21,
             });
         }
@@ -218,9 +218,9 @@ namespace Auftragsverwaltung.Tests
                             ArticleId = 1,
                             ArticleGroup = new ArticleGroup()
                             {
-                                Name = "testarticlegroup"
+                                Name = "testArticleGroup"
                             },
-                            Description = "testarticle",
+                            Description = "testArticleDescription",
                             Price = 22,
                         }
                     },
@@ -232,9 +232,9 @@ namespace Auftragsverwaltung.Tests
                             ArticleId = 2,
                             ArticleGroup = new ArticleGroup()
                             {
-                                Name = "testarticlegroup2"
+                                Name = "testArticleGroup2"
                             },
-                            Description = "testarticle2",
+                            Description = "testArticleDescription2",
                             Price = 21,
                         }
                     },
@@ -357,6 +357,25 @@ namespace Auftragsverwaltung.Tests
                     Email = "vreni@test.com",
                     Website = "www.vreni.ch",
                     Password = new byte[64]
+                },
+
+                new Customer()
+                {
+                    Address = new Address()
+                    {
+                        Street = "Teststrasse",
+                        BuildingNr = "2",
+                        Town = new Town()
+                        {
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    Firstname = "Vreni",
+                    Lastname = "Müller",
+                    Email = "vreni@test.com",
+                    Website = "www.vreni.ch",
+                    Password = new byte[64]
                 }
             };
         }
@@ -369,18 +388,18 @@ namespace Auftragsverwaltung.Tests
                 {
                     ArticleGroup = new ArticleGroup()
                     {
-                        Name = "testarticlegroup"
+                        Name = "testArticleGroup"
                     },
-                    Description = "testarticle",
+                    Description = "testArticleDescription",
                     Price = 22,
                 },
                 new Article()
                 {
                     ArticleGroup = new ArticleGroup()
                     {
-                        Name = "testarticlegroup2"
+                        Name = "testArticleGroup2"
                     },
-                    Description = "testarticle2",
+                    Description = "testArticleDescription2",
                     Price = 21,
                 }
             };

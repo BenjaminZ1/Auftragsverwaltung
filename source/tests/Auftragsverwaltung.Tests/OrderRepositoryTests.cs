@@ -144,7 +144,7 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Entity.Customer.Firstname.Should().Be("Hans");
-            result.Entity.Positions.First().Article.Description.Should().Be("TestArticleDescription2");
+            result.Entity.Positions.First().Article.Description.Should().Be("testArticleDescription");
             result.Should().BeOfType(typeof(ResponseDto<Order>));
             result.Flag.Should().BeTrue();
         }
