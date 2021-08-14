@@ -94,7 +94,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestArticleGroup(_options);
-            int articleGroupId = 1;
+            int articleGroupId = 2;
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
