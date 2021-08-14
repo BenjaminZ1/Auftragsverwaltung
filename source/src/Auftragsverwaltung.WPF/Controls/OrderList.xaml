@@ -26,8 +26,7 @@
 
             <DataGrid x:Name="CustomerDataGrid" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" 
                       SelectedItem="{Binding SelectedListItem}"
-                      ItemsSource="{Binding Orders}"
-                      Visibility="{Binding OrderDataGridVisibility}">
+                      ItemsSource="{Binding Orders}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Bestellnummer" Binding="{Binding OrderId}"/>
                     <DataGridTextColumn Header="Bestelldatum" Binding="{Binding Date}"/>

@@ -36,8 +36,7 @@
             <local:CustomerListDetails Grid.Column="1" Grid.Row="2" Margin="0 10" Width="Auto"
                                        CustomerDto="{Binding SelectedListItem.Customer}"/>
             <DataGrid Grid.Column="1" Grid.Row="3" x:Name="CustomerDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
-                      ItemsSource="{Binding SelectedListItem.Positions}"
-                      Visibility="{Binding OrderDataGridVisibility}">
+                      ItemsSource="{Binding SelectedListItem.Positions}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Artikel" Binding="{Binding Article.Description}"/>
                     <DataGridTextColumn Header="Artikelkategorie" Binding="{Binding Article.ArticleGroup.Name}"/>

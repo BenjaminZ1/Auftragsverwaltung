@@ -33,7 +33,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _createButtonEnabled;
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
-        private Visibility _orderDataGridVisibility;
+        //private Visibility _orderDataGridVisibility;
         private ButtonAction _buttonActionState;
 
         private UserControl _displayView;
@@ -112,12 +112,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _deleteButtonEnabled;
             set { _deleteButtonEnabled = value; OnPropertyChanged(nameof(DeleteButtonEnabled)); }
-        }
-
-        public Visibility OrderDataGridVisibility
-        {
-            get => _orderDataGridVisibility;
-            set { _orderDataGridVisibility = value; OnPropertyChanged(nameof(OrderDataGridVisibility)); }
         }
 
         public UserControl DisplayView
@@ -321,7 +315,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
-            OrderDataGridVisibility = Visibility.Visible;
         }
 
         private void CreateView()
@@ -332,7 +325,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
-            OrderDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto();
             SelectedListItem.Date = DateTime.Now;
             AddedPositionListItems = new ObservableCollection<PositionDto>();
@@ -345,7 +337,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
-            OrderDataGridVisibility = Visibility.Collapsed;
         }
     }
 }
