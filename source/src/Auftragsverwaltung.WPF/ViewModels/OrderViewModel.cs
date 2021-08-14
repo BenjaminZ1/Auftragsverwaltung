@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -127,8 +128,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _orderService = orderService;
             _customerService = customerService;
             _articleService = articleService;
+
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             AddArticleToOrderCommand = new BaseCommand(AddArticleToOrder);
+
+            _amount = 1;
+
             DefautlView();
         }
 
@@ -258,8 +263,36 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void AddArticleToOrder(object parameter)
         {
             PositionDto positionDto = new PositionDto() {Amount = Amount, Article = SelectedArticleListItem};
+
+            var existingPositionDto = CheckForExistingPositionDto(positionDto);
+            if (existingPositionDto != null)
+            {
+                RemovePositionDtoFromList(SelectedListItem.Positions, existingPositionDto.Article.ArticleId);
+                RemovePositionDtoFromList(AddedPositionListItems, existingPositionDto.Article.ArticleId);
+
+                positionDto = existingPositionDto;
+            }
+
             SelectedListItem.Positions.Add(positionDto);
             AddedPositionListItems.Add(positionDto);
+        }
+
+        private PositionDto CheckForExistingPositionDto(PositionDto positionDto)
+        {
+            var existingPositionDto = SelectedListItem.Positions
+                .SingleOrDefault(p => p.Article.ArticleId == positionDto.Article.ArticleId);
+            if (existingPositionDto != null)
+            {
+                existingPositionDto.Amount += positionDto.Amount;
+                return existingPositionDto;
+            }
+
+            return null;
+        }
+
+        private void RemovePositionDtoFromList(ICollection<PositionDto> positionDtos, int articleId)
+        {
+            positionDtos.Remove(positionDtos.SingleOrDefault(p => p.Article.ArticleId == articleId));
         }
 
         private void DefautlView()
@@ -285,6 +318,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DeleteButtonEnabled = false;
             OrderDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto();
+            SelectedListItem.Date = DateTime.Now;
             AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
 
