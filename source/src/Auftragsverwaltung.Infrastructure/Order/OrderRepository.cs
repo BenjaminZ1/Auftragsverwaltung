@@ -111,7 +111,11 @@ namespace Auftragsverwaltung.Infrastructure.Order
             try
             {
                 var entry = await this.Get(entity.OrderId);
-                _db.Entry(entry).CurrentValues.SetValues(entity);
+
+                _db.Entry(entry).CurrentValues.SetValues(entity); ;
+                entry.Customer = await GetCustomer(entity.Customer);
+                entry.Positions = await GetPositions(entity);
+
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = entity;

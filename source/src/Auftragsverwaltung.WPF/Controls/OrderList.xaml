@@ -25,6 +25,7 @@
             </Grid.RowDefinitions>
 
             <DataGrid x:Name="CustomerDataGrid" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" 
+                      Visibility="{Binding OrderDataGridVisibility}"
                       SelectedItem="{Binding SelectedListItem}"
                       ItemsSource="{Binding Orders}">
                 <DataGrid.Columns>

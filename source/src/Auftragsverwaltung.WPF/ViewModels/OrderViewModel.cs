@@ -34,6 +34,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _createButtonEnabled;
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
+        private Visibility _orderDataGridVisibility;
         private ButtonAction _buttonActionState;
 
         private UserControl _displayView;
@@ -118,6 +119,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _deleteButtonEnabled;
             set { _deleteButtonEnabled = value; OnPropertyChanged(nameof(DeleteButtonEnabled)); }
+        }
+
+        public Visibility OrderDataGridVisibility
+        {
+            get => _orderDataGridVisibility;
+            set { _orderDataGridVisibility = value; OnPropertyChanged(nameof(OrderDataGridVisibility)); }
         }
 
         public UserControl DisplayView
@@ -272,19 +279,22 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void AddArticleToOrder(object parameter)
         {
-            PositionDto positionDto = new PositionDto() {Amount = Amount, Article = SelectedArticleListItem};
-
-            var existingPositionDto = CheckForExistingPositionDto(positionDto);
-            if (existingPositionDto != null)
+            if (SelectedArticleListItem != null)
             {
-                RemovePositionDtoFromList(SelectedListItem.Positions, existingPositionDto.Article.ArticleId);
-                RemovePositionDtoFromList(AddedPositionListItems, existingPositionDto.Article.ArticleId);
+                PositionDto positionDto = new PositionDto() {Amount = Amount, Article = SelectedArticleListItem};
 
-                positionDto = existingPositionDto;
+                var existingPositionDto = CheckForExistingPositionDto(positionDto);
+                if (existingPositionDto != null)
+                {
+                    RemovePositionDtoFromList(SelectedListItem.Positions, existingPositionDto.Article.ArticleId);
+                    RemovePositionDtoFromList(AddedPositionListItems, existingPositionDto.Article.ArticleId);
+
+                    positionDto = existingPositionDto;
+                }
+
+                SelectedListItem.Positions.Add(positionDto);
+                AddedPositionListItems.Add(positionDto);
             }
-
-            SelectedListItem.Positions.Add(positionDto);
-            AddedPositionListItems.Add(positionDto);
         }
 
         private void RemovePositionFromOrder(object parameter)
@@ -322,6 +332,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
+            OrderDataGridVisibility = Visibility.Visible;
         }
 
         private void CreateView()
@@ -333,17 +344,26 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
+            OrderDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto {Date = DateTime.Now};
             AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
 
         private void ModifyView()
         {
+            DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Modify;
-            InputEnabled = true;
+            InputEnabled = false;
+            DateTimePickerEnabled = true;
             SaveButtonEnabled = true;
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
+            OrderDataGridVisibility = Visibility.Collapsed;
+            AddedPositionListItems = new ObservableCollection<PositionDto>();
+            foreach (var position in SelectedListItem.Positions)
+            {
+                AddedPositionListItems.Add(position);
+            }
         }
     }
 }
