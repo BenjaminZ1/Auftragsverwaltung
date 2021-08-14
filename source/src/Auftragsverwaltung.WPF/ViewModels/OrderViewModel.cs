@@ -26,6 +26,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private OrderDto _selectedListItem;
         private ArticleDto _selectedArticleListItem;
         private ObservableCollection<PositionDto> _addedPositionListItems;
+        private PositionDto _selectedAddedPositionListItem;
         private int _amount;
         private bool _inputEnabled;
         private bool _saveButtonEnabled;
@@ -57,6 +58,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _addedPositionListItems;
             set { _addedPositionListItems = value; OnPropertyChanged(nameof(AddedPositionListItems)); }
+        }
+
+        public PositionDto SelectedAddedPositionListItem
+        {
+            get => _selectedAddedPositionListItem;
+            set { _selectedAddedPositionListItem = value; OnPropertyChanged(nameof(SelectedAddedPositionListItem)); }
         }
 
         public OrderDto SelectedListItem
@@ -123,6 +130,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         public BaseCommand AddArticleToOrderCommand { get; set; }
 
+        public BaseCommand RemovePositionFromOrderCommand { get; set; }
+
         public OrderViewModel(IOrderService orderService, ICustomerService customerService, IArticleService articleService)
         {
             _orderService = orderService;
@@ -131,6 +140,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             AddArticleToOrderCommand = new BaseCommand(AddArticleToOrder);
+            RemovePositionFromOrderCommand = new BaseCommand(RemovePositionFromOrder);
 
             _amount = 1;
 
@@ -275,6 +285,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
             SelectedListItem.Positions.Add(positionDto);
             AddedPositionListItems.Add(positionDto);
+        }
+
+        private void RemovePositionFromOrder(object parameter)
+        {
+            RemovePositionDtoFromList(SelectedListItem.Positions, SelectedAddedPositionListItem.Article.ArticleId);
+            RemovePositionDtoFromList(AddedPositionListItems, SelectedAddedPositionListItem.Article.ArticleId);
         }
 
         private PositionDto CheckForExistingPositionDto(PositionDto positionDto)
