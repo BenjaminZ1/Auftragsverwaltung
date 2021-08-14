@@ -169,5 +169,67 @@ namespace Auftragsverwaltung.Tests
             result.CustomerId.Should().Be(1);
             result.Positions.Count.Should().Be(2);
         }
+
+        [Test]
+        public async Task GetAll_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            await InstanceHelper.AddDbTestCustomer(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
+
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var orderRepository = new OrderRepository(dbContextFactoryFake);
+
+            await InstanceHelper.AddDbTestOrder(_options);
+
+            //act
+            var result = await orderRepository.GetAll();
+
+            //assert
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Order>));
+            resultList.Count().Should().Be(1);
+        }
+
+        [Test]
+        public async Task Update_WhenOK_ReturnsCorrectResult()
+        {
+            //arrange
+            await InstanceHelper.AddDbTestCustomers(_options);
+            await InstanceHelper.AddDbTestArticles(_options);
+            await InstanceHelper.AddDbTestOrder(_options);
+
+            var customerTestData = InstanceHelper.GetCustomerTestData();
+            int orderId = 1;
+
+            var newDate = new DateTime(2021, 08, 14);
+            var newCustomer = customerTestData[1];
+            newCustomer.CustomerId = 2;
+
+            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
+            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
+            var orderRepository = new OrderRepository(dbContextFactoryFake);
+
+            var entity = orderRepository.Get(orderId);
+            var order = entity.Result;
+
+            var modifiedPositions = order.Positions.ToList();
+            modifiedPositions[0].Amount = 13;
+
+            order.Date = newDate;
+            order.Customer = newCustomer;
+            order.Positions = modifiedPositions;
+
+
+            //act
+            var result = await orderRepository.Update(order);
+
+            //assert
+            result.Entity.Date.Should().Be(newDate);
+            result.Entity.Customer.CustomerId.Should().Be(newCustomer.CustomerId);
+            result.Entity.Positions.Should().BeEquivalentTo(modifiedPositions);
+            result.Flag.Should().BeTrue();
+        }
     }
 }

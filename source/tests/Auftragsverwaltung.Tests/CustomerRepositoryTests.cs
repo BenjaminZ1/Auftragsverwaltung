@@ -35,24 +35,9 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
             //arrange
-            var customer = new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Teststadt",
-                        ZipCode = "9999"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "test@test.com",
-                Website = "www.test.ch",
-                Password = new byte[64]
-            };
+            var customerTestData = InstanceHelper.GetCustomerTestData();
+            var customer = customerTestData[0];
+
             int expectedId = 1;
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
@@ -75,24 +60,8 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             await InstanceHelper.AddDbTestCustomers(_options);
-            var customer = new Customer()
-            {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    Town = new Town()
-                    {
-                        Townname = "Teststadt",
-                        ZipCode = "9999"
-                    }
-                },
-                Firstname = "Hans",
-                Lastname = "Müller",
-                Email = "test@test.com",
-                Website = "www.test.ch",
-                Password = new byte[64]
-            };
+            var customerTestData = InstanceHelper.GetCustomerTestData();
+            var customer = customerTestData[0];
             int expectedId = 1;
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();

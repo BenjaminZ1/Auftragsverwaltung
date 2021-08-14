@@ -34,15 +34,8 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
             //arrange
-            var article = new Article()
-            {
-                ArticleGroup = new ArticleGroup()
-                {
-                    Name = "TestArticleGroup"
-                },
-                Description = "TestArticleDescription",
-                Price = 22,
-            };
+            var articleTestData = InstanceHelper.GetArticleTestData();
+            var article = articleTestData[0];
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
@@ -52,8 +45,8 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Article>));
-            result.Entity.ArticleGroup.ArticleGroupId.Should().Be(1);
-            result.Entity.ArticleGroupId.Should().Be(result.Entity.ArticleGroup.ArticleGroupId);
+            result.Entity.ArticleGroup.ArticleGroupId.Should().Be(article.ArticleGroupId);
+            result.Entity.ArticleGroupId.Should().Be(article.ArticleGroupId);
             result.Flag.Should().BeTrue();
         }
 
@@ -64,19 +57,8 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestArticles(_options);
 
             //arrange
-            var article = new Article()
-            {
-                ArticleGroup = new ArticleGroup()
-                {
-                    Name = "TestArticleGroup",
-                    ParentArticleGroup = new ArticleGroup()
-                    {
-                        Name = "ParentArticleGroup"
-                    }
-                },
-                Description = "TestArticleDescription",
-                Price = 22,
-            };
+            var articleTestData = InstanceHelper.GetArticleTestData();
+            var article = articleTestData[0];
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
             var articleRepository = new ArticleRepository(dbContextFactoryFake);
@@ -86,8 +68,8 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Article>));
-            result.Entity.ArticleGroup.Name.Should().Be("TestArticleGroup");
-            result.Entity.ArticleGroup.ParentArticleGroup.Name.Should().Be("ParentArticleGroup");
+            result.Entity.ArticleGroup.Name.Should().Be(article.ArticleGroup.Name);
+            result.Entity.ArticleGroup.ParentArticleGroup.Should().BeNull();
             result.Flag.Should().BeTrue();
         }
 

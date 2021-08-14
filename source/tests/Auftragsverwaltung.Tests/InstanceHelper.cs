@@ -170,7 +170,12 @@ namespace Auftragsverwaltung.Tests
 
             await articleGroupRepository.Create(new ArticleGroup()
             {
-                Name = "TestArticleGroup"
+                Name = "testArticleGroup"
+            });
+            await articleGroupRepository.Create(new ArticleGroup()
+            {
+                Name = "testArticleGroup2",
+                ParentArticleGroup = await articleGroupRepository.Get(1)
             });
         }
 
@@ -310,6 +315,75 @@ namespace Auftragsverwaltung.Tests
             };
 
             return list;
+        }
+
+        public static List<Customer> GetCustomerTestData()
+        {
+            return new List<Customer>()
+            {
+                new Customer()
+                {
+                    Address = new Address()
+                    {
+                        Street = "Teststrasse",
+                        BuildingNr = "2",
+                        Town = new Town()
+                        {
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    Firstname = "Hans",
+                    Lastname = "Müller",
+                    Email = "hans@test.com",
+                    Website = "www.hans.ch",
+                    Password = new byte[64]
+                },
+
+                new Customer
+                {
+                    Address = new Address()
+                    {
+                        Street = "Teststrasse",
+                        BuildingNr = "2",
+                        Town = new Town()
+                        {
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    Firstname = "Vreni",
+                    Lastname = "Müller",
+                    Email = "vreni@test.com",
+                    Website = "www.vreni.ch",
+                    Password = new byte[64]
+                }
+            };
+        }
+
+        public static List<Article> GetArticleTestData()
+        {
+            return new List<Article>()
+            {
+                new Article()
+                {
+                    ArticleGroup = new ArticleGroup()
+                    {
+                        Name = "testarticlegroup"
+                    },
+                    Description = "testarticle",
+                    Price = 22,
+                },
+                new Article()
+                {
+                    ArticleGroup = new ArticleGroup()
+                    {
+                        Name = "testarticlegroup2"
+                    },
+                    Description = "testarticle2",
+                    Price = 21,
+                }
+            };
         }
 
         public static IMapper GetMapper()

@@ -86,7 +86,7 @@ namespace Auftragsverwaltung.Tests
             //assert
             var resultList = result.ToList();
             resultList.Should().BeOfType(typeof(List<ArticleGroup>));
-            resultList.Count().Should().Be(1);
+            resultList.Count().Should().Be(2);
         }
 
         [Test]
