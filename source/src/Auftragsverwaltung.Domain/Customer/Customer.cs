@@ -8,6 +8,7 @@ namespace Auftragsverwaltung.Domain.Customer
     {
 #nullable enable
         public int CustomerId { get; set; }
+        public string CustomerNumber { get; set; } = default!;
         public string Firstname { get; set; } = default!;
         public string Lastname { get; set; } = default!;
         public int AddressId { get; set; }

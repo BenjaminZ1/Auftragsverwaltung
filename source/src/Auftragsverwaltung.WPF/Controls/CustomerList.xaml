@@ -29,7 +29,7 @@
                       ItemsSource="{Binding Customers}"
                       Visibility="{Binding CustomerDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerId}"/>
+                    <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerNumber}"/>
                     <DataGridTextColumn Header="Vorname" Binding="{Binding Firstname}"/>
                     <DataGridTextColumn Header="Nachname" Binding="{Binding Lastname}"/>
                     <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>

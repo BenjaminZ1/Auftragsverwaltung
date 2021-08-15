@@ -20,7 +20,9 @@ namespace Auftragsverwaltung.Application.Mapper
         public MappingProfile()
         {
             // Add as many of these lines as you need to map your objects
-            CreateMap<Customer, CustomerDto>();
+            CreateMap<Customer, CustomerDto>()
+                .ForMember(dest => dest.Password,
+                    opt => opt.MapFrom(src => Encoding.Default.GetString(src.Password)));
             CreateMap<Address, AddressDto>();
             CreateMap<Article, ArticleDto>();
             CreateMap<ArticleGroup, ArticleGroupDto>();
@@ -45,6 +47,8 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.MapFrom(src => src.Entity.Website))
                 .ForMember(dest => dest.Password,
                     opt => opt.MapFrom(src => src.Entity.Password))
+                .ForMember(dest => dest.CustomerNumber,
+                    opt => opt.MapFrom(src => src.Entity.CustomerNumber))
                 .ForPath(dest => dest.Response.Flag,
                     opt => opt.MapFrom(src => src.Flag))
                 .ForPath(dest => dest.Response.Id,
@@ -53,6 +57,7 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.MapFrom(src => src.Message))
                 .ForPath(dest => dest.Response.NumberOfRows,
                     opt => opt.MapFrom(src => src.NumberOfRows));
+
             CreateMap<ResponseDto<Order>, OrderDto>()
                 .ForMember(dest => dest.CustomerId,
                     opt => opt.MapFrom(src => src.Entity.CustomerId))
@@ -72,6 +77,7 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.MapFrom(src => src.Message))
                 .ForPath(dest => dest.Response.NumberOfRows,
                     opt => opt.MapFrom(src => src.NumberOfRows));
+
             CreateMap<ResponseDto<Article>, ArticleDto>()
                 .ForMember(dest => dest.ArticleGroup,
                     opt => opt.MapFrom(src => src.Entity.ArticleGroup))
@@ -94,7 +100,9 @@ namespace Auftragsverwaltung.Application.Mapper
                 .ForPath(dest => dest.Response.NumberOfRows,
                     opt => opt.MapFrom(src => src.NumberOfRows));
 
-            CreateMap<CustomerDto, Customer>();
+            CreateMap<CustomerDto, Customer>()
+                .ForMember(dest => dest.Password,
+                    opt => opt.MapFrom(src => Encoding.Default.GetBytes(src.Password)));
             CreateMap<AddressDto, Address>();
             CreateMap<ArticleDto, Article>();
             CreateMap<ArticleGroupDto, ArticleGroup>();
