@@ -63,6 +63,7 @@ namespace Auftragsverwaltung.Tests
                         ZipCode = "9100"
                     }
                 },
+                CustomerNumber = "CU00001",
                 Firstname = "Hans",
                 Lastname = "Müller",
                 Email = "hans@test.com",
@@ -89,6 +90,7 @@ namespace Auftragsverwaltung.Tests
                         ZipCode = "9100"
                     }
                 },
+                CustomerNumber = "CU00001",
                 Firstname = "Hans",
                 Lastname = "Müller",
                 Email = "hans@test.com",
@@ -107,6 +109,7 @@ namespace Auftragsverwaltung.Tests
                         ZipCode = "9001"
                     }
                 },
+                CustomerNumber = "CU00002",
                 Firstname = "Ida",
                 Lastname = "Muster",
                 Email = "ida@gmail.com",
@@ -125,6 +128,7 @@ namespace Auftragsverwaltung.Tests
                         ZipCode = "9100"
                     }
                 },
+                CustomerNumber = "CU00003",
                 Firstname = "Vreni",
                 Lastname = "Müller",
                 Email = "vreni@test.com",
@@ -202,6 +206,7 @@ namespace Auftragsverwaltung.Tests
                             ZipCode = "9100"
                         }
                     },
+                    CustomerNumber = "CU00001",
                     Firstname = "Hans",
                     Lastname = "Müller",
                     Email = "hans@test.com",
@@ -260,6 +265,7 @@ namespace Auftragsverwaltung.Tests
                             ZipCode = "9100"
                         }
                     },
+                    CustomerNumber = "CU00001",
                     AddressId = 1,
                     CustomerId = 1,
                     Email = "hans@test.ch",
@@ -282,6 +288,7 @@ namespace Auftragsverwaltung.Tests
                             ZipCode = "9001"
                         }
                     },
+                    CustomerNumber = "CU00002",
                     AddressId = 2,
                     CustomerId = 2,
                     Email = "ida@gmail.com",
@@ -304,6 +311,7 @@ namespace Auftragsverwaltung.Tests
                             ZipCode = "9100"
                         }
                     },
+                    CustomerNumber = "CU00003",
                     AddressId = 1,
                     CustomerId = 3,
                     Email = "vreni@test.ch",
@@ -333,6 +341,7 @@ namespace Auftragsverwaltung.Tests
                             ZipCode = "9100"
                         }
                     },
+                    CustomerNumber = "CU00001",
                     Firstname = "Hans",
                     Lastname = "Müller",
                     Email = "hans@test.com",
@@ -344,18 +353,19 @@ namespace Auftragsverwaltung.Tests
                 {
                     Address = new Address()
                     {
-                        Street = "Teststrasse",
-                        BuildingNr = "2",
+                        Street = "Hauptstrasse",
+                        BuildingNr = "44",
                         Town = new Town()
                         {
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            Townname = "St. Gallen",
+                            ZipCode = "9001"
                         }
                     },
-                    Firstname = "Vreni",
-                    Lastname = "Müller",
-                    Email = "vreni@test.com",
-                    Website = "www.vreni.ch",
+                    CustomerNumber = "CU00002",
+                    Firstname = "Ida",
+                    Lastname = "Muster",
+                    Email = "ida@gmail.com",
+                    Website = "www.ida.com",
                     Password = new byte[64]
                 },
 
@@ -371,6 +381,7 @@ namespace Auftragsverwaltung.Tests
                             ZipCode = "9100"
                         }
                     },
+                    CustomerNumber = "CU00003",
                     Firstname = "Vreni",
                     Lastname = "Müller",
                     Email = "vreni@test.com",

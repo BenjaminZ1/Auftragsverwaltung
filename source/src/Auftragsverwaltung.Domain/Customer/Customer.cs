@@ -18,6 +18,5 @@ namespace Auftragsverwaltung.Domain.Customer
         public Byte[] Password { get; set; } = default!;
         public virtual ICollection<Order.Order> Orders { get; set; } = default!;
 #nullable disable
-
     }
 }

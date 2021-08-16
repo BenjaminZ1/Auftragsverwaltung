@@ -26,7 +26,7 @@ namespace Auftragsverwaltung.Application.Validators
 
         private bool IsCustomerNumberValid(string customerNumber)
         {
-            Regex regex = new Regex(@"^CU[0-9]{6}");
+            Regex regex = new Regex(@"^CU[0-9]{5}");
             Match match = regex.Match(customerNumber);
             if (match.Success)
                 return true;
