@@ -8,6 +8,7 @@ namespace Auftragsverwaltung.WPF.State.Navigators
         Home,
         Customer,
         Article,
+        ArticleGroup,
         Order
     }
     public interface INavigator

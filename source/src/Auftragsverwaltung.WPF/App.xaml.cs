@@ -5,10 +5,12 @@ using Auftragsverwaltung.Application.Mapper;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Article;
+using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Infrastructure.Article;
+using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
@@ -45,15 +47,18 @@ namespace Auftragsverwaltung.WPF
                 o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
             services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
+            services.AddSingleton<IAppRepository<ArticleGroup>, ArticleGroupRepository>();
             services.AddSingleton<IAppRepository<Order>, OrderRepository>();
             services.AddSingleton<ICustomerService, CustomerService>();
             services.AddSingleton<IArticleService, ArticleService>();
+            services.AddSingleton<IArticleGroupService, ArticleGroupService>();
             services.AddSingleton<IOrderService, OrderService>();
 
             services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
             services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
             services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
             services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
+            services.AddSingleton<IAppViewModelFactory<ArticleGroupViewModel>, ArticleGroupViewModelFactory>();
             services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
 
             services.AddScoped<INavigator, Navigator>();
