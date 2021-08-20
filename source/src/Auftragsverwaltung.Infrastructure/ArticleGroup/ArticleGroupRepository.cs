@@ -13,6 +13,11 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 
         private readonly AppDbContext _db;
 
+        public ArticleGroupRepository(AppDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
         public ArticleGroupRepository(AppDbContextFactory dbContextFactory)
         {
             _db = dbContextFactory.CreateDbContext();

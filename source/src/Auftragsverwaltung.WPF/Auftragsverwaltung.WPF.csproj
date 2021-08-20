@@ -16,4 +16,16 @@
     <ProjectReference Include="..\Auftragsverwaltung.Infrastructure\Auftragsverwaltung.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Controls\ArticlegroupList.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\ArticleGroupListDetails.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\ArticlegroupView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
 </Project>

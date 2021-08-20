@@ -21,6 +21,9 @@
             <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
                 <views:ArticleView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ArticleGroupViewModel}">
+                <views:ArticlegroupView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:OrderViewModel}">
                 <views:OrderView/>
             </DataTemplate>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Application.Dtos
 {
@@ -12,5 +14,6 @@ namespace Auftragsverwaltung.Application.Dtos
         public ICollection<ArticleDto> Articles { get; set; }
         public ArticleGroupDto ParentArticleGroup { get; set; }
         public ICollection<ArticleGroupDto> ChildArticlesGroups { get; set; }
+        public ResponseDto<ArticleGroup> Response { get; set; }
     }
 }
