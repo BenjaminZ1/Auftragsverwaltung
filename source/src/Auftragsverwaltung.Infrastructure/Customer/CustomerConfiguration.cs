@@ -28,8 +28,8 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
             builder
                 .HasOne(c => c.Address)
-                .WithMany(a => a.Customers)
-                .HasForeignKey(c => c.AddressId);
+                .WithOne(a => a.Customer);
+
         }
     }
 }

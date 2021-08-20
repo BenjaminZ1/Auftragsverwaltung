@@ -11,6 +11,6 @@ namespace Auftragsverwaltung.Application.Dtos
         public string BuildingNr { get; set; }
         public int TownId { get; set; }
         public TownDto Town { get; set; } = default!;
-        public ICollection<CustomerDto> Customers { get; set; }
+        public CustomerDto Customer { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Auftragsverwaltung.Domain.Address
         public string? BuildingNr { get; set; }
         public int TownId { get; set; }
         public virtual Town.Town Town { get; set; } = default!;
-        public virtual ICollection<Customer.Customer> Customers { get; set; } = default!;
+        public virtual Customer.Customer Customer { get; set; } = default!;
 #nullable disable
     }
 }

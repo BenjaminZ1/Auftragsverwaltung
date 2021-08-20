@@ -48,7 +48,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
-                entity.Address = await FindOrAddNewAddress(entity.Address);
+                entity.Address.Town = await FindOrAddNewTown(entity.Address.Town);
                 EntityEntry<Domain.Customer.Customer> createdEntity = await _db.Customers.AddAsync(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -73,7 +73,26 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             try
             {
                 var entry = await this.Get(entity.CustomerId);
+
+                if (await IsNewTownRequired(entity.Address.Town))
+                {
+                    var newTown = new Domain.Town.Town()
+                    {
+                        Townname = entity.Address.Town.Townname,
+                        ZipCode = entity.Address.Town.ZipCode
+                    };
+                    entity.Address.Town = newTown;
+                    _db.Towns.Add(newTown);
+
+                    await _db.SaveChangesAsync();
+                    entity.Address.TownId = newTown.TownId;
+                }
+
                 _db.Entry(entry).CurrentValues.SetValues(entity);
+                entry.Address.BuildingNr = entity.Address.BuildingNr;
+                entry.Address.Street = entity.Address.Street;
+                entry.Address.Town = await FindOrAddNewTown(entity.Address.Town);
+
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
                 response.Entity = entity;
@@ -99,8 +118,8 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 int addressId = entity.Address.AddressId;
                 int townId = entity.Address.TownId;
 
-                if (!(await IsAddressInUse(addressId)))
-                {
+                //if (!(await IsAddressInUse(addressId)))
+                //{
                     if (!(await IsTownInUse(townId)))
                     {
                         _db.RemoveRange(entity.Address.Town);
@@ -108,7 +127,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                     }
                     else
                         _db.RemoveRange(entity.Address);
-                }
+                //}
 
                 _db.Customers.Remove(entity);
                 response.NumberOfRows = await _db.SaveChangesAsync();
@@ -133,18 +152,6 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             throw new NotImplementedException();
         }
 
-        private async Task<bool> IsAddressInUse(int addressId)
-        {
-            Domain.Address.Address foundAddress = await _db.Addresses
-                .Include(e => e.Customers)
-                .FirstOrDefaultAsync(e =>
-                    e.AddressId == addressId);
-
-            if (foundAddress.Customers.Count <= 1)
-                return false;
-            return true;
-        }
-
         private async Task<bool> IsTownInUse(int townId)
         {
             Domain.Town.Town foundTown = await _db.Towns
@@ -157,15 +164,26 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             return true;
         }
 
-        private async Task<Domain.Address.Address> FindOrAddNewAddress(Domain.Address.Address address)
+        private async Task<Domain.Town.Town> FindOrAddNewTown(Domain.Town.Town town)
         {
-            Domain.Address.Address foundAddress = await _db.Addresses
-                .Include(e => e.Town)
+            Domain.Town.Town foundTown = await _db.Towns
                 .FirstOrDefaultAsync(e =>
-                e.BuildingNr == address.BuildingNr &&
-                e.Street == address.Street);
+                    e.Townname == town.Townname &&
+                    e.ZipCode == town.ZipCode);
 
-            return foundAddress ?? address;
+            return foundTown ?? town;
+        }
+
+        private async Task<bool> IsNewTownRequired(Domain.Town.Town town)
+        {
+            Domain.Town.Town foundTown = await _db.Towns
+                .Include(e => e.Addresses)
+                .FirstOrDefaultAsync(e =>
+                    e.Townname == town.Townname && e.ZipCode == town.ZipCode);
+
+            if (foundTown == null)
+                return true;
+            return false;
         }
     }
 }

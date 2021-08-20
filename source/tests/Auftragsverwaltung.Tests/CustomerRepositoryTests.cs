@@ -56,30 +56,6 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
-        public async Task Create_WhenAddressAndTownAlreadyExist_ReturnsCorrectResult()
-        {
-            //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
-            var customerTestData = InstanceHelper.GetCustomerTestData();
-            var customer = customerTestData[0];
-            int expectedId = 1;
-
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
-
-            //act
-            var result = await customerRepository.Create(customer);
-
-            //assert
-            result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.Should().Be(expectedId);
-            result.Entity.Address.Town.TownId.Should().Be(expectedId);
-            result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
-            result.Flag.Should().BeTrue();
-        }
-
-        [Test]
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
@@ -159,26 +135,6 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestCustomer(_options);
             int customerId = 1;
             int expectedRows = 3;
-
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
-
-            //act
-            var result = await customerRepository.Delete(customerId);
-
-            //assert
-            result.Flag.Should().BeTrue();
-            result.NumberOfRows.Should().Be(expectedRows);
-        }
-
-        [Test]
-        public async Task Delete_WhenAddressIsInMultipleRelations_ReturnsCorrectResult()
-        {
-            //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
-            int customerId = 1;
-            int expectedRows = 1;
 
             var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
             A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
