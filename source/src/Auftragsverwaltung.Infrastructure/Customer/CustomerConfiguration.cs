@@ -20,7 +20,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             builder
                 .Property(c => c.Website).HasColumnType("varchar(255)");
             builder
-                .Property(c => c.Password).HasColumnType("binary(64)");
+                .Property(c => c.Password).HasColumnType("binary(70)");
             builder
                 .Property(c => c.CustomerNumber).HasColumnType("varchar(255)");
 

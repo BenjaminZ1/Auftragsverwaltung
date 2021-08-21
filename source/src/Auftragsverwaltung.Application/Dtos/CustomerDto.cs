@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
@@ -18,7 +19,7 @@ namespace Auftragsverwaltung.Application.Dtos
         public  AddressDto Address { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
-        public string Password { get; set; }
+        public SecureString Password { get; set; }
         public  ICollection<OrderDto> Orders { get; set; }
         public ResponseDto<Customer> Response { get; set; }
 

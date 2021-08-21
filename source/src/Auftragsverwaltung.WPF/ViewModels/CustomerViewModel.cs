@@ -218,5 +218,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
         }
+
     }
 }

@@ -33,5 +33,13 @@ namespace Auftragsverwaltung.WPF.Controls
 
         public static readonly DependencyProperty CustomerDtoProperty =
             DependencyProperty.Register("CustomerDto", typeof(CustomerDto), typeof(CustomerListDetails), new PropertyMetadata(null));
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (CustomerDto != null)
+            {
+                CustomerDto.Password = ((PasswordBox) sender).SecurePassword;
+            }
+        }
     }
 }

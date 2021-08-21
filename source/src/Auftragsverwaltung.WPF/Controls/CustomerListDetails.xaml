@@ -43,16 +43,25 @@
             <Label Grid.Column="0" Grid.Row="9" Content="Kennwort:"/>
 
 
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CustomerDto.CustomerNumber, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CustomerDto.Firstname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding CustomerDto.Lastname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CustomerDto.Address.Town.ZipCode, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding CustomerDto.Address.Town.Townname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding CustomerDto.Address.Street, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding CustomerDto.Address.BuildingNr, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding CustomerDto.Email, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding CustomerDto.Website, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
-            <PasswordBox Grid.Column="1" Grid.Row="9" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="0" 
+                     Text="{Binding CustomerDto.CustomerNumber, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" 
+                     Text="{Binding CustomerDto.Firstname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" 
+                     Text="{Binding CustomerDto.Lastname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" 
+                     Text="{Binding CustomerDto.Address.Town.ZipCode, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="4"
+                     Text="{Binding CustomerDto.Address.Town.Townname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="5"
+                     Text="{Binding CustomerDto.Address.Street, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="6" 
+                     Text="{Binding CustomerDto.Address.BuildingNr, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="7"
+                     Text="{Binding CustomerDto.Email, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <TextBox Grid.Column="1" Grid.Row="8"
+                     Text="{Binding CustomerDto.Website, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+            <PasswordBox Grid.Column="1" Grid.Row="9" PasswordChanged="PasswordBox_PasswordChanged" IsEnabled="{Binding InputEnabled}"/>
 
         </Grid>
     </Border>

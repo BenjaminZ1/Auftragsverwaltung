@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Text;
 using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Application.Extensions;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
@@ -22,7 +23,7 @@ namespace Auftragsverwaltung.Application.Mapper
             // Add as many of these lines as you need to map your objects
             CreateMap<Customer, CustomerDto>()
                 .ForMember(dest => dest.Password,
-                    opt => opt.MapFrom(src => Encoding.Default.GetString(src.Password)));
+                    opt => opt.Ignore());
             CreateMap<Address, AddressDto>();
             CreateMap<Article, ArticleDto>();
             CreateMap<ArticleGroup, ArticleGroupDto>();
@@ -46,7 +47,7 @@ namespace Auftragsverwaltung.Application.Mapper
                 .ForMember(dest => dest.Website,
                     opt => opt.MapFrom(src => src.Entity.Website))
                 .ForMember(dest => dest.Password,
-                    opt => opt.MapFrom(src => src.Entity.Password))
+                    opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerNumber,
                     opt => opt.MapFrom(src => src.Entity.CustomerNumber))
                 .ForPath(dest => dest.Response.Flag,
@@ -102,7 +103,7 @@ namespace Auftragsverwaltung.Application.Mapper
 
             CreateMap<CustomerDto, Customer>()
                 .ForMember(dest => dest.Password,
-                    opt => opt.MapFrom(src => Encoding.Default.GetBytes(src.Password)));
+                    opt => opt.MapFrom(src => SecurityHelper.HashPassword(src.Password.ToString(), SecurityHelper.GenerateSalt(70), 42042, 70)));
             CreateMap<AddressDto, Address>();
             CreateMap<ArticleDto, Article>();
             CreateMap<ArticleGroupDto, ArticleGroup>();
