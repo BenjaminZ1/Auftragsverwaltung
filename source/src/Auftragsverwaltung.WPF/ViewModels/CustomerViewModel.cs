@@ -20,6 +20,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
         private Visibility _customerDataGridVisibility;
+        private Visibility _customerPasswordBoxVisibility;
         private ButtonAction _buttonActionState;
 
         public IEnumerable<CustomerDto> Customers
@@ -68,6 +69,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _customerDataGridVisibility;
             set { _customerDataGridVisibility = value; OnPropertyChanged(nameof(CustomerDataGridVisibility)); }
+        }
+
+        public Visibility CustomerPasswordBoxVisibility
+        {
+            get => _customerPasswordBoxVisibility;
+            set { _customerPasswordBoxVisibility = value; OnPropertyChanged(nameof(CustomerPasswordBoxVisibility)); }
         }
 
         public IAsyncCommand ControlBarButtonActionCommand { get; set; }
@@ -195,6 +202,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
             CustomerDataGridVisibility = Visibility.Visible;
+            CustomerPasswordBoxVisibility = Visibility.Collapsed;
             LoadCustomers();
         }
 
@@ -206,6 +214,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
+            CustomerPasswordBoxVisibility = Visibility.Visible;
             SelectedListItem = new CustomerDto();
         }
 
@@ -217,6 +226,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
+            CustomerPasswordBoxVisibility = Visibility.Visible;
         }
 
     }
