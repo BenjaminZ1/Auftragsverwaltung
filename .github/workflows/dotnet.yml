@@ -60,7 +60,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Auftragsverwaltung" /o:"benjaminz1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=".\source\tests\Auftragsverwaltung.Tests\TestResults\*\coverage.opencover.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Auftragsverwaltung" /o:"benjaminz1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=".\source\tests\Auftragsverwaltung.Tests\TestResults\*\coverage.opencover.xml" /d:sonar.coverage.exclusions="**/Migrations/*.cs" /d:sonar.cpd.exclusions="**/Migrations/*.cs"
           dotnet build
-          dotnet test --no-build --collect:"XPlat Code Coverage" --verbosity normal -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnet test /p:ExcludeByFile=\"**/Migrations/*.cs\" --no-build --collect:"XPlat Code Coverage" --verbosity normal -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"    
