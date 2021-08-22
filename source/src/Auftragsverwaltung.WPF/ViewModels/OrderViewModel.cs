@@ -35,6 +35,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
         private Visibility _orderDataGridVisibility;
+        private Visibility _customerPasswordBoxVisibility;
         private ButtonAction _buttonActionState;
 
         private UserControl _displayView;
@@ -127,6 +128,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _orderDataGridVisibility = value; OnPropertyChanged(nameof(OrderDataGridVisibility)); }
         }
 
+        public Visibility CustomerPasswordBoxVisibility
+        {
+            get => _customerPasswordBoxVisibility;
+            set { _customerPasswordBoxVisibility = value; OnPropertyChanged(nameof(CustomerPasswordBoxVisibility)); }
+        }
+
         public UserControl DisplayView
         {
             get => _displayView;
@@ -150,6 +157,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             RemovePositionFromOrderCommand = new BaseCommand(RemovePositionFromOrder);
 
             _amount = 1;
+            CustomerPasswordBoxVisibility = Visibility.Collapsed;
 
             DefautlView();
         }
@@ -299,8 +307,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void RemovePositionFromOrder(object parameter)
         {
-            RemovePositionDtoFromList(SelectedListItem.Positions, SelectedAddedPositionListItem.Article.ArticleId);
-            RemovePositionDtoFromList(AddedPositionListItems, SelectedAddedPositionListItem.Article.ArticleId);
+            if (SelectedListItem.Positions != null && SelectedAddedPositionListItem != null)
+            {
+                RemovePositionDtoFromList(SelectedListItem.Positions, SelectedAddedPositionListItem.Article.ArticleId);
+                RemovePositionDtoFromList(AddedPositionListItems, SelectedAddedPositionListItem.Article.ArticleId);
+            }
         }
 
         private PositionDto CheckForExistingPositionDto(PositionDto positionDto)
