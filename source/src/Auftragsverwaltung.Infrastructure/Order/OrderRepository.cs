@@ -76,7 +76,23 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         public async Task<IEnumerable<Domain.Order.Order>> Search(string searchString)
         {
-            throw new NotImplementedException();
+            List<Domain.Order.Order> entities = await _db.Orders
+                .Include(o => o.Positions)
+                .ThenInclude(o => o.Article)
+                .ThenInclude(o => o.ArticleGroup)
+                .Include(o => o.Customer)
+                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Town)
+                .ToListAsync();
+
+            foreach(var entity in entities)
+            {
+                if(!entity.Customer.Firstname.Contains(searchString) && !entity.Customer.Lastname.Contains(searchString))
+                {
+                    entities.Remove(entity);
+                }
+            }
+            return entities;
         }
 
         public async Task<Domain.Order.Order> Get(int id)
