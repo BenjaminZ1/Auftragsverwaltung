@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Infrastructure.Article
@@ -93,7 +94,18 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         public async Task<IEnumerable<Domain.Article.Article>> Search(string searchString)
         {
-            throw new NotImplementedException();
+            List<Domain.Article.Article> entities = await _db.Articles
+                .Include(a => a.ArticleGroup)
+                .ToListAsync();
+
+            foreach (var entity in entities)
+            {
+                if (!entity.Description.Contains(searchString))
+                {
+                    entities.Remove(entity);
+                }
+            }
+            return entities;
         }
 
         public async Task<Domain.Article.Article> Get(int id)
