@@ -70,7 +70,17 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 
         public async Task<IEnumerable<Domain.ArticleGroup.ArticleGroup>> Search(string searchString)
         {
-            throw new NotImplementedException();
+            List<Domain.ArticleGroup.ArticleGroup> entities = await _db.ArticleGroups.ToListAsync();
+
+            foreach(var entity in entities)
+            {
+                if (!entity.Name.Contains(searchString))
+                {
+                    entities.Remove(entity);
+                }
+            }
+
+            return entities;
         }
 
         public async Task<Domain.ArticleGroup.ArticleGroup> Get(int id)
