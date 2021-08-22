@@ -149,7 +149,20 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
         public async Task<IEnumerable<Domain.Customer.Customer>> Search(string searchString)
         {
-            throw new NotImplementedException();
+            List<Domain.Customer.Customer> entities = await _db.Customers
+                .Include(e => e.Address)
+                .ThenInclude(e => e.Town)
+                .Include(e => e.Orders)
+                .ToListAsync();
+
+            foreach(var entity in entities)
+            {
+                if(!entity.Firstname.Contains(searchString) && !entity.Lastname.Contains(searchString))
+                {
+                    entities.Remove(entity);
+                }
+            }
+            return entities;
         }
 
         private async Task<bool> IsTownInUse(int townId)
