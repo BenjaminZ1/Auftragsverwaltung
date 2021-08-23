@@ -18,7 +18,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
     {
         private IEnumerable<ArticleGroupDto> _articleGroups;
         private ArticleGroupDto _selectedListItem;
-
         private Visibility _articleGroupDataGridVisibility;
         private readonly IArticleGroupService _articleGroupService;
         private ButtonAction _buttonActionState;
@@ -159,7 +158,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DefautlView();
         }
 
-        private void DefautlView()
+        private new void DefautlView()
         {
             _buttonActionState = ButtonAction.None;
             InputEnabled = false;

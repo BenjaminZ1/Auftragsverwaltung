@@ -124,8 +124,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
             _amount = 1;
             CustomerPasswordBoxVisibility = Visibility.Collapsed;
-
-            DefautlView();
         }
 
         public static OrderViewModel LoadOrderListViewModel(IOrderService orderService, ICustomerService customerService, IArticleService articleService)
@@ -304,11 +302,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
             LoadData();
             _buttonActionState = ButtonAction.None;
             InputEnabled = false;
-            DateTimePickerEnabled = false;
             SaveButtonEnabled = false;
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
+            DateTimePickerEnabled = false;
             OrderDataGridVisibility = Visibility.Visible;
         }
 
@@ -316,11 +314,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Create;
-            InputEnabled = false;
-            DateTimePickerEnabled = true;
+            InputEnabled = true;
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
+            DateTimePickerEnabled = true;
             OrderDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto {Date = DateTime.Now};
             AddedPositionListItems = new ObservableCollection<PositionDto>();
@@ -330,11 +328,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Modify;
-            InputEnabled = false;
-            DateTimePickerEnabled = true;
+            InputEnabled = true;
             SaveButtonEnabled = true;
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
+            DateTimePickerEnabled = true;
             OrderDataGridVisibility = Visibility.Collapsed;
             AddedPositionListItems = new ObservableCollection<PositionDto>();
             foreach (var position in SelectedListItem.Positions)

@@ -18,7 +18,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
     {
         private IEnumerable<ArticleDto> _articles;
         private ArticleDto _selectedListItem;
-
         private Visibility _articleDataGridVisibility;
         private readonly IArticleService _articleService;
         private ButtonAction _buttonActionState;
