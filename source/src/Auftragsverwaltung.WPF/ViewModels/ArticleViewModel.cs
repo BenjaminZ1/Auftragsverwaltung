@@ -14,7 +14,7 @@ using Auftragsverwaltung.WPF.State;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
-    public class ArticleViewModel : ViewModelBase
+    public class ArticleViewModel : CommonViewModel
     {
         private IEnumerable<ArticleDto> _articles;
         private ArticleDto _selectedListItem;

@@ -15,7 +15,7 @@ using Auftragsverwaltung.WPF.State;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
-    public class OrderViewModel : ViewModelBase
+    public class OrderViewModel : CommonViewModel
     {
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;

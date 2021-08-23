@@ -12,12 +12,14 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <Grid.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource ControlButton}"/>
+            <Style TargetType="TextBox" BasedOn="{StaticResource DetailsTextBox}"/>
         </Grid.Resources>
 
         <Button Grid.Column="0" Content="Hinzufügen" IsEnabled="{Binding CreateButtonEnabled}"
@@ -29,8 +31,11 @@
         <Button Grid.Column="2" Content="Löschen" IsEnabled="{Binding DeleteButtonEnabled}"
                 Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Delete }"/>
-        <Button Grid.Column="4" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
+        <TextBox Grid.Column="3" Text="{Binding SearchText}"/>
+        <Button Grid.Column="5" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
                 Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Save }"/>
+        
+
     </Grid>
 </UserControl>
