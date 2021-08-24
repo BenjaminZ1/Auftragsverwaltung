@@ -158,7 +158,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DefautlView();
         }
 
-        private new void DefautlView()
+        private void DefautlView()
         {
             _buttonActionState = ButtonAction.None;
             InputEnabled = false;
