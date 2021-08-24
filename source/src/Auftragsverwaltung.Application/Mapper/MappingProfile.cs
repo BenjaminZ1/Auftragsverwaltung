@@ -101,6 +101,22 @@ namespace Auftragsverwaltung.Application.Mapper
                 .ForPath(dest => dest.Response.NumberOfRows,
                     opt => opt.MapFrom(src => src.NumberOfRows));
 
+            CreateMap<ResponseDto<ArticleGroup>, ArticleGroupDto>()
+                .ForMember(dest => dest.ArticleGroupId,
+                    opt => opt.MapFrom(src => src.Entity.ArticleGroupId))
+                .ForMember(dest => dest.Name,
+                    opt => opt.MapFrom(src => src.Entity.Name))
+                .ForMember(dest => dest.ParentArticleGroupId,
+                    opt => opt.MapFrom(src => src.Entity.ParentArticleGroupId))
+                .ForPath(dest => dest.Response.Flag,
+                    opt => opt.MapFrom(src => src.Flag))
+                .ForPath(dest => dest.Response.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Response.Message,
+                    opt => opt.MapFrom(src => src.Message))
+                .ForPath(dest => dest.Response.NumberOfRows,
+                    opt => opt.MapFrom(src => src.NumberOfRows));
+
             CreateMap<CustomerDto, Customer>()
                 .ForMember(dest => dest.Password,
                     opt => opt.MapFrom(src => SecurityHelper.HashPassword(src.Password.ToString(), SecurityHelper.GenerateSalt(70), 42042, 70)));

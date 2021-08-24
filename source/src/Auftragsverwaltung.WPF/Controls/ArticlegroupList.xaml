@@ -29,8 +29,8 @@
                       ItemsSource="{Binding ArticleGroups}"
                       Visibility="{Binding ArticleGroupDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Artikenummer" Binding="{Binding ArticleGroupId}"/>
-                    <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Artikelgruppe (id)" Binding="{Binding ArticleGroupId}"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
