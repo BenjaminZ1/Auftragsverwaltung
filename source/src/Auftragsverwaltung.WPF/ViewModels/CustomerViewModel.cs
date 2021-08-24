@@ -9,12 +9,11 @@ using Auftragsverwaltung.WPF.State;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
-    public class CustomerViewModel : ViewModelBase
+    public class CustomerViewModel : CommonViewModel
     {
         private readonly ICustomerService _customerService;
         private IEnumerable<CustomerDto> _customers;
         private CustomerDto _selectedListItem;
-
         private Visibility _customerDataGridVisibility;
         private Visibility _customerPasswordBoxVisibility;
         private ButtonAction _buttonActionState;
@@ -45,10 +44,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         public IAsyncCommand ControlBarButtonActionCommand { get; set; }
 
-        public CustomerViewModel(ICustomerService customerService)
+        public CustomerViewModel(ICustomerService customerService) : base() 
         {
             _customerService = customerService;
-            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);       
             DefautlView();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
@@ -318,6 +319,84 @@ namespace Auftragsverwaltung.Tests
             });
         }
 
+        public static List<CustomerDto> GenerateCustomerDtoServiceTestData()
+        {
+            var list = new List<CustomerDto>()
+            {
+                new CustomerDto()
+                {
+                    Address = new AddressDto()
+                    {
+                        AddressId = 1,
+                        BuildingNr = "2",
+                        Street = "Teststrasse",
+                        Town = new TownDto()
+                        {
+                            TownId = 1,
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    CustomerNumber = "CU00001",
+                    AddressId = 1,
+                    CustomerId = 1,
+                    Email = "hans@test.ch",
+                    Firstname = "Hans",
+                    Lastname = "Müller",
+                    Password = GetSecureString(),
+                    Website = "www.hans.ch"
+                },
+                new CustomerDto()
+                {
+                    Address = new AddressDto()
+                    {
+                        AddressId = 2,
+                        BuildingNr = "44",
+                        Street = "Hauptstrasse",
+                        Town = new TownDto()
+                        {
+                            TownId = 2,
+                            Townname = "St. Gallen",
+                            ZipCode = "9001"
+                        }
+                    },
+                    CustomerNumber = "CU00002",
+                    AddressId = 2,
+                    CustomerId = 2,
+                    Email = "ida@gmail.com",
+                    Firstname = "Ida",
+                    Lastname = "Muster",
+                    Password = GetSecureString(),
+                    Website = "www.ida.com"
+                },
+                new CustomerDto()
+                {
+                    Address = new AddressDto()
+                    {
+                        AddressId = 1,
+                        BuildingNr = "2",
+                        Street = "Teststrasse",
+                        Town = new TownDto()
+                        {
+                            TownId = 1,
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
+                    },
+                    CustomerNumber = "CU00003",
+                    AddressId = 1,
+                    CustomerId = 3,
+                    Email = "vreni@test.ch",
+                    Firstname = "Vreni",
+                    Lastname = "Müller",
+                    Password = GetSecureString(),
+                    Website = "www.vreni.ch"
+                }
+            };
+
+            return list;
+        }
+
         public static List<Customer> GenerateCustomerServiceTestData()
         {
             var list = new List<Customer>()
@@ -342,7 +421,7 @@ namespace Auftragsverwaltung.Tests
                     Email = "hans@test.ch",
                     Firstname = "Hans",
                     Lastname = "Müller",
-                    Password = new byte[64],
+                    Password = new byte[70],
                     Website = "www.hans.ch"
                 },
                 new Customer()
@@ -365,7 +444,7 @@ namespace Auftragsverwaltung.Tests
                     Email = "ida@gmail.com",
                     Firstname = "Ida",
                     Lastname = "Muster",
-                    Password = new byte[64],
+                    Password = new byte[70],
                     Website = "www.ida.com"
                 },
                 new Customer()
@@ -388,7 +467,7 @@ namespace Auftragsverwaltung.Tests
                     Email = "vreni@test.ch",
                     Firstname = "Vreni",
                     Lastname = "Müller",
-                    Password = new byte[64],
+                    Password = new byte[70],
                     Website = "www.vreni.ch"
                 }
             };
@@ -501,6 +580,16 @@ namespace Auftragsverwaltung.Tests
         public static CustomerValidator GetCustomerValidator()
         {
             return new CustomerValidator();
+        }
+
+        public static SecureString GetSecureString()
+        {
+            char[] chars = { 't', 'E', 's', 't', '1', '2', '3', '4', '$' };
+            SecureString secureString = new SecureString();
+            foreach (char ch in chars)
+                secureString.AppendChar(ch);
+
+            return secureString;
         }
     }
 }
