@@ -48,31 +48,6 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return response;
         }
 
-        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
-                e.Name == articleGroup.Name);
-
-            if (articleGroup.ParentArticleGroup != null)
-                articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
-
-            return foundArticleGroup ?? articleGroup;
-        }
-
-        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
-                e.Name == articleGroup.Name);
-
-            return foundArticleGroup ?? articleGroup;
-        }
-
         public async Task<ResponseDto<Domain.Article.Article>> Delete(int id)
         {
             ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
@@ -116,6 +91,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
                     entities.Remove(entity);
                 }
             }
+
             return entities;
         }
 
@@ -127,6 +103,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
             Domain.Article.Article entity = await db.Articles
                 .Include(a => a.ArticleGroup)
                 .FirstOrDefaultAsync(e => e.ArticleId == id);
+
             return entity;
         }
 
@@ -138,6 +115,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
             List<Domain.Article.Article> entities = await db.Articles
                 .Include(a => a.ArticleGroup)
                 .ToListAsync();
+
             return entities;
         }
 
@@ -149,9 +127,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                //var entry = await this.Get(entity.ArticleId);
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
-                //db.Entry(entry).CurrentValues.SetValues(entity);
                 db.Articles.Update(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
@@ -168,6 +144,31 @@ namespace Auftragsverwaltung.Infrastructure.Article
             }
 
             return response;
+        }
+
+        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
+                e.Name == articleGroup.Name);
+
+            if (articleGroup.ParentArticleGroup != null)
+                articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
+
+            return foundArticleGroup ?? articleGroup;
+        }
+
+        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
+                e.Name == articleGroup.Name);
+
+            return foundArticleGroup ?? articleGroup;
         }
     }
 }
