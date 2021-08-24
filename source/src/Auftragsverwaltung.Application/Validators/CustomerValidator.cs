@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text.RegularExpressions;
 using Auftragsverwaltung.Application.Dtos;
 using FluentValidation;
 
@@ -11,7 +14,7 @@ namespace Auftragsverwaltung.Application.Validators
             RuleFor(x => x.Email).Must(x => x != null && IsEmailValid(x)).WithMessage("Email ungültig");
             RuleFor(x => x.Website).Must(x => x != null && IsWebsiteValid(x)).WithMessage("Website ungültig");
             RuleFor(x => x.CustomerNumber).Must(x => x != null && IsCustomerNumberValid(x)).WithMessage("Kundennummer ungültig");
-            //RuleFor(x => x.Password).Must(x => x != null && IsPasswordValid(x)).WithMessage("Passwort ungültig");
+            RuleFor(x => x.Password).Must(x => x != null && IsPasswordValid(x)).WithMessage("Passwort ungültig");
         }
 
         private bool IsEmailValid(string email)
@@ -42,13 +45,27 @@ namespace Auftragsverwaltung.Application.Validators
             return false;
         }
 
-        private bool IsPasswordValid(string password)
+        private bool IsPasswordValid(SecureString password)
         {
-            Regex regex = new Regex(@"@^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$");
-            Match match = regex.Match(password);
+            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$");
+            Match match = regex.Match(SecureStringToString(password));
             if (match.Success)
                 return true;
             return false;
+        }
+
+        private string SecureStringToString(SecureString value)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
+                return Marshal.PtrToStringUni(valuePtr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+            }
         }
     }
 }
