@@ -14,7 +14,7 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public CustomerRepository(IServiceScopeFactory scopeFactory)
+        public ArticleGroupRepository(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
         }
@@ -24,8 +24,11 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             ResponseDto<Domain.ArticleGroup.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup.ArticleGroup>();
             try
             {
-                EntityEntry<Domain.ArticleGroup.ArticleGroup> createdEntity = await _db.ArticleGroups.AddAsync(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                EntityEntry<Domain.ArticleGroup.ArticleGroup> createdEntity = await db.ArticleGroups.AddAsync(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = createdEntity.Entity;
                 response.Flag = true;
@@ -46,9 +49,12 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             ResponseDto<Domain.ArticleGroup.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup.ArticleGroup>();
             try
             {
-                Domain.ArticleGroup.ArticleGroup entity = await _db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
-                _db.ArticleGroups.Remove(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                Domain.ArticleGroup.ArticleGroup entity = await db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
+                db.ArticleGroups.Remove(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;
@@ -66,7 +72,10 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 
         public async Task<IEnumerable<Domain.ArticleGroup.ArticleGroup>> Search(string searchString)
         {
-            List<Domain.ArticleGroup.ArticleGroup> entities = await _db.ArticleGroups.ToListAsync();
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.ArticleGroup.ArticleGroup> entities = await db.ArticleGroups.ToListAsync();
 
             foreach(var entity in entities)
             {
@@ -81,13 +90,19 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 
         public async Task<Domain.ArticleGroup.ArticleGroup> Get(int id)
         {
-            Domain.ArticleGroup.ArticleGroup entity = await _db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.ArticleGroup.ArticleGroup entity = await db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
             return entity;
         }
 
         public async Task<IEnumerable<Domain.ArticleGroup.ArticleGroup>> GetAll()
         {
-            List<Domain.ArticleGroup.ArticleGroup> entities = await _db.ArticleGroups.ToListAsync();
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.ArticleGroup.ArticleGroup> entities = await db.ArticleGroups.ToListAsync();
             return entities;
         }
 
@@ -96,9 +111,13 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             ResponseDto<Domain.ArticleGroup.ArticleGroup> response = new ResponseDto<Domain.ArticleGroup.ArticleGroup>();
             try
             {
-                var entry = await this.Get(entity.ArticleGroupId);
-                _db.Entry(entry).CurrentValues.SetValues(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                //var entry = await this.Get(entity.ArticleGroupId);
+                //db.Entry(entry).CurrentValues.SetValues(entity);
+                db.ArticleGroups.Update(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;

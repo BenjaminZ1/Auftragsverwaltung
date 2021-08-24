@@ -214,10 +214,22 @@ namespace Auftragsverwaltung.Tests
 
         public static async Task AddDbTestArticleGroup(DbContextOptions<AppDbContext> options)
         {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(options));
 
-            var articleGroupRepository = new ArticleGroupRepository(dbContextFactoryFake);
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleGroupRepository = new ArticleGroupRepository(serviceScopeFactoryFake);
 
             await articleGroupRepository.Create(new ArticleGroup()
             {
