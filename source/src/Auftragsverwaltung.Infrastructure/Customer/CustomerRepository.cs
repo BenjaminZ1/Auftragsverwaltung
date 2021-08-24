@@ -5,13 +5,16 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.Customer
 {
     public class CustomerRepository : IAppRepository<Domain.Customer.Customer>
     {
         private readonly AppDbContext _db;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         public CustomerRepository(AppDbContext dbContext)
         {
@@ -23,19 +26,31 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             _db = dbContextFactory.CreateDbContext();
         }
 
+        public CustomerRepository(IServiceScopeFactory scopeFactory)
+        {
+            _scopeFactory = scopeFactory;
+        }
+
         public async Task<Domain.Customer.Customer> Get(int id)
         {
-            Domain.Customer.Customer entity = await _db.Customers
-                .Include(e => e.Address)
-                .ThenInclude(e => e.Town)
-                .Include(e => e.Orders)
-                .FirstOrDefaultAsync(e => e.CustomerId == id);
-            return entity;
+            using var scope = _scopeFactory.CreateScope();
+
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            Domain.Customer.Customer entity = await db.Customers
+            .Include(e => e.Address)
+            .ThenInclude(e => e.Town)
+            .Include(e => e.Orders)
+            .FirstOrDefaultAsync(e => e.CustomerId == id);
+        return entity;
+
         }
 
         public async Task<IEnumerable<Domain.Customer.Customer>> GetAll()
         {
-            List<Domain.Customer.Customer> entities = await _db.Customers
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.Customer.Customer> entities = await db.Customers
                 .Include(e => e.Address)
                 .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
@@ -48,9 +63,15 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
-                entity.Address.Town = await FindOrAddNewTown(entity.Address.Town);
-                EntityEntry<Domain.Customer.Customer> createdEntity = await _db.Customers.AddAsync(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                if (entity.Address.Street == "Hauptstrasse")
+                    Thread.Sleep(1);
+                using var scope = _scopeFactory.CreateScope();
+
+                var db = scope.ServiceProvider.GetService<AppDbContext>();
+
+                entity.Address.Town = await FindOrAddNewTown(entity.Address.Town, db);
+                EntityEntry<Domain.Customer.Customer> createdEntity = await db.Customers.AddAsync(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = createdEntity.Entity;
                 response.Flag = true;
@@ -91,7 +112,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 _db.Entry(entry).CurrentValues.SetValues(entity);
                 entry.Address.BuildingNr = entity.Address.BuildingNr;
                 entry.Address.Street = entity.Address.Street;
-                entry.Address.Town = await FindOrAddNewTown(entity.Address.Town);
+                entry.Address.Town = await FindOrAddNewTown(entity.Address.Town, _db);
 
                 response.NumberOfRows = await _db.SaveChangesAsync();
 
@@ -177,9 +198,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             return true;
         }
 
-        private async Task<Domain.Town.Town> FindOrAddNewTown(Domain.Town.Town town)
+        private async Task<Domain.Town.Town> FindOrAddNewTown(Domain.Town.Town town, AppDbContext db)
         {
-            Domain.Town.Town foundTown = await _db.Towns
+            Domain.Town.Town foundTown = await db.Towns
                 .FirstOrDefaultAsync(e =>
                     e.Townname == town.Townname &&
                     e.ZipCode == town.ZipCode);

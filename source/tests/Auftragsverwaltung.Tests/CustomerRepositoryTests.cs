@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Auftragsverwaltung.Infrastructure.Customer;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Auftragsverwaltung.Tests
@@ -62,9 +64,10 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestCustomers(_options);
             int customerId = 1;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            IServiceProvider serviceProvider = InstanceHelper.CreateServiceProvider();
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope()).Returns(serviceProvider.CreateScope());
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
             var result = await customerRepository.Get(customerId);

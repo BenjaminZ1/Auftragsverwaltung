@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\src\Auftragsverwaltung.Application\Auftragsverwaltung.Application.csproj" />
     <ProjectReference Include="..\..\src\Auftragsverwaltung.Domain\Auftragsverwaltung.Domain.csproj" />
     <ProjectReference Include="..\..\src\Auftragsverwaltung.Infrastructure\Auftragsverwaltung.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Auftragsverwaltung.WPF\Auftragsverwaltung.WPF.csproj" />
   </ItemGroup>
 
 </Project>

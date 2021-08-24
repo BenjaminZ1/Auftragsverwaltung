@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
+using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
@@ -15,26 +18,32 @@ using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
+using Auftragsverwaltung.WPF;
+using Auftragsverwaltung.WPF.State.Navigators;
+using Auftragsverwaltung.WPF.ViewModels;
+using Auftragsverwaltung.WPF.ViewModels.Factories;
 using AutoMapper;
 using FakeItEasy;
+using FakeItEasy.Sdk;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Tests
 {
     public static class InstanceHelper
     {
-
         public static DbContextOptions<AppDbContext> AppDbContext_BuildDbContext()
         {
-            return new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("testDb")
-                .EnableSensitiveDataLogging()
-                .Options;
-
             //return new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .UseInMemoryDatabase("testDb")
             //    .EnableSensitiveDataLogging()
             //    .Options;
+
+            return new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+                .EnableSensitiveDataLogging()
+                .Options;
         }
 
 
@@ -74,9 +83,21 @@ namespace Auftragsverwaltung.Tests
 
         public static async Task AddDbTestCustomers(DbContextOptions<AppDbContext> options)
         {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
-            var customerRepo = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+            var customerRepo = new CustomerRepository(serviceScopeFactoryFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
 
             await customerRepo.Create(new Customer()
             {
@@ -430,6 +451,46 @@ namespace Auftragsverwaltung.Tests
         public static CustomerValidator GetCustomerValidator()
         {
             return new CustomerValidator();
+        }
+
+        public static IServiceProvider CreateServiceProvider()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddDbContext<AppDbContext>(o =>
+                o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"), ServiceLifetime.Transient);
+            services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
+            services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
+            services.AddSingleton<IAppRepository<ArticleGroup>, ArticleGroupRepository>();
+            services.AddSingleton<IAppRepository<Order>, OrderRepository>();
+            services.AddSingleton<ICustomerService, CustomerService>();
+            services.AddSingleton<IArticleService, ArticleService>();
+            services.AddSingleton<IArticleGroupService, ArticleGroupService>();
+            services.AddSingleton<IOrderService, OrderService>();
+
+            services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
+            services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
+            services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
+            services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
+            services.AddSingleton<IAppViewModelFactory<ArticleGroupViewModel>, ArticleGroupViewModelFactory>();
+            services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
+
+            services.AddScoped<INavigator, Navigator>();
+            services.AddScoped<MainViewModel>();
+
+            services.AddSingleton<IValidator<CustomerDto>, CustomerValidator>();
+
+            services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            return services.BuildServiceProvider();
         }
     }
 }
