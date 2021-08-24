@@ -7,22 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Infrastructure.Position;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
     public class OrderRepository : IAppRepository<Domain.Order.Order>
     {
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        private readonly AppDbContext _db;
-
-        public OrderRepository(AppDbContext dbContext)
+        public OrderRepository(IServiceScopeFactory scopeFactory)
         {
-            _db = dbContext;
-        }
-
-        public OrderRepository(AppDbContextFactory dbContextFactory)
-        {
-            _db = dbContextFactory.CreateDbContext();
+            _scopeFactory = scopeFactory;
         }
 
         public async Task<ResponseDto<Domain.Order.Order>> Create(Domain.Order.Order entity)
@@ -30,11 +25,14 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
                 entity.Customer = await GetCustomer(entity.Customer);
                 entity.Positions = await GetPositions(entity);
 
-                EntityEntry<Domain.Order.Order> createdEntity = await _db.Orders.AddAsync(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                EntityEntry<Domain.Order.Order> createdEntity = await db.Orders.AddAsync(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = createdEntity.Entity;
                 response.Flag = true;
@@ -55,9 +53,12 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
-                Domain.Order.Order entity = await _db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
-                _db.Orders.Remove(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                Domain.Order.Order entity = await db.Orders.FirstOrDefaultAsync(e => e.OrderId == id);
+                db.Orders.Remove(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;
@@ -76,7 +77,10 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         public async Task<IEnumerable<Domain.Order.Order>> Search(string searchString)
         {
-            List<Domain.Order.Order> entities = await _db.Orders
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.Order.Order> entities = await db.Orders
                 .Include(o => o.Positions)
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
@@ -97,7 +101,10 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         public async Task<Domain.Order.Order> Get(int id)
         {
-            Domain.Order.Order entity = await _db.Orders
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.Order.Order entity = await db.Orders
                 .Include(o => o.Positions)
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
@@ -110,7 +117,10 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         public async Task<IEnumerable<Domain.Order.Order>> GetAll()
         {
-            List<Domain.Order.Order> entities = await _db.Orders
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.Order.Order> entities = await db.Orders
                 .Include(o => o.Positions)
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
@@ -126,13 +136,16 @@ namespace Auftragsverwaltung.Infrastructure.Order
             ResponseDto<Domain.Order.Order> response = new ResponseDto<Domain.Order.Order>();
             try
             {
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
                 var entry = await this.Get(entity.OrderId);
 
-                _db.Entry(entry).CurrentValues.SetValues(entity);
+                db.Entry(entry).CurrentValues.SetValues(entity);
                 entry.Customer = await GetCustomer(entity.Customer);
                 entry.Positions = await GetPositions(entity);
 
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;
@@ -151,7 +164,10 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         private async Task<Domain.Customer.Customer> GetCustomer(Domain.Customer.Customer customer)
         {
-            var existingCustomer = await _db.Customers
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            var existingCustomer = await db.Customers
                 .Include(e => e.Address)
                 .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
@@ -162,6 +178,9 @@ namespace Auftragsverwaltung.Infrastructure.Order
 
         private async Task<List<Domain.Position.Position>> GetPositions(Domain.Order.Order entity)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
             List<int> articleIds = new List<int>();
 
             foreach (var position in entity.Positions)
@@ -175,7 +194,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
             foreach (var id in articleIds)
             {
                 
-                var article = await _db.Articles
+                var article = await db.Articles
                     .Include(p => p.ArticleGroup)
                     .FirstOrDefaultAsync(a => a.ArticleId == id);
 
