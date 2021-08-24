@@ -124,6 +124,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
             _amount = 1;
             CustomerPasswordBoxVisibility = Visibility.Collapsed;
+            DefautlView();
         }
 
         public static OrderViewModel LoadOrderListViewModel(IOrderService orderService, ICustomerService customerService, IArticleService articleService)
