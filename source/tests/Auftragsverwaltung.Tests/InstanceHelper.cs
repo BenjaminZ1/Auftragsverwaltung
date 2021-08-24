@@ -71,9 +71,9 @@ namespace Auftragsverwaltung.Tests
             A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactoryFake);
 
-            var customerRepo = new CustomerRepository(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
-            await customerRepo.Create(new Customer()
+            await customerRepository.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -111,9 +111,9 @@ namespace Auftragsverwaltung.Tests
             A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactoryFake);
 
-            var customerRepo = new CustomerRepository(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
-            await customerRepo.Create(new Customer()
+            await customerRepository.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -132,7 +132,7 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.hans.ch",
                 Password = new byte[64]
             });
-            await customerRepo.Create(new Customer()
+            await customerRepository.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -151,7 +151,7 @@ namespace Auftragsverwaltung.Tests
                 Website = "www.ida.com",
                 Password = new byte[64]
             });
-            await customerRepo.Create(new Customer()
+            await customerRepository.Create(new Customer()
             {
                 Address = new Address()
                 {
@@ -174,10 +174,22 @@ namespace Auftragsverwaltung.Tests
 
         public static async Task AddDbTestArticles(DbContextOptions<AppDbContext> options)
         {
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(options));
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(options));
 
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             await articleRepository.Create(new Article()
             {
@@ -465,46 +477,6 @@ namespace Auftragsverwaltung.Tests
         public static CustomerValidator GetCustomerValidator()
         {
             return new CustomerValidator();
-        }
-
-        public static IServiceProvider CreateServiceProvider()
-        {
-            IServiceCollection services = new ServiceCollection();
-
-            services.AddDbContext<AppDbContext>(o =>
-                o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"), ServiceLifetime.Transient);
-            services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
-            services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
-            services.AddSingleton<IAppRepository<ArticleGroup>, ArticleGroupRepository>();
-            services.AddSingleton<IAppRepository<Order>, OrderRepository>();
-            services.AddSingleton<ICustomerService, CustomerService>();
-            services.AddSingleton<IArticleService, ArticleService>();
-            services.AddSingleton<IArticleGroupService, ArticleGroupService>();
-            services.AddSingleton<IOrderService, OrderService>();
-
-            services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
-            services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<ArticleGroupViewModel>, ArticleGroupViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
-
-            services.AddScoped<INavigator, Navigator>();
-            services.AddScoped<MainViewModel>();
-
-            services.AddSingleton<IValidator<CustomerDto>, CustomerValidator>();
-
-            services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
-
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
-
-            return services.BuildServiceProvider();
         }
     }
 }

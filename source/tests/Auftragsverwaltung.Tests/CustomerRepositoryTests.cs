@@ -56,6 +56,7 @@ namespace Auftragsverwaltung.Tests
 
             A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactoryFake);
+
             var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act

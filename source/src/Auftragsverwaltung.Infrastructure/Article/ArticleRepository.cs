@@ -6,22 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.Article
 {
     public class ArticleRepository : IAppRepository<Domain.Article.Article>
     {
 
-        private readonly AppDbContext _db;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public ArticleRepository(AppDbContext dbContext)
+        public ArticleRepository(IServiceScopeFactory scopeFactory)
         {
-            _db = dbContext;
-        }
-
-        public ArticleRepository(AppDbContextFactory dbContextFactory)
-        {
-            _db = dbContextFactory.CreateDbContext();
+            _scopeFactory = scopeFactory;
         }
 
         public async Task<ResponseDto<Domain.Article.Article>> Create(Domain.Article.Article entity)
@@ -29,10 +25,13 @@ namespace Auftragsverwaltung.Infrastructure.Article
             ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
 
-                EntityEntry<Domain.Article.Article> createdEntity = await _db.Articles.AddAsync(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                EntityEntry<Domain.Article.Article> createdEntity = await db.Articles.AddAsync(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = createdEntity.Entity;
                 response.Flag = true;
@@ -51,7 +50,10 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
         {
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
                 e.Name == articleGroup.Name);
 
             if (articleGroup.ParentArticleGroup != null)
@@ -62,7 +64,10 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
         {
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await _db.ArticleGroups.FirstOrDefaultAsync(e =>
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
                 e.Name == articleGroup.Name);
 
             return foundArticleGroup ?? articleGroup;
@@ -73,9 +78,12 @@ namespace Auftragsverwaltung.Infrastructure.Article
             ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
-                Domain.Article.Article entity = await _db.Articles.FirstOrDefaultAsync(e => e.ArticleId == id);
-                _db.Articles.Remove(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                Domain.Article.Article entity = await db.Articles.FirstOrDefaultAsync(e => e.ArticleId == id);
+                db.Articles.Remove(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;
@@ -94,7 +102,10 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         public async Task<IEnumerable<Domain.Article.Article>> Search(string searchString)
         {
-            List<Domain.Article.Article> entities = await _db.Articles
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.Article.Article> entities = await db.Articles
                 .Include(a => a.ArticleGroup)
                 .ToListAsync();
 
@@ -110,7 +121,10 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         public async Task<Domain.Article.Article> Get(int id)
         {
-            Domain.Article.Article entity = await _db.Articles
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Domain.Article.Article entity = await db.Articles
                 .Include(a => a.ArticleGroup)
                 .FirstOrDefaultAsync(e => e.ArticleId == id);
             return entity;
@@ -118,7 +132,10 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
         public async Task<IEnumerable<Domain.Article.Article>> GetAll()
         {
-            List<Domain.Article.Article> entities = await _db.Articles
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            List<Domain.Article.Article> entities = await db.Articles
                 .Include(a => a.ArticleGroup)
                 .ToListAsync();
             return entities;
@@ -129,10 +146,14 @@ namespace Auftragsverwaltung.Infrastructure.Article
             ResponseDto<Domain.Article.Article> response = new ResponseDto<Domain.Article.Article>();
             try
             {
-                var entry = await this.Get(entity.ArticleId);
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                //var entry = await this.Get(entity.ArticleId);
                 entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
-                _db.Entry(entry).CurrentValues.SetValues(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                //db.Entry(entry).CurrentValues.SetValues(entity);
+                db.Articles.Update(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;

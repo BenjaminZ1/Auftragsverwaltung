@@ -5,22 +5,18 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 {
     public class ArticleGroupRepository : IAppRepository<Domain.ArticleGroup.ArticleGroup>
     {
 
-        private readonly AppDbContext _db;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public ArticleGroupRepository(AppDbContext dbContext)
+        public CustomerRepository(IServiceScopeFactory scopeFactory)
         {
-            _db = dbContext;
-        }
-
-        public ArticleGroupRepository(AppDbContextFactory dbContextFactory)
-        {
-            _db = dbContextFactory.CreateDbContext();
+            _scopeFactory = scopeFactory;
         }
 
         public async Task<ResponseDto<Domain.ArticleGroup.ArticleGroup>> Create(Domain.ArticleGroup.ArticleGroup entity)

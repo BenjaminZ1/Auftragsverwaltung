@@ -135,10 +135,9 @@ namespace Auftragsverwaltung.Tests
             A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactoryFake);
 
-            var customerRepo = new CustomerRepository(serviceScopeFactoryFake);
             var orderRepository = new OrderRepository(dbContextFactoryFake);
             var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             await InstanceHelper.AddDbTestCustomer(_options);
             await InstanceHelper.AddDbTestArticles(_options);

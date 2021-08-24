@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Domain.Article;
@@ -9,6 +10,7 @@ using Auftragsverwaltung.Infrastructure.Common;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Auftragsverwaltung.Tests
@@ -36,9 +38,23 @@ namespace Auftragsverwaltung.Tests
             //arrange
             var articleTestData = InstanceHelper.GetArticleTestData();
             var article = articleTestData[0];
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             //act
             var result = await articleRepository.Create(article);
@@ -59,9 +75,23 @@ namespace Auftragsverwaltung.Tests
             //arrange
             var articleTestData = InstanceHelper.GetArticleTestData();
             var article = articleTestData[0];
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             //act
             var result = await articleRepository.Create(article);
@@ -80,9 +110,22 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             //act
             var result = await articleRepository.Get(articleId);
@@ -99,9 +142,22 @@ namespace Auftragsverwaltung.Tests
             //arrange
             await InstanceHelper.AddDbTestArticles(_options);
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             //act
             var result = await articleRepository.GetAll();
@@ -119,9 +175,22 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             //act
             var result = await articleRepository.Delete(articleId);
@@ -138,9 +207,22 @@ namespace Auftragsverwaltung.Tests
             int articleId = 1;
             string newArticleDescription = "NewName";
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             var entity = articleRepository.Get(articleId);
             var article = entity.Result;
@@ -162,9 +244,22 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestOrder(_options);
             int articleId = 1;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var articleRepository = new ArticleRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
             //act
             var result = await articleRepository.Delete(articleId);

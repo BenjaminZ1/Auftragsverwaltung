@@ -23,15 +23,15 @@ namespace Auftragsverwaltung.Infrastructure.Customer
         public async Task<Domain.Customer.Customer> Get(int id)
         {
             using var scope = _scopeFactory.CreateScope();
-
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
             Domain.Customer.Customer entity = await db.Customers
             .Include(e => e.Address)
             .ThenInclude(e => e.Town)
             .Include(e => e.Orders)
             .FirstOrDefaultAsync(e => e.CustomerId == id);
-        return entity;
 
+            return entity;
         }
 
         public async Task<IEnumerable<Domain.Customer.Customer>> GetAll()
