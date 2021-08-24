@@ -28,8 +28,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                entity.Customer = await GetCustomer(entity.Customer);
-                entity.Positions = await GetPositions(entity);
+                entity.Customer = await GetCustomer(entity.Customer, db);
+                entity.Positions = await GetPositions(entity, db);
 
                 EntityEntry<Domain.Order.Order> createdEntity = await db.Orders.AddAsync(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
@@ -139,11 +139,11 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                var entry = await this.Get(entity.OrderId);
+                var entry = await db.Orders.FirstOrDefaultAsync(e => e.OrderId == entity.OrderId);
 
                 db.Entry(entry).CurrentValues.SetValues(entity);
-                entry.Customer = await GetCustomer(entity.Customer);
-                entry.Positions = await GetPositions(entity);
+                entity.Customer = await GetCustomer(entity.Customer, db);
+                entity.Positions = await GetPositions(entity, db);
 
                 response.NumberOfRows = await db.SaveChangesAsync();
 
@@ -162,11 +162,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return response;
         }
 
-        private async Task<Domain.Customer.Customer> GetCustomer(Domain.Customer.Customer customer)
+        private async Task<Domain.Customer.Customer> GetCustomer(Domain.Customer.Customer customer, AppDbContext db)
         {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
             var existingCustomer = await db.Customers
                 .Include(e => e.Address)
                 .ThenInclude(e => e.Town)
@@ -176,11 +173,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
             return existingCustomer;
         }
 
-        private async Task<List<Domain.Position.Position>> GetPositions(Domain.Order.Order entity)
+        private async Task<List<Domain.Position.Position>> GetPositions(Domain.Order.Order entity, AppDbContext db)
         {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
             List<int> articleIds = new List<int>();
 
             foreach (var position in entity.Positions)

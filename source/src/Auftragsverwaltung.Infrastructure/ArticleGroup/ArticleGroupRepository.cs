@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -52,7 +53,7 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                Domain.ArticleGroup.ArticleGroup entity = await db.ArticleGroups.FirstOrDefaultAsync(e => e.ArticleGroupId == id);
+                Domain.ArticleGroup.ArticleGroup entity = await this.Get(id);
                 db.ArticleGroups.Remove(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
@@ -114,8 +115,6 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                //var entry = await this.Get(entity.ArticleGroupId);
-                //db.Entry(entry).CurrentValues.SetValues(entity);
                 db.ArticleGroups.Update(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
@@ -132,7 +131,18 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             }
 
             return response;
+        }
 
+        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetService<AppDbContext>();
+
+            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups
+                .FirstOrDefaultAsync(e =>
+                    e.Name == articleGroup.Name);
+
+            return foundArticleGroup ?? articleGroup;
         }
     }
 }
