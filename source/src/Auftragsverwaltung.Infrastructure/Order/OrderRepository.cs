@@ -139,13 +139,22 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                var entry = await db.Orders.FirstOrDefaultAsync(e => e.OrderId == entity.OrderId);
+                var entry = await db.Orders
+                    .Include(o => o.Positions)
+                    .ThenInclude(o => o.Article)
+                    .ThenInclude(o => o.ArticleGroup)
+                    .Include(o => o.Customer)
+                    .ThenInclude(o => o.Address)
+                    .ThenInclude(o => o.Town)
+                    .FirstOrDefaultAsync(e => e.OrderId == entity.OrderId);
 
                 db.Entry(entry).CurrentValues.SetValues(entity);
-                entity.Customer = await GetCustomer(entity.Customer, db);
-                entity.Positions = await GetPositions(entity, db);
+                entry.Customer = await GetCustomer(entity.Customer, db);
+                entry.Positions = await GetPositions(entity, db);
+
 
                 response.NumberOfRows = await db.SaveChangesAsync();
+
 
                 response.Entity = entity;
                 response.Flag = true;
