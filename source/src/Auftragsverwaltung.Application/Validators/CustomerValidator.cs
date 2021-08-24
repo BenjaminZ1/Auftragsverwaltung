@@ -47,7 +47,7 @@ namespace Auftragsverwaltung.Application.Validators
 
         private bool IsPasswordValid(SecureString password)
         {
-            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$");
+            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,}$");
             Match match = regex.Match(SecureStringToString(password));
             if (match.Success)
                 return true;

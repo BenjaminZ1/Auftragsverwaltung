@@ -15,12 +15,14 @@ namespace Auftragsverwaltung.Tests
     [TestFixture]
     class CustomerServiceTests
     {
+        private List<CustomerDto> _customerDtoTestData;
         private List<Customer> _customerTestData;
         private IMapper _mapper;
 
         [SetUp]
         public void GenerateTestData()
         {
+            _customerDtoTestData = InstanceHelper.GenerateCustomerDtoServiceTestData();
             _customerTestData = InstanceHelper.GenerateCustomerServiceTestData();
             _mapper = InstanceHelper.GetMapper();
         }
@@ -90,7 +92,6 @@ namespace Auftragsverwaltung.Tests
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
             
-
             //act
             var result = await customerService.GetAll();
 
@@ -103,7 +104,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
+            var customerDtoStub = _customerDtoTestData[0];
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = customerStub
@@ -125,7 +126,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
+            var customerDtoStub = _customerDtoTestData[0];
             var responseDto = new ResponseDto<Customer>()
             {
                 Entity = customerStub
@@ -149,7 +150,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
+            var customerDtoStub = _customerDtoTestData[0];
 
             var changedCustomerStub = customerStub;
             var changedCustomerDtoStub = customerDtoStub;
@@ -182,7 +183,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStub = _customerTestData[0];
-            var customerDtoStub = _mapper.Map<CustomerDto>(_customerTestData[0]);
+            var customerDtoStub = _customerDtoTestData[0];
 
             var changedCustomerStub = customerStub;
             var changedCustomerDtoStub = customerDtoStub;
