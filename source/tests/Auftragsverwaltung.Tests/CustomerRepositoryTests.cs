@@ -42,9 +42,21 @@ namespace Auftragsverwaltung.Tests
 
             int expectedId = 1;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
             var result = await customerRepository.Create(customer);
@@ -64,9 +76,20 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestCustomers(_options);
             int customerId = 1;
 
-            IServiceProvider serviceProvider = InstanceHelper.CreateServiceProvider();
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
             var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
-            A.CallTo(() => serviceScopeFactoryFake.CreateScope()).Returns(serviceProvider.CreateScope());
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
             var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
@@ -85,9 +108,21 @@ namespace Auftragsverwaltung.Tests
             await InstanceHelper.AddDbTestCustomers(_options);
             int notExistingCustomerId = 4;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
             var result = await customerRepository.Get(notExistingCustomerId);
@@ -102,9 +137,21 @@ namespace Auftragsverwaltung.Tests
             //arrange
             await InstanceHelper.AddDbTestCustomers(_options);
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
             var result = await customerRepository.GetAll();
@@ -119,9 +166,21 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenNoCustomerExists_ReturnsCorrectResult()
         {
             //arrange
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
             var result = await customerRepository.GetAll();
@@ -139,9 +198,21 @@ namespace Auftragsverwaltung.Tests
             int customerId = 1;
             int expectedRows = 3;
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             //act
             var result = await customerRepository.Delete(customerId);
@@ -159,9 +230,21 @@ namespace Auftragsverwaltung.Tests
             int customerId = 1;
             string newFirstname = "Hans-Rudolf";
 
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-            var customerRepository = new CustomerRepository(dbContextFactoryFake);
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
 
             var entity = customerRepository.Get(customerId);
             var customer = entity.Result;

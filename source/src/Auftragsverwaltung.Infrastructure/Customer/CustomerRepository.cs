@@ -13,18 +13,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 {
     public class CustomerRepository : IAppRepository<Domain.Customer.Customer>
     {
-        private readonly AppDbContext _db;
         private readonly IServiceScopeFactory _scopeFactory;
-
-        public CustomerRepository(AppDbContext dbContext)
-        {
-            _db = dbContext;
-        }
-
-        public CustomerRepository(AppDbContextFactory dbContextFactory)
-        {
-            _db = dbContextFactory.CreateDbContext();
-        }
 
         public CustomerRepository(IServiceScopeFactory scopeFactory)
         {
@@ -63,13 +52,10 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
-                if (entity.Address.Street == "Hauptstrasse")
-                    Thread.Sleep(1);
                 using var scope = _scopeFactory.CreateScope();
-
                 var db = scope.ServiceProvider.GetService<AppDbContext>();
 
-                entity.Address.Town = await FindOrAddNewTown(entity.Address.Town, db);
+                entity.Address.Town = await FindOrAddNewTown(entity.Address.Town);
                 EntityEntry<Domain.Customer.Customer> createdEntity = await db.Customers.AddAsync(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
@@ -93,7 +79,8 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
-                var entry = await this.Get(entity.CustomerId);
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetService<AppDbContext>();
 
                 if (await IsNewTownRequired(entity.Address.Town))
                 {
@@ -103,18 +90,18 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                         ZipCode = entity.Address.Town.ZipCode
                     };
                     entity.Address.Town = newTown;
-                    _db.Towns.Add(newTown);
+                    db.Towns.Add(newTown);
 
-                    await _db.SaveChangesAsync();
+                    await db.SaveChangesAsync();
                     entity.Address.TownId = newTown.TownId;
                 }
+                else
+                {
+                    entity.Address.Town = await FindOrAddNewTown(entity.Address.Town);
+                }
 
-                _db.Entry(entry).CurrentValues.SetValues(entity);
-                entry.Address.BuildingNr = entity.Address.BuildingNr;
-                entry.Address.Street = entity.Address.Street;
-                entry.Address.Town = await FindOrAddNewTown(entity.Address.Town, _db);
-
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                db.Customers.Update(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;
@@ -135,23 +122,25 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             ResponseDto<Domain.Customer.Customer> response = new ResponseDto<Domain.Customer.Customer>();
             try
             {
+                using var scope = _scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetService<AppDbContext>();
+
                 Domain.Customer.Customer entity = await this.Get(id);
                 int addressId = entity.Address.AddressId;
                 int townId = entity.Address.TownId;
 
-                //if (!(await IsAddressInUse(addressId)))
-                //{
-                    if (!(await IsTownInUse(townId)))
-                    {
-                        _db.RemoveRange(entity.Address.Town);
-                        _db.RemoveRange(entity.Address);
-                    }
-                    else
-                        _db.RemoveRange(entity.Address);
-                //}
+                if (!(await IsTownInUse(townId)))
+                {
+                    db.RemoveRange(entity.Address.Town);
+                    db.RemoveRange(entity.Address);
+                }
+                else
+                {
+                    db.RemoveRange(entity.Address);
+                }
 
-                _db.Customers.Remove(entity);
-                response.NumberOfRows = await _db.SaveChangesAsync();
+                db.Customers.Remove(entity);
+                response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
                 response.Flag = true;
@@ -170,7 +159,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
         public async Task<IEnumerable<Domain.Customer.Customer>> Search(string searchString)
         {
-            List<Domain.Customer.Customer> entities = await _db.Customers
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetService<AppDbContext>();
+            List<Domain.Customer.Customer> entities = await db.Customers
                 .Include(e => e.Address)
                 .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
@@ -188,7 +179,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
         private async Task<bool> IsTownInUse(int townId)
         {
-            Domain.Town.Town foundTown = await _db.Towns
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetService<AppDbContext>();
+            Domain.Town.Town foundTown = await db.Towns
                 .Include(e => e.Addresses)
                 .FirstOrDefaultAsync(e =>
                     e.TownId == townId);
@@ -198,8 +191,10 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             return true;
         }
 
-        private async Task<Domain.Town.Town> FindOrAddNewTown(Domain.Town.Town town, AppDbContext db)
+        private async Task<Domain.Town.Town> FindOrAddNewTown(Domain.Town.Town town)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetService<AppDbContext>();
             Domain.Town.Town foundTown = await db.Towns
                 .FirstOrDefaultAsync(e =>
                     e.Townname == town.Townname &&
@@ -210,7 +205,9 @@ namespace Auftragsverwaltung.Infrastructure.Customer
 
         private async Task<bool> IsNewTownRequired(Domain.Town.Town town)
         {
-            Domain.Town.Town foundTown = await _db.Towns
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetService<AppDbContext>();
+            Domain.Town.Town foundTown = await db.Towns
                 .Include(e => e.Addresses)
                 .FirstOrDefaultAsync(e =>
                     e.Townname == town.Townname && e.ZipCode == town.ZipCode);
