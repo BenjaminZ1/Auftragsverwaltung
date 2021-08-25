@@ -55,5 +55,12 @@ namespace Auftragsverwaltung.Application.Service
             var mappedResponse = _mapper.Map<OrderDto>(response);
             return mappedResponse;
         }
+
+        public async Task<IEnumerable<OrderDto>> Search(string searchString)
+        {
+            var response = await _repository.Search(searchString);
+            var mappedResponse = response.Select(x => _mapper.Map<OrderDto>(x));
+            return mappedResponse;
+        }
     }
 }

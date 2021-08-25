@@ -76,15 +76,9 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             using var scope = _scopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            List<Domain.ArticleGroup.ArticleGroup> entities = await db.ArticleGroups.ToListAsync();
-
-            foreach(var entity in entities)
-            {
-                if (!entity.Name.Contains(searchString))
-                {
-                    entities.Remove(entity);
-                }
-            }
+            List<Domain.ArticleGroup.ArticleGroup> entities = await db.ArticleGroups
+                .Where(e => e.Name.Contains(searchString))
+                .ToListAsync();
 
             return entities;
         }

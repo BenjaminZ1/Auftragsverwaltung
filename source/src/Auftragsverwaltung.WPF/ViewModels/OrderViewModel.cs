@@ -109,6 +109,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _articleService = articleService;
 
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
+
             AddArticleToOrderCommand = new BaseCommand(AddArticleToOrder);
             RemovePositionFromOrderCommand = new BaseCommand(RemovePositionFromOrder);
 
@@ -174,6 +176,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 }
             }
         }
+
+        private async Task SearchBoxUpdate(object parameter)
+        {
+            Orders = await _orderService.Search(SearchText);
+        }
+
         private async Task Save()
         {
             if (_buttonActionState == ButtonAction.Create)

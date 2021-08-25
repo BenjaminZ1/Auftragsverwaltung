@@ -10,6 +10,5 @@ namespace Auftragsverwaltung.Application.Service
 {
     public interface ICustomerService : IAppService<CustomerDto>
     {
-        public Task<IEnumerable<CustomerDto>> Search(string searchString);
     }
 }

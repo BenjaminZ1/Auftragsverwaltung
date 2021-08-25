@@ -168,13 +168,6 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 .Where(e => e.Firstname.Contains(searchString) || e.Lastname.Contains(searchString))
                 .ToListAsync();
 
-            //foreach(var entity in entities)
-            //{
-            //    if(!entity.Firstname.Contains(searchString) && !entity.Lastname.Contains(searchString))
-            //    {
-            //        entities.Remove(entity);
-            //    }
-            //}
             return entities;
         }
 

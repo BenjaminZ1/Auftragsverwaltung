@@ -87,6 +87,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .Include(o => o.Customer)
                 .ThenInclude(o => o.Address)
                 .ThenInclude(o => o.Town)
+                .Where(e => e.Customer.Firstname.Contains(searchString) || e.Customer.Lastname.Contains(searchString))
                 .ToListAsync();
 
             foreach(var entity in entities)

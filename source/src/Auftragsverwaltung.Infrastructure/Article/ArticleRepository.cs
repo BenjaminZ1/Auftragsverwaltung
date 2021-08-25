@@ -82,15 +82,8 @@ namespace Auftragsverwaltung.Infrastructure.Article
 
             List<Domain.Article.Article> entities = await db.Articles
                 .Include(a => a.ArticleGroup)
+                .Where(e => e.Description.Contains(searchString))
                 .ToListAsync();
-
-            foreach (var entity in entities)
-            {
-                if (!entity.Description.Contains(searchString))
-                {
-                    entities.Remove(entity);
-                }
-            }
 
             return entities;
         }

@@ -37,6 +37,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             _articleService = articleService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }
 
@@ -80,6 +81,11 @@ namespace Auftragsverwaltung.WPF.ViewModels
                         throw new ArgumentException("The ButtonAction has no defined action", nameof(parameter));
                 }
             }
+        }
+
+        private async Task SearchBoxUpdate(object parameter)
+        {
+            Articles = await _articleService.Search(SearchText);
         }
 
         private async Task Save()
