@@ -19,7 +19,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _deleteButtonEnabled;
         private ButtonAction _buttonActionState;
         private string _searchText;
-        private Visibility _DataGridVisibility;
+        private Visibility _dataGridVisibility;
 
         public bool InputEnabled
         {
@@ -65,18 +65,17 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         public Visibility DataGridVisibility
         {
-            get => _DataGridVisibility;
-            set { _DataGridVisibility = value; OnPropertyChanged(nameof(DataGridVisibility)); }
+            get => _dataGridVisibility;
+            set { _dataGridVisibility = value; OnPropertyChanged(nameof(DataGridVisibility)); }
         }
 
         public IAsyncCommand ControlBarButtonActionCommand { get; set; }
+
+        public IAsyncCommand SearchBoxUpdateCommand { get; set; }
         #endregion
 
 
-        public CommonViewModel()
-        {
-            SearchText = "Suchbegriff eingeben...";
-        }
+        public CommonViewModel() { }
 
         protected void CommonDefautlView()
         {

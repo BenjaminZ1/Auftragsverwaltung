@@ -38,7 +38,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
         public CustomerViewModel(ICustomerService customerService) : base() 
         {
             _customerService = customerService;
-            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);       
+            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }
 
@@ -83,6 +84,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 }
             }
         }
+
+        private async Task SearchBoxUpdate(object parameter)
+        {
+            Customers = await _customerService.Search(SearchText);
+        }
+
         private async Task Save()
         {
             if (_buttonActionState == ButtonAction.Create)
@@ -182,6 +189,5 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
         }
-
     }
 }

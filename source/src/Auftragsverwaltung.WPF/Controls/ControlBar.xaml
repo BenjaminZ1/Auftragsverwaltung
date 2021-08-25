@@ -13,6 +13,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
@@ -31,8 +32,10 @@
         <Button Grid.Column="2" Content="Löschen" IsEnabled="{Binding DeleteButtonEnabled}"
                 Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Delete }"/>
-        <TextBox Grid.Column="3" Text="{Binding SearchText}"/>
-        <Button Grid.Column="5" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
+        <TextBox Grid.Column="3" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="4" Content="Suchen"
+                Command="{Binding SearchBoxUpdateCommand}"/>
+        <Button Grid.Column="6" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
                 Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Save }"/>
         

@@ -165,15 +165,16 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 .Include(e => e.Address)
                 .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
+                .Where(e => e.Firstname.Contains(searchString) || e.Lastname.Contains(searchString))
                 .ToListAsync();
 
-            foreach(var entity in entities)
-            {
-                if(!entity.Firstname.Contains(searchString) && !entity.Lastname.Contains(searchString))
-                {
-                    entities.Remove(entity);
-                }
-            }
+            //foreach(var entity in entities)
+            //{
+            //    if(!entity.Firstname.Contains(searchString) && !entity.Lastname.Contains(searchString))
+            //    {
+            //        entities.Remove(entity);
+            //    }
+            //}
             return entities;
         }
 
