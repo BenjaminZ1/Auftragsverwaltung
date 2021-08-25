@@ -31,7 +31,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _dateTimePickerEnabled;
 
         private Visibility _customerPasswordBoxVisibility;
-        private ButtonAction _buttonActionState;
 
         private UserControl _displayView;
 
@@ -184,7 +183,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Save()
         {
-            if (_buttonActionState == ButtonAction.Create)
+            if (ButtonActionState == ButtonAction.Create)
             {
                 var serviceTask = await _orderService.Create(SelectedListItem);
                 if (serviceTask.Response != null && !serviceTask.Response.Flag)
@@ -204,7 +203,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 DefautlView();
             }
 
-            if (_buttonActionState == ButtonAction.Modify)
+            if (ButtonActionState == ButtonAction.Modify)
             {
                 await Modify();
             }
@@ -308,18 +307,14 @@ namespace Auftragsverwaltung.WPF.ViewModels
             base.CommonDefautlView();
             DisplayView = new OrderListDetails();
             LoadData();
-            _buttonActionState = ButtonAction.None;
             DateTimePickerEnabled = false;
-            DataGridVisibility = Visibility.Visible;
         }
 
         private void CreateView()
         {
             base.CommonCreateView();
             DisplayView = new OrderListModify();
-            _buttonActionState = ButtonAction.Create;
             DateTimePickerEnabled = true;
-            DataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto {Date = DateTime.Now};
             AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
@@ -328,9 +323,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonModifyView();
             DisplayView = new OrderListModify();
-            _buttonActionState = ButtonAction.Modify;
             DateTimePickerEnabled = true;
-            DataGridVisibility = Visibility.Collapsed;
             AddedPositionListItems = new ObservableCollection<PositionDto>();
             if (SelectedListItem != null)
             {

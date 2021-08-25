@@ -84,6 +84,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
+            ButtonActionState = ButtonAction.None;
+            DataGridVisibility = Visibility.Visible;
         }
 
         protected void CommonCreateView()
@@ -92,6 +94,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
+            ButtonActionState = ButtonAction.Create;
+            DataGridVisibility = Visibility.Collapsed;
         }
 
         protected void CommonModifyView()
@@ -100,8 +104,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
+            ButtonActionState = ButtonAction.Modify;
+            DataGridVisibility = Visibility.Collapsed;
         }
-
-
     }
 }

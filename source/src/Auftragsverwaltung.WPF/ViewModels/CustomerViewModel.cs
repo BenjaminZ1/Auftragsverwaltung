@@ -15,7 +15,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private IEnumerable<CustomerDto> _customers;
         private CustomerDto _selectedListItem;
         private Visibility _customerPasswordBoxVisibility;
-        private ButtonAction _buttonActionState;
 
         public IEnumerable<CustomerDto> Customers
         {
@@ -92,7 +91,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Save()
         {
-            if (_buttonActionState == ButtonAction.Create)
+            if (ButtonActionState == ButtonAction.Create)
             {
                 var serviceTask = await _customerService.Create(SelectedListItem);
                 if (serviceTask.Response != null && !serviceTask.Response.Flag)
@@ -112,7 +111,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 DefautlView();
             }
 
-            if (_buttonActionState == ButtonAction.Modify)
+            if (ButtonActionState == ButtonAction.Modify)
             {
                 await Modify();
             }
@@ -167,8 +166,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void DefautlView()
         {
             base.CommonDefautlView();
-            _buttonActionState = ButtonAction.None;
-            DataGridVisibility = Visibility.Visible;
             CustomerPasswordBoxVisibility = Visibility.Collapsed;
             LoadCustomers();
         }
@@ -176,8 +173,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void CreateView()
         {
             base.CommonCreateView();
-            _buttonActionState = ButtonAction.Create;
-            DataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
             SelectedListItem = new CustomerDto();
         }
@@ -185,8 +180,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void ModifyView()
         {
             base.CommonModifyView();
-            _buttonActionState = ButtonAction.Modify;
-            DataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
         }
     }

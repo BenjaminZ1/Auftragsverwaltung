@@ -164,24 +164,18 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void DefautlView()
         {
             base.CommonDefautlView();
-            ButtonActionState = ButtonAction.None;
-            DataGridVisibility = Visibility.Visible;
             LoadArticleGroups();
         }
 
         private void CreateView()
         {
             base.CommonCreateView();
-            ButtonActionState = ButtonAction.Create;
-            DataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new ArticleGroupDto();
         }
 
         private void ModifyView()
         {
             base.CommonModifyView();
-            ButtonActionState = ButtonAction.Modify;
-            DataGridVisibility = Visibility.Collapsed;
         }
     }   
 }
