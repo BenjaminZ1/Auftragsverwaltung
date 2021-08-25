@@ -40,9 +40,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _articleDataGridVisibility = value; OnPropertyChanged(nameof(ArticleDataGridVisibility)); }
         }
 
-        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
-
-
         public ArticleViewModel(IArticleService articleService)
         {
             _articleService = articleService;

@@ -42,8 +42,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _customerPasswordBoxVisibility = value; OnPropertyChanged(nameof(CustomerPasswordBoxVisibility)); }
         }
 
-        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
-
         public CustomerViewModel(ICustomerService customerService) : base() 
         {
             _customerService = customerService;

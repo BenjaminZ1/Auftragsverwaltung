@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Auftragsverwaltung.WPF.State
 {
-    enum ButtonAction
+    public enum ButtonAction
     {
         Create,
         Modify,

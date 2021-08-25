@@ -16,11 +16,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
 {
     public class ArticleGroupViewModel : CommonViewModel
     {
+        private readonly IArticleGroupService _articleGroupService;
         private IEnumerable<ArticleGroupDto> _articleGroups;
         private ArticleGroupDto _selectedListItem;
-        private Visibility _articleGroupDataGridVisibility;
-        private readonly IArticleGroupService _articleGroupService;
-        private ButtonAction _buttonActionState;
 
         public IEnumerable<ArticleGroupDto> ArticleGroups
         {
@@ -34,13 +32,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
 
-        public Visibility ArticleGroupDataGridVisibility
-        {
-            get => _articleGroupDataGridVisibility;
-            set { _articleGroupDataGridVisibility = value; OnPropertyChanged(nameof(ArticleGroupDataGridVisibility)); }
-        }
 
-        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
+
 
 
         public ArticleGroupViewModel(IArticleGroupService articleGroupService)
@@ -94,7 +87,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Save()
         {
-            if (_buttonActionState == ButtonAction.Create)
+            if (ButtonActionState == ButtonAction.Create)
             {
                 var serviceTask = await _articleGroupService.Create(SelectedListItem);
                 if (serviceTask.Response != null && !serviceTask.Response.Flag)
@@ -114,7 +107,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 DefautlView();
             }
 
-            if (_buttonActionState == ButtonAction.Modify)
+            if (ButtonActionState == ButtonAction.Modify)
             {
                 await Modify();
             }
@@ -168,7 +161,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void DefautlView()
         {
             base.CommonDefautlView();
-            _buttonActionState = ButtonAction.None;
+            ButtonActionState = ButtonAction.None;
             ArticleGroupDataGridVisibility = Visibility.Visible;
             LoadArticleGroups();
         }
@@ -176,7 +169,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void CreateView()
         {
             base.CommonCreateView();
-            _buttonActionState = ButtonAction.Create;
+            ButtonActionState = ButtonAction.Create;
             ArticleGroupDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new ArticleGroupDto();
         }
@@ -184,7 +177,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void ModifyView()
         {
             base.CommonModifyView();
-            _buttonActionState = ButtonAction.Modify;
+            ButtonActionState = ButtonAction.Modify;
             ArticleGroupDataGridVisibility = Visibility.Collapsed;
         }
     }   

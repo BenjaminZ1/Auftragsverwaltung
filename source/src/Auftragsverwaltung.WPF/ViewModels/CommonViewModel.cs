@@ -4,11 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Auftragsverwaltung.Application.Service;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
     public class CommonViewModel : ViewModelBase
     {
+        #region Common
         private bool _inputEnabled;
         private bool _saveButtonEnabled;
         private bool _createButtonEnabled;
@@ -51,6 +54,27 @@ namespace Auftragsverwaltung.WPF.ViewModels
             get => _searchText;
             set { _searchText = value; OnPropertyChanged(nameof(SearchText)); }
         }
+
+        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
+        #endregion
+
+        #region ArticleGroup
+        private Visibility _articleGroupDataGridVisibility;
+        private ButtonAction _buttonActionState;
+
+        public Visibility ArticleGroupDataGridVisibility
+        {
+            get => _articleGroupDataGridVisibility;
+            set { _articleGroupDataGridVisibility = value; OnPropertyChanged(nameof(ArticleGroupDataGridVisibility)); }
+        }
+
+        public ButtonAction ButtonActionState
+        {
+            get => _buttonActionState;
+            set => _buttonActionState = value;
+        }
+        #endregion
+
 
         public CommonViewModel()
         {

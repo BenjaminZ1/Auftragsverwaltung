@@ -105,9 +105,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             get => _displayView;
             set { _displayView = value; OnPropertyChanged(nameof(DisplayView)); }
         }
-
-        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
-
         public BaseCommand AddArticleToOrderCommand { get; set; }
 
         public BaseCommand RemovePositionFromOrderCommand { get; set; }
