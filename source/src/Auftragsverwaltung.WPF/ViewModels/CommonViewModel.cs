@@ -17,6 +17,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _createButtonEnabled;
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
+        private bool _searchButtonEnabled;
         private ButtonAction _buttonActionState;
         private string _searchText;
         private Visibility _dataGridVisibility;
@@ -49,6 +50,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _deleteButtonEnabled;
             set { _deleteButtonEnabled = value; OnPropertyChanged(nameof(DeleteButtonEnabled)); }
+        }
+
+        public bool SearchButtonEnabled
+        {
+            get => _searchButtonEnabled;
+            set { _searchButtonEnabled = value; OnPropertyChanged(nameof(SearchButtonEnabled)); }
         }
 
         public string SearchText
@@ -84,6 +91,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             CreateButtonEnabled = true;
             ModifyButtonEnabled = true;
             DeleteButtonEnabled = true;
+            SearchButtonEnabled = true;
             ButtonActionState = ButtonAction.None;
             DataGridVisibility = Visibility.Visible;
         }
@@ -94,6 +102,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             ModifyButtonEnabled = false;
             DeleteButtonEnabled = false;
+            SearchButtonEnabled = false;
             ButtonActionState = ButtonAction.Create;
             DataGridVisibility = Visibility.Collapsed;
         }
@@ -104,6 +113,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SaveButtonEnabled = true;
             CreateButtonEnabled = false;
             DeleteButtonEnabled = false;
+            SearchButtonEnabled = false;
             ButtonActionState = ButtonAction.Modify;
             DataGridVisibility = Visibility.Collapsed;
         }

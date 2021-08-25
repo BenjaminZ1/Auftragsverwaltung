@@ -33,7 +33,7 @@
                 Command="{Binding ControlBarButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Delete }"/>
         <TextBox Grid.Column="3" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Grid.Column="4" Content="Suchen"
+        <Button Grid.Column="4" Content="Suchen" IsEnabled="{Binding SearchButtonEnabled}"
                 Command="{Binding SearchBoxUpdateCommand}"/>
         <Button Grid.Column="6" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
                 Command="{Binding ControlBarButtonActionCommand}"
