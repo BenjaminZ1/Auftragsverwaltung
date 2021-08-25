@@ -56,5 +56,32 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             SearchText = "Suchbegriff eingeben...";
         }
+
+        protected void CommonDefautlView()
+        {
+            InputEnabled = false;
+            SaveButtonEnabled = false;
+            CreateButtonEnabled = true;
+            ModifyButtonEnabled = true;
+            DeleteButtonEnabled = true;
+        }
+
+        protected void CommonCreateView()
+        {
+            InputEnabled = true;
+            SaveButtonEnabled = true;
+            ModifyButtonEnabled = false;
+            DeleteButtonEnabled = false;
+        }
+
+        protected void CommonModifyView()
+        {
+            InputEnabled = true;
+            SaveButtonEnabled = true;
+            CreateButtonEnabled = false;
+            DeleteButtonEnabled = false;
+        }
+
+
     }
 }

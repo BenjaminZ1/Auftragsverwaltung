@@ -214,18 +214,22 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Modify()
         {
-            var serviceTask = await _orderService.Update(SelectedListItem);
-            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            if (SelectedListItem != null)
             {
-                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else if (serviceTask.Response != null)
-            {
-                MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                var serviceTask = await _orderService.Update(SelectedListItem);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else if (serviceTask.Response != null)
+                {
+                    MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
+                                    System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
             }
 
             DefautlView();
@@ -233,18 +237,22 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Delete()
         {
-            var serviceTask = await _orderService.Delete(SelectedListItem.OrderId);
-            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            if (SelectedListItem != null)
             {
-                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else if (serviceTask.Response != null)
-            {
-                MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                var serviceTask = await _orderService.Delete(SelectedListItem.OrderId);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else if (serviceTask.Response != null)
+                {
+                    MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
+                                    System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
             }
 
             DefautlView();
@@ -299,26 +307,19 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void DefautlView()
         {
+            base.CommonDefautlView();
             DisplayView = new OrderListDetails();
             LoadData();
             _buttonActionState = ButtonAction.None;
-            InputEnabled = false;
-            SaveButtonEnabled = false;
-            CreateButtonEnabled = true;
-            ModifyButtonEnabled = true;
-            DeleteButtonEnabled = true;
             DateTimePickerEnabled = false;
             OrderDataGridVisibility = Visibility.Visible;
         }
 
         private void CreateView()
         {
+            base.CommonCreateView();
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Create;
-            InputEnabled = true;
-            SaveButtonEnabled = true;
-            ModifyButtonEnabled = false;
-            DeleteButtonEnabled = false;
             DateTimePickerEnabled = true;
             OrderDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto {Date = DateTime.Now};
@@ -327,18 +328,18 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void ModifyView()
         {
+            base.CommonModifyView();
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Modify;
-            InputEnabled = true;
-            SaveButtonEnabled = true;
-            CreateButtonEnabled = false;
-            DeleteButtonEnabled = false;
             DateTimePickerEnabled = true;
             OrderDataGridVisibility = Visibility.Collapsed;
             AddedPositionListItems = new ObservableCollection<PositionDto>();
-            foreach (var position in SelectedListItem.Positions)
+            if (SelectedListItem != null)
             {
-                AddedPositionListItems.Add(position);
+                foreach (var position in SelectedListItem.Positions)
+                {
+                    AddedPositionListItems.Add(position);
+                }
             }
         }
     }

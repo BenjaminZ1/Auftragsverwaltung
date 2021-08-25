@@ -122,37 +122,44 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Modify()
         {
-            var serviceTask = await _articleGroupService.Update(SelectedListItem);
-            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            if (SelectedListItem != null)
             {
-                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                var serviceTask = await _articleGroupService.Update(SelectedListItem);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else if (serviceTask.Response != null)
+                {
+                    MessageBox.Show($"Article with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
+                                    System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
             }
-            else if (serviceTask.Response != null)
-            {
-                MessageBox.Show($"Article with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
-
             DefautlView();
         }
 
         private async Task Delete()
         {
-            var serviceTask = await _articleGroupService.Delete(SelectedListItem.ArticleGroupId);
-            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            if (SelectedListItem != null)
             {
-                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else if (serviceTask.Response != null)
-            {
-                MessageBox.Show($"ArticleGroup with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                var serviceTask = await _articleGroupService.Delete(SelectedListItem.ArticleGroupId);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else if (serviceTask.Response != null)
+                {
+                    MessageBox.Show($"ArticleGroup with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
+                                    System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
             }
 
             DefautlView();
@@ -160,34 +167,24 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void DefautlView()
         {
+            base.CommonDefautlView();
             _buttonActionState = ButtonAction.None;
-            InputEnabled = false;
-            SaveButtonEnabled = false;
-            CreateButtonEnabled = true;
-            ModifyButtonEnabled = true;
-            DeleteButtonEnabled = true;
             ArticleGroupDataGridVisibility = Visibility.Visible;
             LoadArticleGroups();
         }
 
         private void CreateView()
         {
+            base.CommonCreateView();
             _buttonActionState = ButtonAction.Create;
-            InputEnabled = true;
-            SaveButtonEnabled = true;
-            ModifyButtonEnabled = false;
-            DeleteButtonEnabled = false;
             ArticleGroupDataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new ArticleGroupDto();
         }
 
         private void ModifyView()
         {
+            base.CommonModifyView();
             _buttonActionState = ButtonAction.Modify;
-            InputEnabled = true;
-            SaveButtonEnabled = true;
-            CreateButtonEnabled = false;
-            DeleteButtonEnabled = false;
             ArticleGroupDataGridVisibility = Visibility.Collapsed;
         }
     }   

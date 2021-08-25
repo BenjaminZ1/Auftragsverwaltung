@@ -122,18 +122,22 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Modify()
         {
-            var serviceTask = await _customerService.Update(SelectedListItem);
-            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            if (SelectedListItem != null)
             {
-                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else if (serviceTask.Response != null)
-            {
-                MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                var serviceTask = await _customerService.Update(SelectedListItem);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else if (serviceTask.Response != null)
+                {
+                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
+                                    System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
             }
 
             DefautlView();
@@ -141,18 +145,22 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Delete()
         {
-            var serviceTask = await _customerService.Delete(SelectedListItem.CustomerId);
-            if (serviceTask.Response != null && !serviceTask.Response.Flag)
+            if (SelectedListItem != null)
             {
-                MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else if (serviceTask.Response != null)
-            {
-                MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                var serviceTask = await _customerService.Delete(SelectedListItem.CustomerId);
+                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                {
+                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                else if (serviceTask.Response != null)
+                {
+                    MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
+                                    System.Environment.NewLine +
+                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
             }
 
             DefautlView();
@@ -160,12 +168,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void DefautlView()
         {
+            base.CommonDefautlView();
             _buttonActionState = ButtonAction.None;
-            InputEnabled = false;
-            SaveButtonEnabled = false;
-            CreateButtonEnabled = true;
-            ModifyButtonEnabled = true;
-            DeleteButtonEnabled = true;
             CustomerDataGridVisibility = Visibility.Visible;
             CustomerPasswordBoxVisibility = Visibility.Collapsed;
             LoadCustomers();
@@ -173,11 +177,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void CreateView()
         {
+            base.CommonCreateView();
             _buttonActionState = ButtonAction.Create;
-            InputEnabled = true;
-            SaveButtonEnabled = true;
-            ModifyButtonEnabled = false;
-            DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
             SelectedListItem = new CustomerDto();
@@ -185,11 +186,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void ModifyView()
         {
+            base.CommonModifyView();
             _buttonActionState = ButtonAction.Modify;
-            InputEnabled = true;
-            SaveButtonEnabled = true;
-            CreateButtonEnabled = false;
-            DeleteButtonEnabled = false;
             CustomerDataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
         }
