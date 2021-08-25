@@ -17,7 +17,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _createButtonEnabled;
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
+        private ButtonAction _buttonActionState;
         private string _searchText;
+        private Visibility _DataGridVisibility;
 
         public bool InputEnabled
         {
@@ -55,24 +57,19 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _searchText = value; OnPropertyChanged(nameof(SearchText)); }
         }
 
-        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
-        #endregion
-
-        #region ArticleGroup
-        private Visibility _articleGroupDataGridVisibility;
-        private ButtonAction _buttonActionState;
-
-        public Visibility ArticleGroupDataGridVisibility
-        {
-            get => _articleGroupDataGridVisibility;
-            set { _articleGroupDataGridVisibility = value; OnPropertyChanged(nameof(ArticleGroupDataGridVisibility)); }
-        }
-
         public ButtonAction ButtonActionState
         {
             get => _buttonActionState;
             set => _buttonActionState = value;
         }
+
+        public Visibility DataGridVisibility
+        {
+            get => _DataGridVisibility;
+            set { _DataGridVisibility = value; OnPropertyChanged(nameof(DataGridVisibility)); }
+        }
+
+        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
         #endregion
 
 

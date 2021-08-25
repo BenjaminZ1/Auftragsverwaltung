@@ -33,9 +33,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         }
 
 
-
-
-
         public ArticleGroupViewModel(IArticleGroupService articleGroupService)
         {
             _articleGroupService = articleGroupService;
@@ -162,7 +159,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonDefautlView();
             ButtonActionState = ButtonAction.None;
-            ArticleGroupDataGridVisibility = Visibility.Visible;
+            DataGridVisibility = Visibility.Visible;
             LoadArticleGroups();
         }
 
@@ -170,7 +167,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonCreateView();
             ButtonActionState = ButtonAction.Create;
-            ArticleGroupDataGridVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new ArticleGroupDto();
         }
 
@@ -178,7 +175,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonModifyView();
             ButtonActionState = ButtonAction.Modify;
-            ArticleGroupDataGridVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Collapsed;
         }
     }   
 }

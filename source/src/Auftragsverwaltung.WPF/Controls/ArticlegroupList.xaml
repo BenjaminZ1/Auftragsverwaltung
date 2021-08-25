@@ -27,7 +27,7 @@
             <DataGrid x:Name="ArticleGroupDataGrid" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" 
                       SelectedItem="{Binding SelectedListItem}"
                       ItemsSource="{Binding ArticleGroups}"
-                      Visibility="{Binding ArticleGroupDataGridVisibility}">
+                      Visibility="{Binding DataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Artikelgruppe (id)" Binding="{Binding ArticleGroupId}"/>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>

@@ -30,7 +30,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private int _amount;
         private bool _dateTimePickerEnabled;
 
-        private Visibility _orderDataGridVisibility;
         private Visibility _customerPasswordBoxVisibility;
         private ButtonAction _buttonActionState;
 
@@ -86,12 +85,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _dateTimePickerEnabled;
             set { _dateTimePickerEnabled = value; OnPropertyChanged(nameof(DateTimePickerEnabled)); }
-        }
-
-        public Visibility OrderDataGridVisibility
-        {
-            get => _orderDataGridVisibility;
-            set { _orderDataGridVisibility = value; OnPropertyChanged(nameof(OrderDataGridVisibility)); }
         }
 
         public Visibility CustomerPasswordBoxVisibility
@@ -309,7 +302,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             LoadData();
             _buttonActionState = ButtonAction.None;
             DateTimePickerEnabled = false;
-            OrderDataGridVisibility = Visibility.Visible;
+            DataGridVisibility = Visibility.Visible;
         }
 
         private void CreateView()
@@ -318,7 +311,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Create;
             DateTimePickerEnabled = true;
-            OrderDataGridVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new OrderDto {Date = DateTime.Now};
             AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
@@ -329,7 +322,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             DisplayView = new OrderListModify();
             _buttonActionState = ButtonAction.Modify;
             DateTimePickerEnabled = true;
-            OrderDataGridVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Collapsed;
             AddedPositionListItems = new ObservableCollection<PositionDto>();
             if (SelectedListItem != null)
             {

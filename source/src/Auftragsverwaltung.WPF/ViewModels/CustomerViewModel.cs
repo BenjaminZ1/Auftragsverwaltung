@@ -14,7 +14,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private readonly ICustomerService _customerService;
         private IEnumerable<CustomerDto> _customers;
         private CustomerDto _selectedListItem;
-        private Visibility _customerDataGridVisibility;
         private Visibility _customerPasswordBoxVisibility;
         private ButtonAction _buttonActionState;
 
@@ -28,12 +27,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _selectedListItem;
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
-        }
-
-        public Visibility CustomerDataGridVisibility
-        {
-            get => _customerDataGridVisibility;
-            set { _customerDataGridVisibility = value; OnPropertyChanged(nameof(CustomerDataGridVisibility)); }
         }
 
         public Visibility CustomerPasswordBoxVisibility
@@ -168,7 +161,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonDefautlView();
             _buttonActionState = ButtonAction.None;
-            CustomerDataGridVisibility = Visibility.Visible;
+            DataGridVisibility = Visibility.Visible;
             CustomerPasswordBoxVisibility = Visibility.Collapsed;
             LoadCustomers();
         }
@@ -177,7 +170,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonCreateView();
             _buttonActionState = ButtonAction.Create;
-            CustomerDataGridVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
             SelectedListItem = new CustomerDto();
         }
@@ -186,7 +179,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonModifyView();
             _buttonActionState = ButtonAction.Modify;
-            CustomerDataGridVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Collapsed;
             CustomerPasswordBoxVisibility = Visibility.Visible;
         }
 

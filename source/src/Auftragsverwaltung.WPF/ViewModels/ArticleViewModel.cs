@@ -18,9 +18,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
     {
         private IEnumerable<ArticleDto> _articles;
         private ArticleDto _selectedListItem;
-        private Visibility _articleDataGridVisibility;
         private readonly IArticleService _articleService;
-        private ButtonAction _buttonActionState;
+
 
         public IEnumerable<ArticleDto> Articles
         {
@@ -32,12 +31,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _selectedListItem;
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
-        }
-
-        public Visibility ArticleDataGridVisibility
-        {
-            get => _articleDataGridVisibility;
-            set { _articleDataGridVisibility = value; OnPropertyChanged(nameof(ArticleDataGridVisibility)); }
         }
 
         public ArticleViewModel(IArticleService articleService)
@@ -91,7 +84,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private async Task Save()
         {
-            if (_buttonActionState == ButtonAction.Create)
+            if (ButtonActionState == ButtonAction.Create)
             {
                 var serviceTask = await _articleService.Create(SelectedListItem);
                 if (serviceTask.Response != null && !serviceTask.Response.Flag)
@@ -111,7 +104,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 DefautlView();
             }
 
-            if (_buttonActionState == ButtonAction.Modify)
+            if (ButtonActionState == ButtonAction.Modify)
             {
                 await Modify();
             }
@@ -166,24 +159,24 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void DefautlView()
         {
             base.CommonDefautlView();
-            _buttonActionState = ButtonAction.None;
-            ArticleDataGridVisibility = Visibility.Visible;
+            ButtonActionState = ButtonAction.None;
+            DataGridVisibility = Visibility.Visible;
             LoadArticles();
         }
 
         private void CreateView()
         {
             base.CommonCreateView();
-            _buttonActionState = ButtonAction.Create;
-            ArticleDataGridVisibility = Visibility.Collapsed;
+            ButtonActionState = ButtonAction.Create;
+            DataGridVisibility = Visibility.Collapsed;
             SelectedListItem = new ArticleDto();
         }
 
         private void ModifyView()
         {
             base.CommonModifyView();
-            _buttonActionState = ButtonAction.Modify;
-            ArticleDataGridVisibility = Visibility.Collapsed;
+            ButtonActionState = ButtonAction.Modify;
+            DataGridVisibility = Visibility.Collapsed;
         }
     }   
 }
