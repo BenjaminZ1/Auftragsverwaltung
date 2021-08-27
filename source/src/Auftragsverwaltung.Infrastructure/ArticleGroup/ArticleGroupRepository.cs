@@ -154,17 +154,5 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 
            return hierarchicalEntities.Where(e => e.ParentArticleGroup == null);
         }
-
-        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetService<AppDbContext>();
-
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups
-                .FirstOrDefaultAsync(e =>
-                    e.Name == articleGroup.Name);
-
-            return foundArticleGroup ?? articleGroup;
-        }
     }
 }
