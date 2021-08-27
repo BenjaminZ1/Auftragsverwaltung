@@ -1,17 +1,11 @@
-﻿using System;
+﻿using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Application.Service;
+using Auftragsverwaltung.WPF.Commands;
+using Auftragsverwaltung.WPF.State;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using Auftragsverwaltung.Application.Common;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Application.Service;
-using Auftragsverwaltung.Domain.Article;
-using Auftragsverwaltung.WPF.Commands;
-using Auftragsverwaltung.WPF.Models;
-using Auftragsverwaltung.WPF.State;
 
 
 namespace Auftragsverwaltung.WPF.ViewModels
@@ -193,5 +187,5 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             base.CommonModifyView();
         }
-    }   
+    }
 }

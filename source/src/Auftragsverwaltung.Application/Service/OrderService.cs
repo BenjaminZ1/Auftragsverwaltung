@@ -1,10 +1,10 @@
 ﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Order;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Application.Service
 {
@@ -25,7 +25,7 @@ namespace Auftragsverwaltung.Application.Service
             var mappedResponse = _mapper.Map<OrderDto>(response);
             return mappedResponse;
         }
-        
+
         public async Task<OrderDto> Delete(int id)
         {
             var response = await _repository.Delete(id);

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.WPF.State.Navigators;
+﻿using Auftragsverwaltung.WPF.State.Navigators;
+using System;
 
 namespace Auftragsverwaltung.WPF.ViewModels.Factories
 {

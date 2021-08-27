@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Domain.ArticleGroup;
+﻿using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Common;
+using System.Collections.Generic;
 
 namespace Auftragsverwaltung.Application.Dtos
 {

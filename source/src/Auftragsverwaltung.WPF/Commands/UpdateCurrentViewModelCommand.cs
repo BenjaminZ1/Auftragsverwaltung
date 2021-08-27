@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows.Input;
-using Auftragsverwaltung.WPF.State.Navigators;
-using Auftragsverwaltung.WPF.ViewModels;
+﻿using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
+using System;
+using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.Commands
 {
@@ -26,7 +25,7 @@ namespace Auftragsverwaltung.WPF.Commands
         public void Execute(object parameter)
         {
             var type = parameter as ViewType?;
-            if(type != null)
+            if (type != null)
             {
                 ViewType viewType = type.Value;
                 _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);

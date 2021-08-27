@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Auftragsverwaltung.WPF.State
+﻿namespace Auftragsverwaltung.WPF.State
 {
     public enum ButtonAction
     {

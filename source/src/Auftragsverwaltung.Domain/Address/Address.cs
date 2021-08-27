@@ -1,5 +1,4 @@
 ﻿using Auftragsverwaltung.Domain.Common;
-using System.Collections.Generic;
 
 namespace Auftragsverwaltung.Domain.Address
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.Article;
-using Auftragsverwaltung.Domain.ArticleGroup;
+﻿using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
@@ -12,6 +7,10 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Tests
 {

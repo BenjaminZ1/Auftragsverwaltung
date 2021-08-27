@@ -2,12 +2,11 @@
 using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Infrastructure.Position;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
@@ -90,9 +89,9 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .Where(e => e.Customer.Firstname.Contains(searchString) || e.Customer.Lastname.Contains(searchString))
                 .ToListAsync();
 
-            foreach(var entity in entities)
+            foreach (var entity in entities)
             {
-                if(!entity.Customer.Firstname.Contains(searchString) && !entity.Customer.Lastname.Contains(searchString))
+                if (!entity.Customer.Firstname.Contains(searchString) && !entity.Customer.Lastname.Contains(searchString))
                 {
                     entities.Remove(entity);
                 }
@@ -197,7 +196,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
             int i = 0;
             foreach (var id in articleIds)
             {
-                
+
                 var article = await db.Articles
                     .Include(p => p.ArticleGroup)
                     .FirstOrDefaultAsync(a => a.ArticleId == id);

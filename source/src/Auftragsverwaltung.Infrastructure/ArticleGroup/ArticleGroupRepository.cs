@@ -1,13 +1,13 @@
-﻿using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.ArticleGroup;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 {
@@ -152,7 +152,7 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
                     .AsNoTrackingWithIdentityResolution()
                     .ToListAsync();
 
-           return hierarchicalEntities.Where(e => e.ParentArticleGroup == null);
+            return hierarchicalEntities.Where(e => e.ParentArticleGroup == null);
         }
     }
 }

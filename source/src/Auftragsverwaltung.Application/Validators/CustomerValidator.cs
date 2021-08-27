@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Auftragsverwaltung.Application.Dtos;
+using FluentValidation;
+using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text.RegularExpressions;
-using Auftragsverwaltung.Application.Dtos;
-using FluentValidation;
 
 namespace Auftragsverwaltung.Application.Validators
 {

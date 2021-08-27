@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Auftragsverwaltung.Application.Dtos;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain.Common;
-using Auftragsverwaltung.Domain.Customer;
 
 namespace Auftragsverwaltung.Application.Common
 {

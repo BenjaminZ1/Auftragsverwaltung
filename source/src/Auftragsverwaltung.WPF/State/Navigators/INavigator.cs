@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using Auftragsverwaltung.WPF.ViewModels;
+﻿using Auftragsverwaltung.WPF.ViewModels;
+using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.State.Navigators
 {

@@ -1,11 +1,6 @@
 ﻿using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.State;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Auftragsverwaltung.Application.Service;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.State;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -34,7 +34,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _customerPasswordBoxVisibility = value; OnPropertyChanged(nameof(CustomerPasswordBoxVisibility)); }
         }
 
-        public CustomerViewModel(ICustomerService customerService) : base() 
+        public CustomerViewModel(ICustomerService customerService) : base()
         {
             _customerService = customerService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
@@ -99,9 +99,9 @@ namespace Auftragsverwaltung.WPF.ViewModels
                     MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
-                else if(serviceTask.Response != null)
+                else if (serviceTask.Response != null)
                 {
-                    
+
                     MessageBox.Show($"Customer with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
                                     $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
                         MessageBoxButton.OK,

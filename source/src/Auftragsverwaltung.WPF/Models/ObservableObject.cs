@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Auftragsverwaltung.WPF.Models
 {
-   public class ObservableObject : INotifyPropertyChanged
+    public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
-using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
-using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
@@ -19,16 +13,14 @@ using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using Auftragsverwaltung.Infrastructure.Order;
-using Auftragsverwaltung.WPF;
-using Auftragsverwaltung.WPF.State.Navigators;
-using Auftragsverwaltung.WPF.ViewModels;
-using Auftragsverwaltung.WPF.ViewModels.Factories;
 using AutoMapper;
 using FakeItEasy;
-using FakeItEasy.Sdk;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Security;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -108,7 +100,7 @@ namespace Auftragsverwaltung.Tests
             var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
             A.CallTo(() => serviceScopeFactoryFake.CreateScope())
                 .Returns(serviceScopeFake);
-            
+
             A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
                 .Returns(serviceScopeFactoryFake);
 

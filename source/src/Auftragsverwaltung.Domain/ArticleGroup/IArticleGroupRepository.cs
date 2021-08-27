@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Auftragsverwaltung.Domain.Common;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.Common;
 
 namespace Auftragsverwaltung.Domain.ArticleGroup
 {

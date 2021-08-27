@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Auftragsverwaltung.Application.Dtos
+﻿namespace Auftragsverwaltung.Application.Dtos
 {
     public class AddressDto : AppDto
     {

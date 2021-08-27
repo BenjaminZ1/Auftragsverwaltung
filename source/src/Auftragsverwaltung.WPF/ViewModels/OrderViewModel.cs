@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
-using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.Controls;
 using Auftragsverwaltung.WPF.State;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -259,7 +257,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             if (SelectedArticleListItem != null)
             {
-                PositionDto positionDto = new PositionDto() {Amount = Amount, Article = SelectedArticleListItem};
+                PositionDto positionDto = new PositionDto() { Amount = Amount, Article = SelectedArticleListItem };
 
                 var existingPositionDto = CheckForExistingPositionDto(positionDto);
                 if (existingPositionDto != null)
@@ -315,7 +313,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             base.CommonCreateView();
             DisplayView = new OrderListModify();
             DateTimePickerEnabled = true;
-            SelectedListItem = new OrderDto {Date = DateTime.Now};
+            SelectedListItem = new OrderDto { Date = DateTime.Now };
             AddedPositionListItems = new ObservableCollection<PositionDto>();
         }
 

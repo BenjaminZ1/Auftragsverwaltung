@@ -1,10 +1,7 @@
 ﻿using Auftragsverwaltung.Domain.Common;
-using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
-using Auftragsverwaltung.Domain.Position;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 
 namespace Auftragsverwaltung.Application.Dtos
 {
@@ -13,8 +10,8 @@ namespace Auftragsverwaltung.Application.Dtos
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
-        public  CustomerDto Customer { get; set; }
-        public  ICollection<PositionDto> Positions { get; set; }
+        public CustomerDto Customer { get; set; }
+        public ICollection<PositionDto> Positions { get; set; }
         public ResponseDto<Order> Response { get; set; }
 
         public OrderDto()

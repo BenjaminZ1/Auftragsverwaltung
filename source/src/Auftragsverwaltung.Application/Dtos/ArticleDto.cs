@@ -1,10 +1,5 @@
 ﻿using Auftragsverwaltung.Domain.Article;
-using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Common;
-using Auftragsverwaltung.Domain.Position;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Auftragsverwaltung.Application.Dtos
 {

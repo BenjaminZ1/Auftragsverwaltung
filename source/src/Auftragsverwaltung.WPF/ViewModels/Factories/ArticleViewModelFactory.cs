@@ -1,7 +1,4 @@
 ﻿using Auftragsverwaltung.Application.Service;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Auftragsverwaltung.WPF.ViewModels.Factories
 {

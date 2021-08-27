@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
@@ -9,6 +6,9 @@ using AutoMapper;
 using FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -91,7 +91,7 @@ namespace Auftragsverwaltung.Tests
             A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(), InstanceHelper.GetCustomerValidator());
-            
+
             //act
             var result = await customerService.GetAll();
 

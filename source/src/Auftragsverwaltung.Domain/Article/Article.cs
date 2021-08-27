@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
+using System.Collections.Generic;
 
 namespace Auftragsverwaltung.Domain.Article
 {
@@ -10,6 +10,6 @@ namespace Auftragsverwaltung.Domain.Article
         public decimal Price { get; set; }
         public int ArticleGroupId { get; set; }
         public virtual ArticleGroup.ArticleGroup ArticleGroup { get; set; } = default!;
-        public virtual ICollection<Position.Position> Positions { get; set; } 
+        public virtual ICollection<Position.Position> Positions { get; set; }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Application.Validators;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using AutoMapper;
 using FluentValidation;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Application.Service
 {
@@ -42,7 +40,7 @@ namespace Auftragsverwaltung.Application.Service
         {
             var result = _validator.Validate(dto);
 
-            if (!result.IsValid )
+            if (!result.IsValid)
             {
                 StringBuilder errorBld = new StringBuilder();
                 foreach (var failure in result.Errors)

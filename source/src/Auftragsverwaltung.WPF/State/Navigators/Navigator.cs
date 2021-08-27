@@ -1,8 +1,8 @@
-﻿using System.Windows.Input;
-using Auftragsverwaltung.WPF.Commands;
+﻿using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.ViewModels;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
+using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.State.Navigators
 {
@@ -10,7 +10,7 @@ namespace Auftragsverwaltung.WPF.State.Navigators
     {
         private ViewModelBase _currentViewModel;
 
-        public ViewModelBase CurrentViewModel 
+        public ViewModelBase CurrentViewModel
         {
             get => _currentViewModel;
             set

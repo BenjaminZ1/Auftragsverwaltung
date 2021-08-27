@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Application.Validators;
@@ -21,6 +19,8 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Windows;
 
 namespace Auftragsverwaltung.WPF
 {
@@ -43,7 +43,7 @@ namespace Auftragsverwaltung.WPF
         {
             IServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<AppDbContext>(o => 
+            services.AddDbContext<AppDbContext>(o =>
                 o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
             services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
