@@ -11,9 +11,9 @@ namespace Auftragsverwaltung.Application.Service
 {
     public class ArticleGroupService : IArticleGroupService
     {
-        private readonly IAppRepository<ArticleGroup> _repository;
+        private readonly IArticleGroupRepository _repository;
         private readonly IMapper _mapper;
-        public ArticleGroupService(IAppRepository<ArticleGroup> repository, IMapper mapper)
+        public ArticleGroupService(IArticleGroupRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -61,6 +61,13 @@ namespace Auftragsverwaltung.Application.Service
         public async Task<IEnumerable<ArticleGroupDto>> Search(string searchString)
         {
             var response = await _repository.Search(searchString);
+            var mappedResponse = response.Select(x => _mapper.Map<ArticleGroupDto>(x));
+            return mappedResponse;
+        }
+
+        public async Task<IEnumerable<ArticleGroupDto>> GetHierarchicalData()
+        {
+            var response = await _repository.GetHierarchicalData();
             var mappedResponse = response.Select(x => _mapper.Map<ArticleGroupDto>(x));
             return mappedResponse;
         }

@@ -6,11 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.ArticleGroup;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 {
-    public class ArticleGroupRepository : IAppRepository<Domain.ArticleGroup.ArticleGroup>
+    public class ArticleGroupRepository : IArticleGroupRepository
     {
 
         private readonly IServiceScopeFactory _scopeFactory;
@@ -125,6 +126,35 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             }
 
             return response;
+        }
+
+        public async Task<IEnumerable<Domain.ArticleGroup.ArticleGroup>> GetHierarchicalData()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetService<AppDbContext>();
+
+            var hierarchicalEntities = await db.ArticleGroups.FromSqlRaw(
+                    @";WITH items AS (
+                    SELECT ArticleGroupId, Name
+                    , 0 AS Level
+                    , CAST(ArticleGroupId AS VARCHAR(255)) AS Path
+                    FROM ArticleGroup 
+                    WHERE ParentArticleGroupId IS NULL
+
+                    UNION ALL
+
+                    SELECT ag.ArticleGroupId, ag.Name
+                    , Level + 1
+                    , CAST(Path + '.' + CAST(ag.ArticleGroupId AS VARCHAR(255)) AS VARCHAR(255))
+                    FROM ArticleGroup ag
+	                INNER JOIN items itms ON itms.ArticleGroupId = ag.ParentArticleGroupId               
+                )
+
+                SELECT * FROM items ORDER BY Path"
+                )
+                .ToListAsync();
+
+            return hierarchicalEntities;
         }
 
         private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
