@@ -1,6 +1,8 @@
 ﻿using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.State;
 using System.Windows;
+using Auftragsverwaltung.Domain.Common;
+using Auftragsverwaltung.WPF.Models;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -111,6 +113,23 @@ namespace Auftragsverwaltung.WPF.ViewModels
             SearchButtonEnabled = false;
             ButtonActionState = ButtonAction.Modify;
             DataGridVisibility = Visibility.Collapsed;
+        }
+
+        public void ShowMessageBox(PlainResponse response)
+        {
+            if (response != null && !response.Flag)
+            {
+                MessageBox.Show(response.Message, "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else if (response != null)
+            {
+                MessageBox.Show($"Customer with Id: {response.Id} {response.Message}" +
+                                System.Environment.NewLine +
+                                $"Affected rows: {response.NumberOfRows}", "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
         }
     }
 }

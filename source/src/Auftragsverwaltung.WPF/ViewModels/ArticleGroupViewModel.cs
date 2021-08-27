@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using Auftragsverwaltung.WPF.Models;
 
 
 namespace Auftragsverwaltung.WPF.ViewModels
@@ -103,19 +104,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (ButtonActionState == ButtonAction.Create)
             {
                 var serviceTask = await _articleGroupService.Create(SelectedListItem);
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                ShowMessageBox(new PlainResponse()
                 {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else
-                {
-                    if (serviceTask.Response != null)
-                        MessageBox.Show($"ArticleGroup with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                        $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                }
+                    Flag = serviceTask.Response.Flag,
+                    Id = serviceTask.Response.Id,
+                    Message = serviceTask.Response.Message,
+                    NumberOfRows = serviceTask.Response.NumberOfRows
+                });
 
                 DefautlView();
             }
@@ -131,19 +126,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (SelectedListItem != null)
             {
                 var serviceTask = await _articleGroupService.Update(SelectedListItem);
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                ShowMessageBox(new PlainResponse()
                 {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else if (serviceTask.Response != null)
-                {
-                    MessageBox.Show($"Article with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
-                                    System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
+                    Flag = serviceTask.Response.Flag,
+                    Id = serviceTask.Response.Id,
+                    Message = serviceTask.Response.Message,
+                    NumberOfRows = serviceTask.Response.NumberOfRows
+                });
             }
             DefautlView();
         }
@@ -153,19 +142,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (SelectedListItem != null)
             {
                 var serviceTask = await _articleGroupService.Delete(SelectedListItem.ArticleGroupId);
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                ShowMessageBox(new PlainResponse()
                 {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else if (serviceTask.Response != null)
-                {
-                    MessageBox.Show($"ArticleGroup with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
-                                    System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
+                    Flag = serviceTask.Response.Flag,
+                    Id = serviceTask.Response.Id,
+                    Message = serviceTask.Response.Message,
+                    NumberOfRows = serviceTask.Response.NumberOfRows
+                });
             }
 
             DefautlView();

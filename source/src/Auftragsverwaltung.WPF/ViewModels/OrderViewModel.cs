@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Auftragsverwaltung.WPF.Models;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -184,19 +185,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (ButtonActionState == ButtonAction.Create)
             {
                 var serviceTask = await _orderService.Create(SelectedListItem);
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                ShowMessageBox(new PlainResponse()
                 {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else if (serviceTask.Response != null)
-                {
-
-                    MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" + System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
+                    Flag = serviceTask.Response.Flag,
+                    Id = serviceTask.Response.Id,
+                    Message = serviceTask.Response.Message,
+                    NumberOfRows = serviceTask.Response.NumberOfRows
+                });
 
                 DefautlView();
             }
@@ -212,19 +207,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (SelectedListItem != null)
             {
                 var serviceTask = await _orderService.Update(SelectedListItem);
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                ShowMessageBox(new PlainResponse()
                 {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else if (serviceTask.Response != null)
-                {
-                    MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
-                                    System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
+                    Flag = serviceTask.Response.Flag,
+                    Id = serviceTask.Response.Id,
+                    Message = serviceTask.Response.Message,
+                    NumberOfRows = serviceTask.Response.NumberOfRows
+                });
             }
 
             DefautlView();
@@ -235,19 +224,13 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (SelectedListItem != null)
             {
                 var serviceTask = await _orderService.Delete(SelectedListItem.OrderId);
-                if (serviceTask.Response != null && !serviceTask.Response.Flag)
+                ShowMessageBox(new PlainResponse()
                 {
-                    MessageBox.Show(serviceTask.Response.Message, "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-                else if (serviceTask.Response != null)
-                {
-                    MessageBox.Show($"Order with Id: {serviceTask.Response.Id} {serviceTask.Response.Message}" +
-                                    System.Environment.NewLine +
-                                    $"Affected rows: {serviceTask.Response.NumberOfRows}", "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
+                    Flag = serviceTask.Response.Flag,
+                    Id = serviceTask.Response.Id,
+                    Message = serviceTask.Response.Message,
+                    NumberOfRows = serviceTask.Response.NumberOfRows
+                });
             }
 
             DefautlView();
