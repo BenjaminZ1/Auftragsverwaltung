@@ -18,6 +18,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
     {
         private readonly IArticleGroupService _articleGroupService;
         private IEnumerable<ArticleGroupDto> _articleGroups;
+        private IEnumerable<ArticleGroupDto> _hierarchicalArticleGroups;
         private ArticleGroupDto _selectedListItem;
 
         public IEnumerable<ArticleGroupDto> ArticleGroups
@@ -54,7 +55,15 @@ namespace Auftragsverwaltung.WPF.ViewModels
             {
                 if (task.Exception == null)
                     ArticleGroups = task.Result;
-            });
+            })
+                .ContinueWith(customerTask =>
+                {
+                    _articleGroupService.GetHierarchicalData().ContinueWith(articlesInnerTask =>
+                    {
+                        if (articlesInnerTask.Exception == null)
+                            _hierarchicalArticleGroups = articlesInnerTask.Result;
+                    });
+                });
         }
 
         private async Task ControlBarButtonAction(object parameter)

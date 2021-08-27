@@ -133,26 +133,34 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             using var scope = _scopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetService<AppDbContext>();
 
-            var hierarchicalEntities = await db.ArticleGroups.FromSqlRaw(
-                    @";WITH items AS (
-                    SELECT ArticleGroupId, Name
-                    , 0 AS Level
-                    , CAST(ArticleGroupId AS VARCHAR(255)) AS Path
-                    FROM ArticleGroup 
-                    WHERE ParentArticleGroupId IS NULL
+            List<Domain.ArticleGroup.ArticleGroup> hierarchicalEntities = new List<Domain.ArticleGroup.ArticleGroup>();
+            try
+            {
+                hierarchicalEntities = await db.ArticleGroups.FromSqlRaw(
+                        @";WITH items AS (
+                            SELECT ArticleGroupId, Name, ParentArticleGroupId
+                            FROM ArticleGroup 
+                            WHERE ParentArticleGroupId IS NULL
 
-                    UNION ALL
+                            UNION ALL
 
-                    SELECT ag.ArticleGroupId, ag.Name
-                    , Level + 1
-                    , CAST(Path + '.' + CAST(ag.ArticleGroupId AS VARCHAR(255)) AS VARCHAR(255))
-                    FROM ArticleGroup ag
-	                INNER JOIN items itms ON itms.ArticleGroupId = ag.ParentArticleGroupId               
-                )
+                            SELECT ag.ArticleGroupId, ag.Name, ag.ParentArticleGroupId
+                            FROM ArticleGroup ag
+	                        INNER JOIN items itms ON itms.ArticleGroupId = ag.ParentArticleGroupId
+                            
+                        )
 
-                SELECT * FROM items ORDER BY Path"
-                )
-                .ToListAsync();
+                        SELECT * FROM items"
+                        )
+                    .AsNoTrackingWithIdentityResolution()
+                    .ToListAsync();
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
 
             return hierarchicalEntities;
         }

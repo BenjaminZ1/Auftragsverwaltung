@@ -8,7 +8,9 @@ using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Article;
+using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.WPF.Commands;
+using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.State;
 
 
@@ -19,7 +21,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private IEnumerable<ArticleDto> _articles;
         private ArticleDto _selectedListItem;
         private readonly IArticleService _articleService;
-        private readonly IArticleGroupService _articleGroupService;
 
 
         public IEnumerable<ArticleDto> Articles
@@ -34,18 +35,17 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
 
-        public ArticleViewModel(IArticleService articleService, IArticleGroupService articleGroupService)
+        public ArticleViewModel(IArticleService articleService)
         {
             _articleService = articleService;
-            _articleGroupService = articleGroupService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }
 
-        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService, IArticleGroupService articleGroupService)
+        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService)
         {
-            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService, articleGroupService);
+            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService);
             articleListviewModel.LoadArticles();
             return articleListviewModel;
         }
@@ -140,7 +140,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             
             DefautlView();
         }
-
         private async Task Delete()
         {
             if (SelectedListItem != null)
@@ -163,7 +162,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
             DefautlView();
         }
-
+        
         private void DefautlView()
         {
             base.CommonDefautlView();
