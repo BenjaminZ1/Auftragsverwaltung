@@ -6,7 +6,6 @@ namespace Auftragsverwaltung.Infrastructure.Common
 {
     public class AppEntityConfigurations<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : EntityBase
     {
-
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             //add configuration options for all entities
