@@ -19,6 +19,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private IEnumerable<ArticleDto> _articles;
         private ArticleDto _selectedListItem;
         private readonly IArticleService _articleService;
+        private readonly IArticleGroupService _articleGroupService;
 
 
         public IEnumerable<ArticleDto> Articles
@@ -33,17 +34,18 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
 
-        public ArticleViewModel(IArticleService articleService)
+        public ArticleViewModel(IArticleService articleService, IArticleGroupService articleGroupService)
         {
             _articleService = articleService;
+            _articleGroupService = articleGroupService;
             ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }
 
-        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService)
+        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService, IArticleGroupService articleGroupService)
         {
-            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService);
+            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService, articleGroupService);
             articleListviewModel.LoadArticles();
             return articleListviewModel;
         }
