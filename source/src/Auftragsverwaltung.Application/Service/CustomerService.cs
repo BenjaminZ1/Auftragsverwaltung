@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Dtos;
@@ -43,14 +44,15 @@ namespace Auftragsverwaltung.Application.Service
 
             if (!result.IsValid )
             {
-                string errors = "";
+                StringBuilder errorBld = new StringBuilder();
                 foreach (var failure in result.Errors)
                 {
-                    errors += $"{failure.PropertyName}: {failure.ErrorMessage } \n";
+                    errorBld.Append($"{failure.PropertyName}: {failure.ErrorMessage } \n");
                 }
+
                 return new CustomerDto()
                 {
-                    Response = new ResponseDto<Customer>() { Flag = false, Message = errors }
+                    Response = new ResponseDto<Customer>() { Flag = false, Message = errorBld.ToString() }
                 };
             }
 
@@ -66,14 +68,14 @@ namespace Auftragsverwaltung.Application.Service
 
             if (!result.IsValid)
             {
-                string errors = "";
+                StringBuilder errorBld = new StringBuilder();
                 foreach (var failure in result.Errors)
                 {
-                    errors += $"{failure.PropertyName}: {failure.ErrorMessage } \n";
+                    errorBld.Append($"{failure.PropertyName}: {failure.ErrorMessage } \n");
                 }
                 return new CustomerDto()
                 {
-                    Response = new ResponseDto<Customer>() { Flag = false, Message = errors }
+                    Response = new ResponseDto<Customer>() { Flag = false, Message = errorBld.ToString() }
                 };
             }
 
