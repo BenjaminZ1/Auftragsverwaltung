@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,6 +10,7 @@ using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.WPF.Commands;
+using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.State;
 
 
@@ -18,6 +20,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
     {
         private readonly IArticleGroupService _articleGroupService;
         private IEnumerable<ArticleGroupDto> _articleGroups;
+        private IEnumerable<ArticleGroupDto> _rootArticleGroups;
         private ArticleGroupDto _selectedListItem;
 
         public IEnumerable<ArticleGroupDto> ArticleGroups
@@ -26,12 +29,17 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _articleGroups = value; OnPropertyChanged(nameof(ArticleGroups)); }
         }
 
+        public IEnumerable<ArticleGroupDto> RootArticleGroups
+        {
+            get => _rootArticleGroups;
+            set { _rootArticleGroups = value; OnPropertyChanged(nameof(RootArticleGroups)); }
+        }
+
         public ArticleGroupDto SelectedListItem
         {
             get => _selectedListItem;
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
-
 
         public ArticleGroupViewModel(IArticleGroupService articleGroupService)
         {
@@ -50,11 +58,19 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private void LoadArticleGroups()
         {
-            _articleGroupService.GetHierarchicalData().ContinueWith(task =>
+            _articleGroupService.GetAll().ContinueWith(task =>
             {
                 if (task.Exception == null)
                     ArticleGroups = task.Result;
-            });
+            })
+                .ContinueWith(articleTask =>
+                {
+                    _articleGroupService.GetHierarchicalData().ContinueWith(articleGroupInnerTask =>
+                    {
+                        if (articleGroupInnerTask.Exception == null)
+                            RootArticleGroups = articleGroupInnerTask.Result;
+                    });
+                });
         }
 
         private async Task ControlBarButtonAction(object parameter)

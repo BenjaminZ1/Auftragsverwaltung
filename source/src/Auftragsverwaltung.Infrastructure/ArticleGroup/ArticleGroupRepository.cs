@@ -133,10 +133,8 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
             using var scope = _scopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetService<AppDbContext>();
 
-            List<Domain.ArticleGroup.ArticleGroup> hierarchicalEntities = new List<Domain.ArticleGroup.ArticleGroup>();
-            try
-            {
-                hierarchicalEntities = await db.ArticleGroups.FromSqlRaw(
+
+            var hierarchicalEntities = await db.ArticleGroups.FromSqlRaw(
                         @";WITH items AS (
                             SELECT ArticleGroupId, Name, ParentArticleGroupId
                             FROM ArticleGroup 
@@ -149,20 +147,12 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
 	                        INNER JOIN items itms ON itms.ArticleGroupId = ag.ParentArticleGroupId
                             
                         )
-
                         SELECT * FROM items"
                         )
                     .AsNoTrackingWithIdentityResolution()
                     .ToListAsync();
 
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-
-            return hierarchicalEntities;
+           return hierarchicalEntities.Where(e => e.ParentArticleGroup == null);
         }
 
         private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
