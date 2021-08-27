@@ -11,10 +11,8 @@ namespace Auftragsverwaltung.Application.Extensions
         {
             var saltBytes = new byte[nSalt];
 
-            using (var provider = new RNGCryptoServiceProvider())
-            {
-                provider.GetNonZeroBytes(saltBytes);
-            }
+            using var provider = new RNGCryptoServiceProvider();
+            provider.GetNonZeroBytes(saltBytes);
 
             return Convert.ToBase64String(saltBytes);
         }
@@ -23,10 +21,8 @@ namespace Auftragsverwaltung.Application.Extensions
         {
             var saltBytes = Convert.FromBase64String(salt);
 
-            using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, nIterations))
-            {
-                return rfc2898DeriveBytes.GetBytes(nHash);
-            }
+            using var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, nIterations);
+            return rfc2898DeriveBytes.GetBytes(nHash);
         }
     }
 
