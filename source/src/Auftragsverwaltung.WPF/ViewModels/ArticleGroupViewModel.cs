@@ -55,14 +55,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
                 if (task.Exception == null)
                     ArticleGroups = task.Result;
             });
-            //.ContinueWith(customerTask =>
-            //{
-            //    _articleGroupService.GetHierarchicalData().ContinueWith(articlesInnerTask =>
-            //    {
-            //        if (articlesInnerTask.Exception == null)
-            //            _hierarchicalArticleGroups = articlesInnerTask.Result;
-            //    });
-            //});
         }
 
         private async Task ControlBarButtonAction(object parameter)
