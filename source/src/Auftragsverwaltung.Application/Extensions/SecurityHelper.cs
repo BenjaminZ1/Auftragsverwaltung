@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Auftragsverwaltung.Application.Extensions
 {
-    public class SecurityHelper
+    public static class SecurityHelper
     {
         public static string GenerateSalt(int nSalt)
         {
