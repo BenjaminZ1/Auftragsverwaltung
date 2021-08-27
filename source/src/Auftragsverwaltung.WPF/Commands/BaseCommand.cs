@@ -35,7 +35,7 @@ namespace Auftragsverwaltung.WPF.Commands
 
         public void DoCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, null);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
