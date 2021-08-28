@@ -125,17 +125,20 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 var db = scope.ServiceProvider.GetService<AppDbContext>();
 
                 Domain.Customer.Customer entity = await this.Get(id);
-                //int townId = entity.Addresses.TownId;
+                //int townId = GetValidTownId(entity.Addresses);
 
-                //if (!(await IsTownInUse(townId)))
-                //{
-                //    db.RemoveRange(entity.Addresses.Town);
-                //    db.RemoveRange(entity.Addresses);
-                //}
-                //else
-                //{
-                //    db.RemoveRange(entity.Addresses);
-                //}
+                foreach (var address in entity.Addresses)
+                {
+                    if (!(await IsTownInUse(address.Town.TownId)))
+                    {
+                        db.RemoveRange(address.Town);
+                        db.RemoveRange(address);
+                    }
+                    else
+                    {
+                        db.RemoveRange(address);
+                    }
+                }
 
                 db.Customers.Remove(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
@@ -206,5 +209,11 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 return true;
             return false;
         }
+
+        //private int GetValidTownId(ICollection<Domain.Address.Address> addresses)
+        //{
+        //    var validAddress = addresses.First(a => a.ValidUntil == DateTime.MaxValue);
+        //    return validAddress.AddressId;
+        //}
     }
 }
