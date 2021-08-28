@@ -72,6 +72,8 @@ namespace Auftragsverwaltung.Tests
                 {
                     Street = "Teststrasse",
                     BuildingNr = "2",
+                    ValidFrom = DateTime.Now,
+                    ValidUntil = DateTime.MaxValue,
                     Town = new Town()
                     {
                         Townname = "Herisau",
@@ -112,6 +114,8 @@ namespace Auftragsverwaltung.Tests
                 {
                     Street = "Teststrasse",
                     BuildingNr = "2",
+                    ValidFrom = DateTime.Now,
+                    ValidUntil = DateTime.MaxValue,
                     Town = new Town()
                     {
                         Townname = "Herisau",
@@ -131,6 +135,8 @@ namespace Auftragsverwaltung.Tests
                 {
                     Street = "Hauptstrasse",
                     BuildingNr = "44",
+                    ValidFrom = DateTime.Now,
+                    ValidUntil = DateTime.MaxValue,
                     Town = new Town()
                     {
                         Townname = "St. Gallen",
@@ -150,6 +156,8 @@ namespace Auftragsverwaltung.Tests
                 {
                     Street = "Teststrasse",
                     BuildingNr = "2",
+                    ValidFrom = DateTime.Now,
+                    ValidUntil = DateTime.MaxValue,
                     Town = new Town()
                     {
                         Townname = "Herisau",
@@ -264,6 +272,8 @@ namespace Auftragsverwaltung.Tests
                     {
                         Street = "Teststrasse",
                         BuildingNr = "2",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             Townname = "Herisau",
@@ -322,6 +332,8 @@ namespace Auftragsverwaltung.Tests
                         AddressId = 1,
                         BuildingNr = "2",
                         Street = "Teststrasse",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new TownDto()
                         {
                             TownId = 1,
@@ -345,6 +357,8 @@ namespace Auftragsverwaltung.Tests
                         AddressId = 2,
                         BuildingNr = "44",
                         Street = "Hauptstrasse",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new TownDto()
                         {
                             TownId = 2,
@@ -368,6 +382,8 @@ namespace Auftragsverwaltung.Tests
                         AddressId = 1,
                         BuildingNr = "2",
                         Street = "Teststrasse",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new TownDto()
                         {
                             TownId = 1,
@@ -400,6 +416,8 @@ namespace Auftragsverwaltung.Tests
                         AddressId = 1,
                         BuildingNr = "2",
                         Street = "Teststrasse",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             TownId = 1,
@@ -423,6 +441,8 @@ namespace Auftragsverwaltung.Tests
                         AddressId = 2,
                         BuildingNr = "44",
                         Street = "Hauptstrasse",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             TownId = 2,
@@ -446,6 +466,8 @@ namespace Auftragsverwaltung.Tests
                         AddressId = 1,
                         BuildingNr = "2",
                         Street = "Teststrasse",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             TownId = 1,
@@ -477,6 +499,8 @@ namespace Auftragsverwaltung.Tests
                     {
                         Street = "Teststrasse",
                         BuildingNr = "2",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             Townname = "Herisau",
@@ -497,6 +521,8 @@ namespace Auftragsverwaltung.Tests
                     {
                         Street = "Hauptstrasse",
                         BuildingNr = "44",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             Townname = "St. Gallen",
@@ -517,6 +543,8 @@ namespace Auftragsverwaltung.Tests
                     {
                         Street = "Teststrasse",
                         BuildingNr = "2",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
                         Town = new Town()
                         {
                             Townname = "Herisau",
