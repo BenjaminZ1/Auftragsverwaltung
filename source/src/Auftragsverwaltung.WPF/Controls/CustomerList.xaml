@@ -35,11 +35,11 @@
                     <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
 
-                    <DataGridTextColumn Header="Postleitzahl" Binding="{Binding Address.Town.ZipCode}"/>
-                    <DataGridTextColumn Header="Stadt" Binding="{Binding Address.Town.Townname}"/>
+                    <DataGridTextColumn Header="Postleitzahl" Binding="{Binding ValidAddress.Town.ZipCode}"/>
+                    <DataGridTextColumn Header="Stadt" Binding="{Binding ValidAddress.Town.Townname}"/>
 
-                    <DataGridTextColumn Header="Strasse" Binding="{Binding Address.Street}"/>
-                    <DataGridTextColumn Header="HausNr" Binding="{Binding Address.BuildingNr}"/>
+                    <DataGridTextColumn Header="Strasse" Binding="{Binding ValidAddress.Street}"/>
+                    <DataGridTextColumn Header="HausNr" Binding="{Binding ValidAddress.BuildingNr}"/>
                 </DataGrid.Columns>
             </DataGrid>
 

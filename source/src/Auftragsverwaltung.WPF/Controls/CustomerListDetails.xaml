@@ -52,13 +52,13 @@
             <TextBox Grid.Column="1" Grid.Row="2" 
                      Text="{Binding CustomerDto.Lastname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <TextBox Grid.Column="1" Grid.Row="3" 
-                     Text="{Binding CustomerDto.Address.Town.ZipCode, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+                     Text="{Binding CustomerDto.ValidAddress.Town.ZipCode, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <TextBox Grid.Column="1" Grid.Row="4"
-                     Text="{Binding CustomerDto.Address.Town.Townname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+                     Text="{Binding CustomerDto.ValidAddress.Town.Townname, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <TextBox Grid.Column="1" Grid.Row="5"
-                     Text="{Binding CustomerDto.Address.Street, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+                     Text="{Binding CustomerDto.ValidAddress.Street, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <TextBox Grid.Column="1" Grid.Row="6" 
-                     Text="{Binding CustomerDto.Address.BuildingNr, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
+                     Text="{Binding CustomerDto.ValidAddress.BuildingNr, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <TextBox Grid.Column="1" Grid.Row="7"
                      Text="{Binding CustomerDto.Email, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <TextBox Grid.Column="1" Grid.Row="8"
