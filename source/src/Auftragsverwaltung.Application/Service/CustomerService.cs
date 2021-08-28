@@ -1,4 +1,5 @@
-﻿using Auftragsverwaltung.Application.Dtos;
+﻿using System;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using AutoMapper;
@@ -55,8 +56,11 @@ namespace Auftragsverwaltung.Application.Service
                 };
             }
 
+            dto.ValidAddress.ValidFrom = DateTime.Now;
+            dto.ValidAddress.ValidUntil = DateTime.MaxValue;
             var entity = _mapper.Map<Customer>(dto);
             entity.Addresses.Add(_mapper.Map<Address>(dto.ValidAddress));
+
             var response = await _repository.Create(entity);
             var mappedResponse = _mapper.Map<CustomerDto>(response);
             return mappedResponse;

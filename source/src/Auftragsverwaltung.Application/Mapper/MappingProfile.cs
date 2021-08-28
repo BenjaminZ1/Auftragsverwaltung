@@ -13,7 +13,6 @@ using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.Domain.Town;
 using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 
 namespace Auftragsverwaltung.Application.Mapper
 {
@@ -36,8 +35,9 @@ namespace Auftragsverwaltung.Application.Mapper
             CreateMap<Town, TownDto>();
 
             CreateMap<ResponseDto<Customer>, CustomerDto>()
-                .ForMember(dest => dest.Addresses,
-                    opt => opt.MapFrom(src => src.Entity.Addresses))
+                .ForMember(dest => dest.ValidAddress,
+                    opt => opt.MapFrom(src => src.Entity.Addresses
+                        .FirstOrDefault(e => e.ValidUntil == DateTime.MaxValue)))
                 .ForMember(dest => dest.Orders,
                     opt => opt.MapFrom(src => src.Entity.Orders))
                 .ForMember(dest => dest.CustomerId,
@@ -54,9 +54,6 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerNumber,
                     opt => opt.MapFrom(src => src.Entity.CustomerNumber))
-                .ForMember(dest => dest.ValidAddress,
-                    opt => opt.MapFrom(src => src.Entity.Addresses
-                        .Where(e => e.ValidUntil == DateTime.MaxValue)))
                 .ForPath(dest => dest.Response.Flag,
                     opt => opt.MapFrom(src => src.Flag))
                 .ForPath(dest => dest.Response.Id,
@@ -134,8 +131,7 @@ namespace Auftragsverwaltung.Application.Mapper
                         .HashPassword(src.Password.ToString(), SecurityHelper.GenerateSalt(70), 42042, 70)));
 
 
-            CreateMap<AddressDto, Address>()
-                .EqualityComparison((adto, a) => adto.AddressId == a.AddressId);
+            CreateMap<AddressDto, Address>();
             CreateMap<ArticleDto, Article>();
             CreateMap<ArticleGroupDto, ArticleGroup>();
             CreateMap<OrderDto, Order>();

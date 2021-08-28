@@ -21,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
-using AutoMapper.EquivalencyExpression;
 
 namespace Auftragsverwaltung.WPF
 {
@@ -72,7 +71,6 @@ namespace Auftragsverwaltung.WPF
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
-                mc.AddCollectionMappers();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
