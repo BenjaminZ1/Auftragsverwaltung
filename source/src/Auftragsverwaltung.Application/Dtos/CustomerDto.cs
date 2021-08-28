@@ -12,6 +12,7 @@ namespace Auftragsverwaltung.Application.Dtos
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public ICollection<AddressDto> Addresses { get; set; }
+        public AddressDto ValidAddress { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
         public SecureString Password { get; set; }

@@ -1,4 +1,7 @@
-﻿using Auftragsverwaltung.Application.Dtos;
+﻿using System;
+using System.Linq;
+using System.Xml.Serialization;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Extensions;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
@@ -19,7 +22,11 @@ namespace Auftragsverwaltung.Application.Mapper
             // Add as many of these lines as you need to map your objects
             CreateMap<Customer, CustomerDto>()
                 .ForMember(dest => dest.Password,
-                    opt => opt.Ignore());
+                    opt => opt.Ignore())
+                .ForMember(dest => dest.ValidAddress,
+                    opt => opt.MapFrom(src => src.Addresses
+                        .FirstOrDefault(e => e.ValidUntil == DateTime.MaxValue)));
+
             CreateMap<Address, AddressDto>();
             CreateMap<Article, ArticleDto>();
             CreateMap<ArticleGroup, ArticleGroupDto>();
@@ -46,6 +53,9 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerNumber,
                     opt => opt.MapFrom(src => src.Entity.CustomerNumber))
+                .ForMember(dest => dest.ValidAddress,
+                    opt => opt.MapFrom(src => src.Entity.Addresses
+                        .Where(e => e.ValidUntil == DateTime.MaxValue)))
                 .ForPath(dest => dest.Response.Flag,
                     opt => opt.MapFrom(src => src.Flag))
                 .ForPath(dest => dest.Response.Id,
@@ -119,7 +129,9 @@ namespace Auftragsverwaltung.Application.Mapper
 
             CreateMap<CustomerDto, Customer>()
                 .ForMember(dest => dest.Password,
-                    opt => opt.MapFrom(src => SecurityHelper.HashPassword(src.Password.ToString(), SecurityHelper.GenerateSalt(70), 42042, 70)));
+                    opt => opt.MapFrom(src => SecurityHelper
+                        .HashPassword(src.Password.ToString(), SecurityHelper.GenerateSalt(70), 42042, 70)));
+
             CreateMap<AddressDto, Address>();
             CreateMap<ArticleDto, Article>();
             CreateMap<ArticleGroupDto, ArticleGroup>();
