@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Extensions;
+using Auftragsverwaltung.Application.Mapper.Resolver;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
@@ -12,6 +13,7 @@ using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.Domain.Town;
 using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 
 namespace Auftragsverwaltung.Application.Mapper
 {
@@ -19,7 +21,6 @@ namespace Auftragsverwaltung.Application.Mapper
     {
         public MappingProfile()
         {
-            // Add as many of these lines as you need to map your objects
             CreateMap<Customer, CustomerDto>()
                 .ForMember(dest => dest.Password,
                     opt => opt.Ignore())
@@ -132,7 +133,9 @@ namespace Auftragsverwaltung.Application.Mapper
                     opt => opt.MapFrom(src => SecurityHelper
                         .HashPassword(src.Password.ToString(), SecurityHelper.GenerateSalt(70), 42042, 70)));
 
-            CreateMap<AddressDto, Address>();
+
+            CreateMap<AddressDto, Address>()
+                .EqualityComparison((adto, a) => adto.AddressId == a.AddressId);
             CreateMap<ArticleDto, Article>();
             CreateMap<ArticleGroupDto, ArticleGroup>();
             CreateMap<OrderDto, Order>();

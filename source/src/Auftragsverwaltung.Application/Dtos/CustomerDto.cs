@@ -22,7 +22,10 @@ namespace Auftragsverwaltung.Application.Dtos
         public CustomerDto()
         {
             Addresses = new List<AddressDto>();
-            Addresses.Add(new AddressDto() { Town = new TownDto() });
+            ValidAddress = new AddressDto()
+            {
+                Town = new TownDto()
+            };
         }
     }
 }

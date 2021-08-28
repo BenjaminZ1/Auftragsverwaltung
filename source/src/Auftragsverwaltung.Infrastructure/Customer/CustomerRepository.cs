@@ -54,7 +54,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetService<AppDbContext>();
 
-                //entity.Addresses.Town = await FindOrAddNewTown(entity.Addresses.Town, db);
+                entity.Addresses.First().Town = await FindOrAddNewTown(entity.Addresses.First().Town, db);
                 EntityEntry<Domain.Customer.Customer> createdEntity = await db.Customers.AddAsync(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 

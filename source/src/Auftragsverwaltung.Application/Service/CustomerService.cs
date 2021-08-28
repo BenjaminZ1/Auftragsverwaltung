@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.Address;
 
 namespace Auftragsverwaltung.Application.Service
 {
@@ -55,6 +56,7 @@ namespace Auftragsverwaltung.Application.Service
             }
 
             var entity = _mapper.Map<Customer>(dto);
+            entity.Addresses.Add(_mapper.Map<Address>(dto.ValidAddress));
             var response = await _repository.Create(entity);
             var mappedResponse = _mapper.Map<CustomerDto>(response);
             return mappedResponse;

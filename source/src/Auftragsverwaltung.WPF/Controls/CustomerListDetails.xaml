@@ -65,7 +65,6 @@
                      Text="{Binding CustomerDto.Website, ElementName=Self}" IsEnabled="{Binding InputEnabled}"/>
             <PasswordBox Grid.Column="1" Grid.Row="9" PasswordChanged="PasswordBox_PasswordChanged" IsEnabled="{Binding InputEnabled}"
                          Visibility="{Binding CustomerPasswordBoxVisibility}"/>
-
         </Grid>
     </Border>
 </UserControl>
