@@ -125,7 +125,6 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 var db = scope.ServiceProvider.GetService<AppDbContext>();
 
                 Domain.Customer.Customer entity = await this.Get(id);
-                //int townId = GetValidTownId(entity.Addresses);
 
                 foreach (var address in entity.Addresses)
                 {
