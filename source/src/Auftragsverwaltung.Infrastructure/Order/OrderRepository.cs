@@ -84,7 +84,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
-                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Addresses)
                 .ThenInclude(o => o.Town)
                 .Where(e => e.Customer.Firstname.Contains(searchString) || e.Customer.Lastname.Contains(searchString))
                 .ToListAsync();
@@ -109,7 +109,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
-                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Addresses)
                 .ThenInclude(o => o.Town)
                 .FirstOrDefaultAsync(e => e.OrderId == id);
             return entity;
@@ -125,7 +125,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .ThenInclude(o => o.Article)
                 .ThenInclude(o => o.ArticleGroup)
                 .Include(o => o.Customer)
-                .ThenInclude(o => o.Address)
+                .ThenInclude(o => o.Addresses)
                 .ThenInclude(o => o.Town)
                 .ToListAsync();
             return entities;
@@ -144,7 +144,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
                     .ThenInclude(o => o.Article)
                     .ThenInclude(o => o.ArticleGroup)
                     .Include(o => o.Customer)
-                    .ThenInclude(o => o.Address)
+                    .ThenInclude(o => o.Addresses)
                     .ThenInclude(o => o.Town)
                     .FirstOrDefaultAsync(e => e.OrderId == entity.OrderId);
 
@@ -174,7 +174,7 @@ namespace Auftragsverwaltung.Infrastructure.Order
         private async Task<Domain.Customer.Customer> GetCustomer(Domain.Customer.Customer customer, AppDbContext db)
         {
             var existingCustomer = await db.Customers
-                .Include(e => e.Address)
+                .Include(e => e.Addresses)
                 .ThenInclude(e => e.Town)
                 .Include(e => e.Orders)
                 .FirstOrDefaultAsync(e => e.CustomerId == customer.CustomerId);

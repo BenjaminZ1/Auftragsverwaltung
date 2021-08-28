@@ -62,9 +62,9 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Address.AddressId.Should().Be(expectedId);
-            result.Entity.Address.Town.TownId.Should().Be(expectedId);
-            result.Entity.AddressId.Should().Be(result.Entity.Address.AddressId);
+            result.Entity.Addresses.First().AddressId.Should().Be(expectedId);
+            result.Entity.Addresses.First().Town.TownId.Should().Be(expectedId);
+            //result.Entity.AddressId.Should().Be(result.Entity.Addresses.First().AddressId);
             result.Flag.Should().BeTrue();
         }
 
@@ -97,7 +97,7 @@ namespace Auftragsverwaltung.Tests
             //assert
             result.Should().BeOfType(typeof(Customer));
             result.CustomerId.Should().Be(customerId);
-            result.Address.Should().NotBeNull();
+            result.Addresses.First().Should().NotBeNull();
         }
 
         [Test]

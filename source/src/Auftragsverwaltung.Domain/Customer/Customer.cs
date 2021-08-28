@@ -11,8 +11,7 @@ namespace Auftragsverwaltung.Domain.Customer
         public string CustomerNumber { get; set; } = default!;
         public string Firstname { get; set; } = default!;
         public string Lastname { get; set; } = default!;
-        public int AddressId { get; set; }
-        public virtual Address.Address Address { get; set; } = default!;
+        public virtual ICollection<Address.Address> Addresses { get; set; } = default!;
         public string Email { get; set; } = default!;
         public string? Website { get; set; }
         public Byte[] Password { get; set; } = default!;

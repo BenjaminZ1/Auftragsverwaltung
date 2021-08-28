@@ -12,6 +12,7 @@ namespace Auftragsverwaltung.Domain.Address
         public DateTime ValidFrom { get; set; }
         public DateTime ValidUntil { get; set; }
         public int TownId { get; set; }
+        public int CustomerId { get; set; }
         public virtual Town.Town Town { get; set; } = default!;
         public virtual Customer.Customer Customer { get; set; } = default!;
 #nullable disable

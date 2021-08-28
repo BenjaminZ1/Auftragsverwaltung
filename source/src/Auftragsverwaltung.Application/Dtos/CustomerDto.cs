@@ -11,8 +11,7 @@ namespace Auftragsverwaltung.Application.Dtos
         public string CustomerNumber { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public int AddressId { get; set; }
-        public AddressDto Address { get; set; }
+        public ICollection<AddressDto> Addresses { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
         public SecureString Password { get; set; }
@@ -21,7 +20,8 @@ namespace Auftragsverwaltung.Application.Dtos
 
         public CustomerDto()
         {
-            Address = new AddressDto { Town = new TownDto() };
+            Addresses = new List<AddressDto>();
+            Addresses.Add(new AddressDto() { Town = new TownDto() });
         }
     }
 }

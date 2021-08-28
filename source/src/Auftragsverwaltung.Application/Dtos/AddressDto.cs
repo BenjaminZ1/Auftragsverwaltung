@@ -10,6 +10,7 @@ namespace Auftragsverwaltung.Application.Dtos
         public DateTime ValidFrom { get; set; }
         public DateTime ValidUntil { get; set; }
         public int TownId { get; set; }
+        public int CustomerId { get; set; }
         public TownDto Town { get; set; } = default!;
         public CustomerDto Customer { get; set; }
     }

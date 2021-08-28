@@ -50,14 +50,17 @@ namespace Auftragsverwaltung.Tests
                 Customer = new Customer()
                 {
                     CustomerId = 1,
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        Street = "Teststrasse",
-                        BuildingNr = "2",
-                        Town = new Town()
+                        new Address()
                         {
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            Street = "Teststrasse",
+                            BuildingNr = "2",
+                            Town = new Town()
+                            {
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     Firstname = "Hans",

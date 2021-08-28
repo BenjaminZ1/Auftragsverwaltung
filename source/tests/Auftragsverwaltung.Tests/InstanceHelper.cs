@@ -28,15 +28,15 @@ namespace Auftragsverwaltung.Tests
     {
         public static DbContextOptions<AppDbContext> AppDbContext_BuildDbContext()
         {
-            return new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("testDb")
-                .EnableSensitiveDataLogging()
-                .Options;
-
             //return new DbContextOptionsBuilder<AppDbContext>()
-            //    .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+            //    .UseInMemoryDatabase("testDb")
             //    .EnableSensitiveDataLogging()
             //    .Options;
+
+            return new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True")
+                .EnableSensitiveDataLogging()
+                .Options;
         }
 
 
@@ -68,16 +68,19 @@ namespace Auftragsverwaltung.Tests
 
             await customerRepository.Create(new Customer()
             {
-                Address = new Address()
-                {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    ValidFrom = DateTime.Now,
-                    ValidUntil = DateTime.MaxValue,
-                    Town = new Town()
+                Addresses = new List<Address>()
+                {               
+                    new Address()
                     {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
+                        Street = "Teststrasse",
+                        BuildingNr = "2",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
+                        Town = new Town()
+                        {
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
                     }
                 },
                 CustomerNumber = "CU00001",
@@ -110,16 +113,19 @@ namespace Auftragsverwaltung.Tests
 
             await customerRepository.Create(new Customer()
             {
-                Address = new Address()
+                Addresses = new List<Address>()
                 {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    ValidFrom = DateTime.Now,
-                    ValidUntil = DateTime.MaxValue,
-                    Town = new Town()
+                    new Address()
                     {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
+                        Street = "Teststrasse",
+                        BuildingNr = "2",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
+                        Town = new Town()
+                        {
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
                     }
                 },
                 CustomerNumber = "CU00001",
@@ -131,16 +137,19 @@ namespace Auftragsverwaltung.Tests
             });
             await customerRepository.Create(new Customer()
             {
-                Address = new Address()
+                Addresses = new List<Address>()
                 {
-                    Street = "Hauptstrasse",
-                    BuildingNr = "44",
-                    ValidFrom = DateTime.Now,
-                    ValidUntil = DateTime.MaxValue,
-                    Town = new Town()
+                    new Address()
                     {
-                        Townname = "St. Gallen",
-                        ZipCode = "9001"
+                        Street = "Hauptstrasse",
+                        BuildingNr = "44",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
+                        Town = new Town()
+                        {
+                            Townname = "St. Gallen",
+                            ZipCode = "9001"
+                        }
                     }
                 },
                 CustomerNumber = "CU00002",
@@ -152,16 +161,19 @@ namespace Auftragsverwaltung.Tests
             });
             await customerRepository.Create(new Customer()
             {
-                Address = new Address()
+                Addresses = new List<Address>()
                 {
-                    Street = "Teststrasse",
-                    BuildingNr = "2",
-                    ValidFrom = DateTime.Now,
-                    ValidUntil = DateTime.MaxValue,
-                    Town = new Town()
+                    new Address()
                     {
-                        Townname = "Herisau",
-                        ZipCode = "9100"
+                        Street = "Teststrasse",
+                        BuildingNr = "2",
+                        ValidFrom = DateTime.Now,
+                        ValidUntil = DateTime.MaxValue,
+                        Town = new Town()
+                        {
+                            Townname = "Herisau",
+                            ZipCode = "9100"
+                        }
                     }
                 },
                 CustomerNumber = "CU00003",
@@ -268,16 +280,19 @@ namespace Auftragsverwaltung.Tests
                 Customer = new Customer()
                 {
                     CustomerId = 1,
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        Street = "Teststrasse",
-                        BuildingNr = "2",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            Street = "Teststrasse",
+                            BuildingNr = "2",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            Town = new Town()
+                            {
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     CustomerNumber = "CU00001",
@@ -327,22 +342,23 @@ namespace Auftragsverwaltung.Tests
             {
                 new CustomerDto()
                 {
-                    Address = new AddressDto()
+                    Addresses = new List<AddressDto>()
                     {
-                        AddressId = 1,
-                        BuildingNr = "2",
-                        Street = "Teststrasse",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new TownDto()
+                        new AddressDto()
                         {
-                            TownId = 1,
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            Street = "Teststrasse",
+                            BuildingNr = "2",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            CustomerId = 1,
+                            Town = new TownDto()
+                            {
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     CustomerNumber = "CU00001",
-                    AddressId = 1,
                     CustomerId = 1,
                     Email = "hans@test.ch",
                     Firstname = "Hans",
@@ -352,22 +368,25 @@ namespace Auftragsverwaltung.Tests
                 },
                 new CustomerDto()
                 {
-                    Address = new AddressDto()
+                    Addresses = new List<AddressDto>()
                     {
-                        AddressId = 2,
-                        BuildingNr = "44",
-                        Street = "Hauptstrasse",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new TownDto()
+                        new AddressDto()
                         {
-                            TownId = 2,
-                            Townname = "St. Gallen",
-                            ZipCode = "9001"
+                            AddressId = 2,
+                            BuildingNr = "44",
+                            Street = "Hauptstrasse",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            CustomerId = 2,
+                            Town = new TownDto()
+                            {
+                                TownId = 2,
+                                Townname = "St. Gallen",
+                                ZipCode = "9001"
+                            }
                         }
                     },
                     CustomerNumber = "CU00002",
-                    AddressId = 2,
                     CustomerId = 2,
                     Email = "ida@gmail.com",
                     Firstname = "Ida",
@@ -377,22 +396,25 @@ namespace Auftragsverwaltung.Tests
                 },
                 new CustomerDto()
                 {
-                    Address = new AddressDto()
+                    Addresses = new List<AddressDto>()
                     {
-                        AddressId = 1,
-                        BuildingNr = "2",
-                        Street = "Teststrasse",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new TownDto()
+                        new AddressDto() 
                         {
-                            TownId = 1,
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            AddressId = 1,
+                            BuildingNr = "2",
+                            Street = "Teststrasse",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            CustomerId = 3,
+                            Town = new TownDto()
+                            {
+                                TownId = 1,
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     CustomerNumber = "CU00003",
-                    AddressId = 1,
                     CustomerId = 3,
                     Email = "vreni@test.ch",
                     Firstname = "Vreni",
@@ -411,22 +433,26 @@ namespace Auftragsverwaltung.Tests
             {
                 new Customer()
                 {
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        AddressId = 1,
-                        BuildingNr = "2",
-                        Street = "Teststrasse",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            TownId = 1,
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            AddressId = 1,
+                            BuildingNr = "2",
+                            Street = "Teststrasse",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            CustomerId = 1,
+                            Town = new Town()
+                            {
+                                TownId = 1,
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
+
                         }
                     },
                     CustomerNumber = "CU00001",
-                    AddressId = 1,
                     CustomerId = 1,
                     Email = "hans@test.ch",
                     Firstname = "Hans",
@@ -436,22 +462,25 @@ namespace Auftragsverwaltung.Tests
                 },
                 new Customer()
                 {
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        AddressId = 2,
-                        BuildingNr = "44",
-                        Street = "Hauptstrasse",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            TownId = 2,
-                            Townname = "St. Gallen",
-                            ZipCode = "9001"
+                            AddressId = 2,
+                            BuildingNr = "44",
+                            Street = "Hauptstrasse",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            CustomerId = 2,
+                            Town = new Town()
+                            {
+                                TownId = 2,
+                                Townname = "St. Gallen",
+                                ZipCode = "9001"
+                            }
                         }
                     },
                     CustomerNumber = "CU00002",
-                    AddressId = 2,
                     CustomerId = 2,
                     Email = "ida@gmail.com",
                     Firstname = "Ida",
@@ -461,22 +490,25 @@ namespace Auftragsverwaltung.Tests
                 },
                 new Customer()
                 {
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        AddressId = 1,
-                        BuildingNr = "2",
-                        Street = "Teststrasse",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            TownId = 1,
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            AddressId = 1,
+                            BuildingNr = "2",
+                            Street = "Teststrasse",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            CustomerId = 3,
+                            Town = new Town()
+                            {
+                                TownId = 1,
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     CustomerNumber = "CU00003",
-                    AddressId = 1,
                     CustomerId = 3,
                     Email = "vreni@test.ch",
                     Firstname = "Vreni",
@@ -495,16 +527,19 @@ namespace Auftragsverwaltung.Tests
             {
                 new Customer()
                 {
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        Street = "Teststrasse",
-                        BuildingNr = "2",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            Street = "Teststrasse",
+                            BuildingNr = "2",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            Town = new Town()
+                            {
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     CustomerNumber = "CU00001",
@@ -517,16 +552,19 @@ namespace Auftragsverwaltung.Tests
 
                 new Customer
                 {
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        Street = "Hauptstrasse",
-                        BuildingNr = "44",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            Townname = "St. Gallen",
-                            ZipCode = "9001"
+                            Street = "Hauptstrasse",
+                            BuildingNr = "44",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            Town = new Town()
+                            {
+                                Townname = "St. Gallen",
+                                ZipCode = "9001"
+                            }
                         }
                     },
                     CustomerNumber = "CU00002",
@@ -539,16 +577,19 @@ namespace Auftragsverwaltung.Tests
 
                 new Customer()
                 {
-                    Address = new Address()
+                    Addresses = new List<Address>()
                     {
-                        Street = "Teststrasse",
-                        BuildingNr = "2",
-                        ValidFrom = DateTime.Now,
-                        ValidUntil = DateTime.MaxValue,
-                        Town = new Town()
+                        new Address()
                         {
-                            Townname = "Herisau",
-                            ZipCode = "9100"
+                            Street = "Teststrasse",
+                            BuildingNr = "2",
+                            ValidFrom = DateTime.Now,
+                            ValidUntil = DateTime.MaxValue,
+                            Town = new Town()
+                            {
+                                Townname = "Herisau",
+                                ZipCode = "9100"
+                            }
                         }
                     },
                     CustomerNumber = "CU00003",

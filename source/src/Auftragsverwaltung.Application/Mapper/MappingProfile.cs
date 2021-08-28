@@ -28,8 +28,8 @@ namespace Auftragsverwaltung.Application.Mapper
             CreateMap<Town, TownDto>();
 
             CreateMap<ResponseDto<Customer>, CustomerDto>()
-                .ForMember(dest => dest.Address,
-                    opt => opt.MapFrom(src => src.Entity.Address))
+                .ForMember(dest => dest.Addresses,
+                    opt => opt.MapFrom(src => src.Entity.Addresses))
                 .ForMember(dest => dest.Orders,
                     opt => opt.MapFrom(src => src.Entity.Orders))
                 .ForMember(dest => dest.CustomerId,
