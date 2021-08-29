@@ -48,7 +48,7 @@ namespace Auftragsverwaltung.WPF
             services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
             services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
             services.AddSingleton<IArticleGroupRepository, ArticleGroupRepository>();
-            services.AddSingleton<IAppRepository<Order>, OrderRepository>();
+            services.AddSingleton<IOrderRepository, OrderRepository>();
             services.AddSingleton<ICustomerService, CustomerService>();
             services.AddSingleton<IArticleService, ArticleService>();
             services.AddSingleton<IArticleGroupService, ArticleGroupService>();

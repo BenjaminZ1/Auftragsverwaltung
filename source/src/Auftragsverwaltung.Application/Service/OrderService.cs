@@ -3,16 +3,18 @@ using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Order;
 using AutoMapper;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.ArticleGroup;
 
 namespace Auftragsverwaltung.Application.Service
 {
     public class OrderService : IOrderService
     {
-        private readonly IAppRepository<Order> _repository;
+        private readonly IOrderRepository _repository;
         private readonly IMapper _mapper;
-        public OrderService(IAppRepository<Order> repository, IMapper mapper)
+        public OrderService(IOrderRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -61,6 +63,12 @@ namespace Auftragsverwaltung.Application.Service
             var response = await _repository.Search(searchString);
             var mappedResponse = response.Select(x => _mapper.Map<OrderDto>(x));
             return mappedResponse;
+        }
+
+        public DataTable GetQuarterData()
+        {
+            var response = _repository.GetQuarterDataTable();
+            return response;
         }
     }
 }
