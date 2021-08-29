@@ -81,25 +81,63 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetService<AppDbContext>();
 
-                //if (await IsNewTownRequired(entity.Addresses.Town))
-                //{
-                //    var newTown = new Domain.Town.Town()
-                //    {
-                //        Townname = entity.Addresses.Town.Townname,
-                //        ZipCode = entity.Addresses.Town.ZipCode
-                //    };
-                //    entity.Addresses.Town = newTown;
-                //    db.Towns.Add(newTown);
+                var entry = await db.Customers
+                    .Include(e => e.Addresses)
+                    .ThenInclude(e => e.Town)
+                    .FirstOrDefaultAsync(e => e.CustomerId == entity.CustomerId);
 
-                //    await db.SaveChangesAsync();
-                //    entity.Addresses.TownId = newTown.TownId;
-                //}
-                //else
-                //{
-                //    entity.Addresses.Town = await FindOrAddNewTown(entity.Addresses.Town, db);
-                //}
+                var currentValidAddressDb = entry.Addresses.First(a =>
+                    a.ValidUntil == DateTime.MaxValue);
+                var newValidAddress = entity.Addresses.First(a =>
+                    a.ValidUntil == DateTime.MaxValue);
 
-                db.Customers.Update(entity);
+                if (!currentValidAddressDb.Equals(newValidAddress))
+                {
+                    newValidAddress.AddressId = 0;
+
+                    entry.Addresses.Add(newValidAddress);
+                    currentValidAddressDb.ValidUntil = DateTime.Now;
+
+                    if (await IsNewTownRequired(newValidAddress.Town))
+                    {
+                        var newTown = new Domain.Town.Town()
+                        {
+                            Townname = newValidAddress.Town.Townname,
+                            ZipCode = newValidAddress.Town.ZipCode
+                        };
+                        newValidAddress.Town = newTown;
+                        db.Towns.Add(newTown);
+
+                        await db.SaveChangesAsync();
+                        newValidAddress.TownId = newTown.TownId;
+                    }
+                    else
+                    {
+                        newValidAddress.Town = await FindOrAddNewTown(newValidAddress.Town, db);
+                    }
+                }
+                else
+                {
+                    if (await IsNewTownRequired(currentValidAddressDb.Town))
+                    {
+                        var newTown = new Domain.Town.Town()
+                        {
+                            Townname = currentValidAddressDb.Town.Townname,
+                            ZipCode = currentValidAddressDb.Town.ZipCode
+                        };
+                        currentValidAddressDb.Town = newTown;
+                        db.Towns.Add(newTown);
+
+                        await db.SaveChangesAsync();
+                        currentValidAddressDb.TownId = newTown.TownId;
+                    }
+                    else
+                    {
+                        currentValidAddressDb.Town = await FindOrAddNewTown(currentValidAddressDb.Town, db);
+                    }
+                }
+
+                db.Update(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
@@ -209,10 +247,6 @@ namespace Auftragsverwaltung.Infrastructure.Customer
             return false;
         }
 
-        //private int GetValidTownId(ICollection<Domain.Address.Address> addresses)
-        //{
-        //    var validAddress = addresses.First(a => a.ValidUntil == DateTime.MaxValue);
-        //    return validAddress.AddressId;
-        //}
+
     }
 }
