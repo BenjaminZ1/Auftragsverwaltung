@@ -91,11 +91,14 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 var newValidAddress = entity.Addresses.First(a =>
                     a.ValidUntil == DateTime.MaxValue);
 
-                if (!currentValidAddressDb.Equals(newValidAddress))
+                entity.Addresses = entry.Addresses;
+
+                if (currentValidAddressDb.BuildingNr != newValidAddress.BuildingNr ||
+                    currentValidAddressDb.Street != newValidAddress.Street || !currentValidAddressDb.Town.Equals(newValidAddress.Town))
                 {
                     newValidAddress.AddressId = 0;
 
-                    entry.Addresses.Add(newValidAddress);
+                    entity.Addresses.Add(newValidAddress);
                     currentValidAddressDb.ValidUntil = DateTime.Now;
 
                     if (await IsNewTownRequired(newValidAddress.Town))
@@ -137,7 +140,7 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                     }
                 }
 
-                db.Update(entity);
+                db.Entry(entry).CurrentValues.SetValues(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
                 response.Entity = entity;
