@@ -4,14 +4,16 @@ using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Auftragsverwaltung.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210830101434_UpdatedSeededData_AddressValidUntil")]
+    partial class UpdatedSeededData_AddressValidUntil
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,16 +74,6 @@ namespace Auftragsverwaltung.Infrastructure.Migrations
                             Street = "Wumbostrasse",
                             TownId = 2,
                             ValidFrom = new DateTime(2021, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValidUntil = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999)
-                        },
-                        new
-                        {
-                            AddressId = 3,
-                            BuildingNr = "69",
-                            CustomerId = 3,
-                            Street = "Jumbostrasse",
-                            TownId = 1,
-                            ValidFrom = new DateTime(2020, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ValidUntil = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999)
                         });
                 });
