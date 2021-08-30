@@ -69,7 +69,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticleGroup(_options);
             int articleGroupId = 1;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -101,8 +100,6 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticleGroup(_options);
-
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));
@@ -126,14 +123,13 @@ namespace Auftragsverwaltung.Tests
             //assert
             var resultList = result.ToList();
             resultList.Should().BeOfType(typeof(List<ArticleGroup>));
-            resultList.Count().Should().Be(2);
+            resultList.Count().Should().Be(3);
         }
 
         [Test]
         public async Task Delete_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticleGroup(_options);
             int articleGroupId = 2;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -164,7 +160,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticleGroup(_options);
             int articleGroupId = 1;
             string newArticleGroupName = "NewArticleGroupName";
 
