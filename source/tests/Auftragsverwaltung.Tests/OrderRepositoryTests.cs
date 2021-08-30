@@ -42,8 +42,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticles(_options);
-            await InstanceHelper.AddDbTestCustomer(_options);
             var order = new Order()
             {
                 Date = new DateTime(2020, 03, 03),
@@ -155,8 +153,6 @@ namespace Auftragsverwaltung.Tests
             var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
             var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
-            await InstanceHelper.AddDbTestArticles(_options);
-
             var order = new Order()
             {
                 Date = new DateTime(2020, 03, 03),
@@ -185,9 +181,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomer(_options);
-            await InstanceHelper.AddDbTestArticles(_options);
-
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));
@@ -204,8 +197,6 @@ namespace Auftragsverwaltung.Tests
                 .Returns(serviceScopeFactoryFake);
 
             var orderRepository = new OrderRepository(serviceScopeFactoryFake);
-
-            await InstanceHelper.AddDbTestOrder(_options);
 
             //act
             var result = await orderRepository.Get(1);
@@ -237,15 +228,13 @@ namespace Auftragsverwaltung.Tests
 
             var orderRepository = new OrderRepository(serviceScopeFactoryFake);
 
-            await InstanceHelper.AddDbTestOrder(_options);
-
             //act
             var result = await orderRepository.GetAll();
 
             //assert
             var resultList = result.ToList();
             resultList.Should().BeOfType(typeof(List<Order>));
-            resultList.Count().Should().Be(3);
+            resultList.Count().Should().Be(2);
         }
 
         [Test]

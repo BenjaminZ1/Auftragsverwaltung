@@ -161,7 +161,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Delete_WhenAddressIsNotInMultipleRelations_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomer(_options);
             int customerId = 1;
             int expectedRows = 3;
 
