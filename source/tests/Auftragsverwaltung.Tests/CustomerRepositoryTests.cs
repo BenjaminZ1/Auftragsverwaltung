@@ -38,7 +38,8 @@ namespace Auftragsverwaltung.Tests
             var customerTestData = InstanceHelper.GetCustomerTestData();
             var customer = customerTestData[0];
 
-            int expectedId = 1;
+            int expectedAddressId = 4;
+            int expectedTownId = 3;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
@@ -62,9 +63,8 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Customer>));
-            result.Entity.Addresses.First().AddressId.Should().Be(expectedId);
-            result.Entity.Addresses.First().Town.TownId.Should().Be(expectedId);
-            //result.Entity.AddressId.Should().Be(result.Entity.Addresses.First().AddressId);
+            result.Entity.Addresses.First().AddressId.Should().Be(expectedAddressId);
+            result.Entity.Addresses.First().Town.TownId.Should().Be(expectedTownId);
             result.Flag.Should().BeTrue();
         }
 
@@ -72,7 +72,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
             int customerId = 1;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -104,7 +103,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenCustomerNotExists_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
             int notExistingCustomerId = 4;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -134,8 +132,6 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
-
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));
@@ -159,34 +155,6 @@ namespace Auftragsverwaltung.Tests
             var resultList = result.ToList();
             resultList.Should().BeOfType(typeof(List<Customer>));
             resultList.Count().Should().Be(3);
-        }
-
-        [Test]
-        public async Task GetAll_WhenNoCustomerExists_ReturnsCorrectResult()
-        {
-            //arrange
-            var serviceProviderFake = A.Fake<IServiceProvider>();
-            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
-                .Returns(new AppDbContext(_options));
-
-            var serviceScopeFake = A.Fake<IServiceScope>();
-            A.CallTo(() => serviceScopeFake.ServiceProvider)
-                .Returns(serviceProviderFake);
-
-            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
-            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
-                .Returns(serviceScopeFake);
-
-            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
-                .Returns(serviceScopeFactoryFake);
-            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
-
-            //act
-            var result = await customerRepository.GetAll();
-
-            //assert
-            var resultList = result.ToList();
-            resultList.Should().BeEmpty();
         }
 
         [Test]
@@ -225,7 +193,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
             int customerId = 1;
             string newFirstname = "Hans-Rudolf";
 

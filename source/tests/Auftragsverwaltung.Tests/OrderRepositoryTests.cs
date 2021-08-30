@@ -155,7 +155,6 @@ namespace Auftragsverwaltung.Tests
             var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
             var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
 
-            await InstanceHelper.AddDbTestCustomer(_options);
             await InstanceHelper.AddDbTestArticles(_options);
 
             var order = new Order()
@@ -177,7 +176,7 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             result.Entity.Customer.Firstname.Should().Be("Hans");
-            result.Entity.Positions.First().Article.Description.Should().Be("testArticleDescription");
+            result.Entity.Positions.First().Article.Description.Should().Be("Zahnbürste");
             result.Should().BeOfType(typeof(ResponseDto<Order>));
             result.Flag.Should().BeTrue();
         }
@@ -221,9 +220,6 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomer(_options);
-            await InstanceHelper.AddDbTestArticles(_options);
-
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));
@@ -249,17 +245,13 @@ namespace Auftragsverwaltung.Tests
             //assert
             var resultList = result.ToList();
             resultList.Should().BeOfType(typeof(List<Order>));
-            resultList.Count().Should().Be(1);
+            resultList.Count().Should().Be(3);
         }
 
         [Test]
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestCustomers(_options);
-            await InstanceHelper.AddDbTestArticles(_options);
-            await InstanceHelper.AddDbTestOrder(_options);
-
             var customerTestData = InstanceHelper.GetCustomerTestData();
             int orderId = 1;
 
