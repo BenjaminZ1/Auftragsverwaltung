@@ -67,10 +67,8 @@ namespace Auftragsverwaltung.Tests
 
 
         [Test]
-        public async Task CreateWithParentArticleGroup_WhenNewArticleGroupWithExistingParentArticleGroup_ReturnsCorrectResult()
+        public async Task CreateParentArticleGroup_WhenNewArticleGroupWithExistingParentArticleGroup_ReturnsCorrectResult()
         {
-            await InstanceHelper.AddDbTestArticles(_options);
-
             //arrange
             var articleTestData = InstanceHelper.GetArticleTestData();
             var article = articleTestData[0];
@@ -106,7 +104,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -139,8 +136,6 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticles(_options);
-
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));
@@ -171,7 +166,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Delete_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -202,7 +196,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestArticles(_options);
             int articleId = 1;
             string newArticleDescription = "NewName";
 
@@ -240,7 +233,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Delete_WhenInOrder_ReturnsCorrectResult()
         {
             //arrange
-            await InstanceHelper.AddDbTestOrder(_options);
             int articleId = 1;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
