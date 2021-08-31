@@ -112,10 +112,8 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 db.Database.OpenConnection();
                 command.CommandText = @"select 
                     distinct 
-                    c.Firstname,
-                    c.lastname,
-                    Year(o.Date) as Jahr,
-                    DATEPART(qq, o.Date) as Quartal,
+					concat(c.Firstname, ' ', c.Lastname) as Kunde,
+                    CONCAT(Year(o.Date), '/', DATEPART(qq, o.Date)) as Quartal, 
                     SUM(Amount) over (partition by Year(o.Date), DATEPART(qq, o.Date)) as Artikel,
                     dense_rank() over (partition by Year(o.Date), DATEPART(qq, o.Date) order by o.orderID) + dense_rank() over (partition by Year(o.Date), DATEPART(qq, o.Date) order by o.orderID desc) - 1 as Bestellungen,
                     sum(a.price*p.amount) over (partition by Year(o.Date), DATEPART(qq, o.Date)) as GesamtUmsatz,
@@ -126,11 +124,25 @@ namespace Auftragsverwaltung.Infrastructure.Order
                     inner join [customer] c on o.CustomerId = c.CustomerId
                     inner join [article] a on a.ArticleId = p.ArticleId
                     where date >= DATEADD(YYYY, -3, GETDATE())
-
-                    select *,
-                    Artikel / Bestellungen as DurchSchnittArtikelproAuftrag
-                    from #TempTable
-                    order by Jahr, Quartal";
+                    
+                    select Quartal, Kategorie, Wert, Kunde
+					FROM (
+					SELECT 
+					Quartal,
+					Kunde,
+					CAST(GesamtUmsatz AS VARCHAR(255)) AS GesamtUmsatz,
+					CAST(Artikel / Bestellungen AS VARCHAR(255)) AS DurchSchnittArtikelproAuftrag,
+					CAST(Bestellungen AS VARCHAR(255)) AS Bestellungen,
+					CAST(Kundenumsatz AS VARCHAR(255)) AS Kundenumsatz,
+					CAST(Artikel AS VARCHAR(255)) AS Artikel
+					FROM #TempTable
+					) AS TESTtable
+					UNPIVOT
+					(
+					Wert
+					FOR Kategorie in (KundenUmsatz, Artikel, Bestellungen, GesamtUmsatz, DurchSchnittArtikelproAuftrag)
+					) AS MyUnpivot
+					order by quartal, Kategorie";
                 command.CommandType = CommandType.Text;
 
                 using (var reader = command.ExecuteReader())
