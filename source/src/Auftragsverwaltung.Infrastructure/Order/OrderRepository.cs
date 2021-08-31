@@ -117,15 +117,19 @@ namespace Auftragsverwaltung.Infrastructure.Order
                     Year(o.Date) as Jahr,
                     DATEPART(qq, o.Date) as Quartal,
                     SUM(Amount) over (partition by Year(o.Date), DATEPART(qq, o.Date)) as Artikel,
-                    sum(Amount) over (partition by Year(o.Date), DATEPART(qq, o.Date)) as DurchschnittArtikelproAuftrag,
                     dense_rank() over (partition by Year(o.Date), DATEPART(qq, o.Date) order by o.orderID) + dense_rank() over (partition by Year(o.Date), DATEPART(qq, o.Date) order by o.orderID desc) - 1 as Bestellungen,
                     sum(a.price*p.amount) over (partition by Year(o.Date), DATEPART(qq, o.Date)) as GesamtUmsatz,
                     sum(a.price*p.amount) over (partition by Year(o.Date), DATEPART(qq, o.Date), c.CustomerId) as KundenUmsatz
+                    into #TempTable
                     from [Position] p
                     inner join [order] o on p.OrderId = o.OrderId
                     inner join [customer] c on o.CustomerId = c.CustomerId
                     inner join [article] a on a.ArticleId = p.ArticleId
                     where date >= DATEADD(YYYY, -3, GETDATE())
+
+                    select *,
+                    Artikel / Bestellungen as DurchSchnittArtikelproAuftrag
+                    from #TempTable
                     order by Jahr, Quartal";
                 command.CommandType = CommandType.Text;
 
