@@ -3,7 +3,6 @@ using System.Linq;
 using System.Xml.Serialization;
 using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Extensions;
-using Auftragsverwaltung.Application.Mapper.Resolver;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
