@@ -6,6 +6,8 @@
         Modify,
         Delete,
         Save,
+        Import,
+        Export,
         None
     }
 }

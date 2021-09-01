@@ -13,6 +13,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -45,7 +46,9 @@
 
             <local:CustomerListDetails Grid.Row="1" Margin="0 10" Width="Auto" 
                                        CustomerDto="{Binding SelectedListItem}"/>
-
         </Grid>
+
+        <local:ImportExportControlBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+
     </Grid>
 </UserControl>
