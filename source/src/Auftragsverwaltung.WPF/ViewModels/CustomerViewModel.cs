@@ -159,25 +159,32 @@ namespace Auftragsverwaltung.WPF.ViewModels
             if (SelectedListItem != null)
             {
                 OpenFileDialog openFileDlg = new OpenFileDialog();
-                var result = openFileDlg.ShowDialog();
-                //SelectedListItem = await _customerService.Deserialize();
-                ////ShowMessageBox(new PlainResponse()
-                ////{
-                ////    Flag = serviceTask.Response.Flag,
-                ////    Id = serviceTask.Response.Id,
-                ////    Message = serviceTask.Response.Message,
-                ////    NumberOfRows = serviceTask.Response.NumberOfRows
-                ////});
+                openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                if (openFileDlg.ShowDialog() == true)
+                {
+                    SelectedListItem = await _customerService.Deserialize(openFileDlg.FileName);
+                }
+
+                //ShowMessageBox(new PlainResponse()
+                //{
+                //    Flag = serviceTask.Response.Flag,
+                //    Id = serviceTask.Response.Id,
+                //    Message = serviceTask.Response.Message,
+                //    NumberOfRows = serviceTask.Response.NumberOfRows
+                //});
             }
         }
 
         private async Task Export()
         {
-            CreateView();
             if (SelectedListItem != null)
             {
-                //System.Windows.Forms.FolderBrowserDialog openFileDlg = new System.Windows.Forms.FolderBrowserDialog();
-                //var result = openFileDlg.ShowDialog();
+                OpenFileDialog openFileDlg = new OpenFileDialog();
+                openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                if (openFileDlg.ShowDialog() == true)
+                {
+                    await _customerService.Serialize(SelectedListItem, openFileDlg.FileName);
+                }
                 //SelectedListItem = await _customerService.Deserialize();
                 //ShowMessageBox(new PlainResponse()
                 //{
