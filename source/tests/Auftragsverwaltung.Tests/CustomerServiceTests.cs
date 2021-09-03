@@ -9,6 +9,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Validators;
+using FluentValidation;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -264,6 +266,7 @@ namespace Auftragsverwaltung.Tests
             A.CallTo(() => customerRepositoryFake.Delete(id)).MustHaveHappenedOnceExactly();
         }
 
+
         [Test]
         public async Task Serialize_WhenOk_GetsCalledOnce()
         {
@@ -272,14 +275,39 @@ namespace Auftragsverwaltung.Tests
             var customerDtoStub = _customerDtoTestData[0];
 
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
 
             //act
             await customerService.Serialize(customerDtoStub, testPath);
 
             //assert
+            A.CallTo(() => customerSerializerFake.Serialize(customerDtoStub, testPath)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Deserialize_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            string testPath = @"C:\temp\Auftragsverwaltung\test.xml";
+
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
+
+            //act
+            await customerService.Deserialize(testPath);
+
+            //assert
+            A.CallTo(() => customerSerializerFake.Deserialize(testPath)).MustHaveHappenedOnceExactly();
         }
     }
 }
