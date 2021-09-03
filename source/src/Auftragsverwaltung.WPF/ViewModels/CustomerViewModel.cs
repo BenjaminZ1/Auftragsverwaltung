@@ -158,20 +158,33 @@ namespace Auftragsverwaltung.WPF.ViewModels
             CreateView();
             if (SelectedListItem != null)
             {
-                OpenFileDialog openFileDlg = new OpenFileDialog();
-                openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
-                if (openFileDlg.ShowDialog() == true)
+                try
                 {
-                    SelectedListItem = await _customerService.Deserialize(openFileDlg.FileName);
-                }
+                    OpenFileDialog openFileDlg = new OpenFileDialog();
+                    openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                    if (openFileDlg.ShowDialog() == true)
+                    {
+                        SelectedListItem = await _customerService.Deserialize(openFileDlg.FileName);
+                    }
 
-                //ShowMessageBox(new PlainResponse()
-                //{
-                //    Flag = serviceTask.Response.Flag,
-                //    Id = serviceTask.Response.Id,
-                //    Message = serviceTask.Response.Message,
-                //    NumberOfRows = serviceTask.Response.NumberOfRows
-                //});
+                    ShowMessageBox(new PlainResponse()
+                    {
+                        Flag = true,
+                        Id = 0,
+                        Message = "Customer successfully imported",
+                        NumberOfRows = 0
+                    });
+                }
+                catch (Exception e)
+                {
+                    ShowMessageBox(new PlainResponse()
+                    {
+                        Flag = false,
+                        Id = 0,
+                        Message = e.Message,
+                        NumberOfRows = 0
+                    });
+                }
             }
         }
 
@@ -179,20 +192,33 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             if (SelectedListItem != null)
             {
-                OpenFileDialog openFileDlg = new OpenFileDialog();
-                openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
-                if (openFileDlg.ShowDialog() == true)
+                try
                 {
-                    await _customerService.Serialize(SelectedListItem, openFileDlg.FileName);
+                    OpenFileDialog openFileDlg = new OpenFileDialog();
+                    openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                    if (openFileDlg.ShowDialog() == true)
+                    {
+                        await _customerService.Serialize(SelectedListItem, openFileDlg.FileName);
+                    }
+
+                    ShowMessageBox(new PlainResponse()
+                    {
+                        Flag = true,
+                        Id = SelectedListItem.CustomerId,
+                        Message = "Customer successfully exported",
+                        NumberOfRows = 0
+                    });
                 }
-                //SelectedListItem = await _customerService.Deserialize();
-                //ShowMessageBox(new PlainResponse()
-                //{
-                //    Flag = serviceTask.Response.Flag,
-                //    Id = serviceTask.Response.Id,
-                //    Message = serviceTask.Response.Message,
-                //    NumberOfRows = serviceTask.Response.NumberOfRows
-                //});
+                catch (Exception e)
+                {
+                    ShowMessageBox(new PlainResponse()
+                    {
+                        Flag = false,
+                        Id = 0,
+                        Message = e.Message,
+                        NumberOfRows = 0
+                    });
+                }
             }
         }
 
