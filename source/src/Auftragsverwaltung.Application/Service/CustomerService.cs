@@ -113,14 +113,14 @@ namespace Auftragsverwaltung.Application.Service
             return mappedResponse;
         }
 
-        public void Serialize(CustomerDto customer, string filename)
+        public async Task Serialize(CustomerDto customer, string filename)
         {
-            throw new NotImplementedException();
+            await Task.Run(() => _serializer.Serialize(customer, filename));
         }
 
-        public CustomerDto Deserialize(string filename)
+        public async Task<CustomerDto> Deserialize(string filename)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => _serializer.Deserialize(filename));
         }
     }
 }
