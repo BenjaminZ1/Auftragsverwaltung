@@ -33,7 +33,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         public ArticleViewModel(IArticleService articleService)
         {
             _articleService = articleService;
-            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            ButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }

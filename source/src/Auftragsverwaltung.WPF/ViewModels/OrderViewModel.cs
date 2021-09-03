@@ -106,7 +106,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             _customerService = customerService;
             _articleService = articleService;
 
-            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            ButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
 
             AddArticleToOrderCommand = new BaseCommand(AddArticleToOrder);

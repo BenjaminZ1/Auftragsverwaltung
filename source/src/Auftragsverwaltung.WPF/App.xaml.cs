@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
+using Auftragsverwaltung.Application.Serializer;
 
 namespace Auftragsverwaltung.WPF
 {
@@ -65,6 +66,7 @@ namespace Auftragsverwaltung.WPF
             services.AddScoped<MainViewModel>();
 
             services.AddSingleton<IValidator<CustomerDto>, CustomerValidator>();
+            services.AddSingleton<ISerializer<CustomerDto>, CustomerSerializer>();
 
             services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
 

@@ -25,19 +25,19 @@
         </Grid.Resources>
 
         <Button Grid.Column="0" Content="Hinzufügen" IsEnabled="{Binding CreateButtonEnabled}"
-                Command="{Binding ControlBarButtonActionCommand}"
+                Command="{Binding ButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Create }"/>
         <Button Grid.Column="1" Content="Bearbeiten" IsEnabled="{Binding ModifyButtonEnabled}"
-                Command="{Binding ControlBarButtonActionCommand}"
+                Command="{Binding ButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Modify }"/>
         <Button Grid.Column="2" Content="Löschen" IsEnabled="{Binding DeleteButtonEnabled}"
-                Command="{Binding ControlBarButtonActionCommand}"
+                Command="{Binding ButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Delete }"/>
         <TextBox Grid.Column="3" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="4" Content="Suchen" IsEnabled="{Binding SearchButtonEnabled}"
                 Command="{Binding SearchBoxUpdateCommand}"/>
         <Button Grid.Column="6" Content="Änderungen speichern" IsEnabled="{Binding SaveButtonEnabled}"
-                Command="{Binding ControlBarButtonActionCommand}"
+                Command="{Binding ButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Save }"/>
     </Grid>
 </UserControl>

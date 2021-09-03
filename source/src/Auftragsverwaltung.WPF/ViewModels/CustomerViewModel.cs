@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using Auftragsverwaltung.WPF.Models;
+using Microsoft.Win32;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -38,7 +39,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         public CustomerViewModel(ICustomerService customerService) : base()
         {
             _customerService = customerService;
-            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            ButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }
@@ -78,6 +79,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
                         break;
                     case ButtonAction.Save:
                         await Save();
+                        break;
+                    case ButtonAction.Import:
+                        await Import();
+                        break;
+                    case ButtonAction.Export:
+                        await Export();
                         break;
                     default:
                         throw new ArgumentException("The ButtonAction has no defined action", nameof(parameter));
@@ -144,6 +151,42 @@ namespace Auftragsverwaltung.WPF.ViewModels
             }
 
             DefautlView();
+        }
+
+        private async Task Import()
+        {
+            CreateView();
+            if (SelectedListItem != null)
+            {
+                OpenFileDialog openFileDlg = new OpenFileDialog();
+                var result = openFileDlg.ShowDialog();
+                //SelectedListItem = await _customerService.Deserialize();
+                ////ShowMessageBox(new PlainResponse()
+                ////{
+                ////    Flag = serviceTask.Response.Flag,
+                ////    Id = serviceTask.Response.Id,
+                ////    Message = serviceTask.Response.Message,
+                ////    NumberOfRows = serviceTask.Response.NumberOfRows
+                ////});
+            }
+        }
+
+        private async Task Export()
+        {
+            CreateView();
+            if (SelectedListItem != null)
+            {
+                //System.Windows.Forms.FolderBrowserDialog openFileDlg = new System.Windows.Forms.FolderBrowserDialog();
+                //var result = openFileDlg.ShowDialog();
+                //SelectedListItem = await _customerService.Deserialize();
+                //ShowMessageBox(new PlainResponse()
+                //{
+                //    Flag = serviceTask.Response.Flag,
+                //    Id = serviceTask.Response.Id,
+                //    Message = serviceTask.Response.Message,
+                //    NumberOfRows = serviceTask.Response.NumberOfRows
+                //});
+            }
         }
 
         private void DefautlView()

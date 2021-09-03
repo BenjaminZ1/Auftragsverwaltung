@@ -22,10 +22,10 @@
         </Grid.Resources>
 
         <Button Grid.Column="0" Content="Importieren" IsEnabled="{Binding CreateButtonEnabled}"
-                Command="{Binding ControlBarButtonActionCommand}"
+                Command="{Binding ButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Import }"/>
         <Button Grid.Column="1" Content="Exportieren" IsEnabled="{Binding ModifyButtonEnabled}"
-                Command="{Binding ControlBarButtonActionCommand}"
+                Command="{Binding ButtonActionCommand}"
                 CommandParameter="{x:Static state:ButtonAction.Export }"/>
     </Grid>
 </UserControl>

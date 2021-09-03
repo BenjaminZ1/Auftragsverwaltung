@@ -39,7 +39,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         public ArticleGroupViewModel(IArticleGroupService articleGroupService)
         {
             _articleGroupService = articleGroupService;
-            ControlBarButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
+            ButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }

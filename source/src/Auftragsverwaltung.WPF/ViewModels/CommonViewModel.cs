@@ -73,7 +73,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _dataGridVisibility = value; OnPropertyChanged(nameof(DataGridVisibility)); }
         }
 
-        public IAsyncCommand ControlBarButtonActionCommand { get; set; }
+        public IAsyncCommand ButtonActionCommand { get; set; }
 
         public IAsyncCommand SearchBoxUpdateCommand { get; set; }
         #endregion
