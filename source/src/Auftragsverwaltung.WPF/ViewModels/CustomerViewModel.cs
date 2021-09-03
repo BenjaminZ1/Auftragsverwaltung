@@ -171,7 +171,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
                     {
                         Flag = true,
                         Id = 0,
-                        Message = "Customer successfully imported",
+                        Message = "successfully imported",
                         NumberOfRows = 0
                     });
                 }
@@ -194,18 +194,18 @@ namespace Auftragsverwaltung.WPF.ViewModels
             {
                 try
                 {
-                    OpenFileDialog openFileDlg = new OpenFileDialog();
-                    openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
-                    if (openFileDlg.ShowDialog() == true)
+                    SaveFileDialog saveFileDlg = new SaveFileDialog();
+                    saveFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                    if (saveFileDlg.ShowDialog() == true)
                     {
-                        await _customerService.Serialize(SelectedListItem, openFileDlg.FileName);
+                        await _customerService.Serialize(SelectedListItem, saveFileDlg.FileName);
                     }
 
                     ShowMessageBox(new PlainResponse()
                     {
                         Flag = true,
                         Id = SelectedListItem.CustomerId,
-                        Message = "Customer successfully exported",
+                        Message = "successfully exported",
                         NumberOfRows = 0
                     });
                 }

@@ -20,6 +20,7 @@ namespace Auftragsverwaltung.Application.Dtos
         [JsonIgnore]
         [XmlIgnore]
         public ICollection<AddressDto> Addresses { get; set; }
+        [XmlElement(ElementName = "Address")]
         public AddressDto ValidAddress { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
