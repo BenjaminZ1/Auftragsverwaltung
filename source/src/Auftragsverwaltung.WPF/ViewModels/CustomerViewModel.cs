@@ -160,8 +160,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
             {
                 try
                 {
-                    OpenFileDialog openFileDlg = new OpenFileDialog();
-                    openFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                    OpenFileDialog openFileDlg = new OpenFileDialog
+                    {
+                        Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json"
+                    };
                     if (openFileDlg.ShowDialog() == true)
                     {
                         SelectedListItem = await _customerService.Deserialize(openFileDlg.FileName);
@@ -194,8 +196,10 @@ namespace Auftragsverwaltung.WPF.ViewModels
             {
                 try
                 {
-                    SaveFileDialog saveFileDlg = new SaveFileDialog();
-                    saveFileDlg.Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json";
+                    SaveFileDialog saveFileDlg = new SaveFileDialog
+                    {
+                        Filter = "XML files (*.xml)|*.xml|Json files (*.json)|*.json"
+                    };
                     if (saveFileDlg.ShowDialog() == true)
                     {
                         await _customerService.Serialize(SelectedListItem, saveFileDlg.FileName);
