@@ -17,11 +17,15 @@ namespace Auftragsverwaltung.Application.Service
         private readonly IAppRepository<Customer> _repository;
         private readonly IMapper _mapper;
         private readonly IValidator<CustomerDto> _validator;
-        public CustomerService(IAppRepository<Customer> repository, IMapper mapper, IValidator<CustomerDto> validator)
+        private readonly ISerializer<CustomerDto> _serializer;
+
+        public CustomerService(IAppRepository<Customer> repository, IMapper mapper,
+            IValidator<CustomerDto> validator, ISerializer<CustomerDto> serializer)
         {
             _repository = repository;
             _mapper = mapper;
             _validator = validator;
+            _serializer = serializer;
         }
 
         public async Task<CustomerDto> Get(int id)
@@ -107,6 +111,16 @@ namespace Auftragsverwaltung.Application.Service
             var response = await _repository.Search(searchString);
             var mappedResponse = response.Select(x => _mapper.Map<CustomerDto>(x));
             return mappedResponse;
+        }
+
+        public void Serialize(CustomerDto customer, string filename)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CustomerDto Deserialize(string filename)
+        {
+            throw new NotImplementedException();
         }
     }
 }
