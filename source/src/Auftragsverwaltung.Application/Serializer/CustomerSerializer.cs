@@ -6,34 +6,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Auftragsverwaltung.Application.Dtos;
 
 namespace Auftragsverwaltung.Application.Serializer
 {
-    public class CustomerSerializer
+    public class CustomerSerializer : ISerializer<CustomerDto>
     {
-        private readonly IAppRepository<Customer> _repository;
-
-        public CustomerSerializer(IAppRepository<Customer> repository)
+        public void Serialize(CustomerDto obj, string filename)
         {
-            _repository = repository;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
+            using StreamWriter file = File.CreateText(filename);
+            xmlSerializer.Serialize(file, obj);
         }
-        public void Serialize()
+
+        public CustomerDto Deserialize(string filename)
         {
-            var customers = _repository.GetAll();
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
+            using Stream reader = new FileStream(filename, FileMode.Open);
 
-            //string filePath = Environment.ExpandEnvironmentVariables("C:\\Users\\%USERPROFILE%\\Roaming\\Auftragsverwaltung\\serializedCustomers.json");
+            var deserializedObj = (CustomerDto)xmlSerializer.Deserialize(reader);
 
-            using (StreamWriter file = File.CreateText(@"C:\\Users\\%USERPROFILE%\\Roaming\\Auftragsverwaltung\\serializedCustomersJson.json"))
-            {
-                JsonSerializer jsonSerializer = new JsonSerializer();
-                jsonSerializer.Serialize(file, customers);
-            }
-
-            using (StreamWriter file = File.CreateText(@"C:\\Users\\%USERPROFILE%\\Roaming\\Auftragsverwaltung\\serializedCustomersXml.xml"))
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
-                xmlSerializer.Serialize(file, customers);
-            }
+            return deserializedObj;
         }
     }
 }

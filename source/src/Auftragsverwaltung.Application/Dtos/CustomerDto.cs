@@ -1,4 +1,5 @@
-﻿using Auftragsverwaltung.Domain.Common;
+﻿using System;
+using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using System.Collections.Generic;
 using System.Security;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace Auftragsverwaltung.Application.Dtos
 {
+    [Serializable]
     public class CustomerDto : AppDto
     {
         [JsonIgnore]
