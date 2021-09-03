@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Security;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Application.Serializer;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -352,6 +353,11 @@ namespace Auftragsverwaltung.Tests
         public static CustomerValidator GetCustomerValidator()
         {
             return new CustomerValidator();
+        }
+
+        public static CustomerSerializer GetCustomerSerializer()
+        {
+            return new CustomerSerializer();
         }
 
         public static SecureString GetSecureString()

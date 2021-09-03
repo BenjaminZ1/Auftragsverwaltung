@@ -14,14 +14,14 @@ namespace Auftragsverwaltung.Application.Serializer
     {
         public void Serialize(CustomerDto obj, string filename)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(CustomerDto));
             using StreamWriter file = File.CreateText(filename);
             xmlSerializer.Serialize(file, obj);
         }
 
         public CustomerDto Deserialize(string filename)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(CustomerDto));
             using Stream reader = new FileStream(filename, FileMode.Open);
 
             var deserializedObj = (CustomerDto)xmlSerializer.Deserialize(reader);
