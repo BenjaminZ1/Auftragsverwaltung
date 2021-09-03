@@ -15,8 +15,8 @@ namespace Auftragsverwaltung.Application.Serializer
         public void Serialize(CustomerDto obj, string filename)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(CustomerDto));
-            using StreamWriter file = File.CreateText(filename);
-            xmlSerializer.Serialize(file, obj);
+            using Stream writer = new FileStream(filename, FileMode.Create);
+            xmlSerializer.Serialize(writer, obj);
         }
 
         public CustomerDto Deserialize(string filename)
