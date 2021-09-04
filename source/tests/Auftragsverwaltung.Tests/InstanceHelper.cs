@@ -314,6 +314,37 @@ namespace Auftragsverwaltung.Tests
             };
         }
 
+        public static List<ArticleDto> GenerateArticleDtoServiceTestData()
+        {
+            var list = new List<ArticleDto>()
+            {
+                new ArticleDto()
+                {
+                    ArticleId = 1,
+                    Description = "TestArticle",
+                    Price = 12,
+                    ArticleGroupId = 1                    
+                }
+            };
+            return list;
+        }
+
+        public static List<Article> GenerateArticleServiceTestData()
+        {
+            var list = new List<Article>()
+            {
+                new Article()
+                {
+                    ArticleId = 1,
+                    Description = "TestArticle",
+                    Price = 13,
+                    ArticleGroupId = 2
+                }
+            };
+            return list;
+        }
+
+
         public static List<Article> GetArticleTestData()
         {
             return new List<Article>()
