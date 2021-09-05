@@ -228,7 +228,6 @@ namespace Auftragsverwaltung.Tests
             result.Flag.Should().BeTrue();
         }
 
-        [Ignore("behaviour not defined")]
         [Test]
         public async Task Delete_WhenInOrder_ReturnsCorrectResult()
         {
