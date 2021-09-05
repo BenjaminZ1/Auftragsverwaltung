@@ -412,6 +412,254 @@ namespace Auftragsverwaltung.Tests
             return list;
         }
 
+        public static List<OrderDto> GenerateOrderDtoServiceTestData()
+        {
+            var list = new List<OrderDto>()
+            {
+                new OrderDto()
+                {
+                    Date = new DateTime(2020, 03, 03),
+                    Customer = new CustomerDto()
+                    {
+                        CustomerId = 1,
+                        Addresses = new List<AddressDto>()
+                        {
+                            new AddressDto()
+                            {
+                                Street = "Teststrasse",
+                                BuildingNr = "2",
+                                Town = new TownDto()
+                                {
+                                    Townname = "Herisau",
+                                    ZipCode = "9100"
+                                }
+                            }
+                        },
+                        Firstname = "Hans",
+                        Lastname = "Müller",
+                        Email = "hans@test.com",
+                        Website = "www.hans.ch",
+                    },
+                    Positions = new List<PositionDto>
+                    {
+                        new PositionDto
+                        {
+                            Amount = 2,
+                            Article = new ArticleDto()
+                            {
+                                ArticleId = 1,
+                                ArticleGroup = new ArticleGroupDto()
+                                {
+                                    Name = "testarticle"
+                                },
+                                Description = "TestArticleDescription2",
+                                Price = 22,
+                            }
+                        },
+                        new PositionDto
+                        {
+                            Amount = 2,
+                            Article = new ArticleDto()
+                            {
+                                ArticleId = 2,
+                                ArticleGroup = new ArticleGroupDto()
+                                {
+                                    Name = "testarticlegroup2"
+                                },
+                                Description = "testarticle2",
+                                Price = 21,
+                            }
+                        },
+                    },
+                }
+            };
+            return list;
+        }
+
+        public static List<Order> GenerateOrderServiceTestData()
+        {
+            var list = new List<Order>()
+            {
+                new Order()
+                {
+                    Date = new DateTime(2020, 03, 03),
+                    Customer = new Customer()
+                    {
+                        CustomerId = 1,
+                        Addresses = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Street = "Teststrasse",
+                                BuildingNr = "2",
+                                Town = new Town()
+                                {
+                                    Townname = "Herisau",
+                                    ZipCode = "9100"
+                                }
+                            }
+                        },
+                        Firstname = "Hans",
+                        Lastname = "Müller",
+                        Email = "hans@test.com",
+                        Website = "www.hans.ch",
+                    },
+                    Positions = new List<Position>
+                    {
+                        new Position
+                        {
+                            Amount = 2,
+                            Article = new Article()
+                            {
+                                ArticleId = 1,
+                                ArticleGroup = new ArticleGroup()
+                                {
+                                    Name = "testarticle"
+                                },
+                                Description = "TestArticleDescription2",
+                                Price = 22,
+                            }
+                        },
+                        new Position
+                        {
+                            Amount = 2,
+                            Article = new Article()
+                            {
+                                ArticleId = 2,
+                                ArticleGroup = new ArticleGroup()
+                                {
+                                    Name = "testarticlegroup2"
+                                },
+                                Description = "testarticle2",
+                                Price = 21,
+                            }
+                        },
+                    },
+                }
+            };
+            return list;
+        }
+
+        public static List<Order> GetOrderTestData()
+        {
+            var list = new List<Order>()
+            {
+                new Order()
+                {
+                    Date = new DateTime(2020, 03, 03),
+                    Customer = new Customer()
+                    {
+                        CustomerId = 1,
+                        Addresses = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Street = "Teststrasse",
+                                BuildingNr = "2",
+                                Town = new Town()
+                                {
+                                    Townname = "Herisau",
+                                    ZipCode = "9100"
+                                }
+                            }
+                        },
+                        Firstname = "Hans",
+                        Lastname = "Müller",
+                        Email = "hans@test.com",
+                        Website = "www.hans.ch",
+                    },
+                    Positions = new List<Position>
+                    {
+                        new Position
+                        {
+                            Amount = 2,
+                            Article = new Article()
+                            {
+                                ArticleId = 1,
+                                ArticleGroup = new ArticleGroup()
+                                {
+                                    Name = "testarticle"
+                                },
+                                Description = "TestArticleDescription2",
+                                Price = 22,
+                            }
+                        },
+                        new Position
+                        {
+                            Amount = 2,
+                            Article = new Article()
+                            {
+                                ArticleId = 2,
+                                ArticleGroup = new ArticleGroup()
+                                {
+                                    Name = "testarticlegroup2"
+                                },
+                                Description = "testarticle2",
+                                Price = 21,
+                            }
+                        },
+                    },
+                },
+                new Order()
+                {
+                    Date = new DateTime(2020, 03, 03),
+                    Customer = new Customer()
+                    {
+                        CustomerId = 1,
+                        Addresses = new List<Address>()
+                        {
+                            new Address()
+                            {
+                                Street = "Testweg",
+                                BuildingNr = "2",
+                                Town = new Town()
+                                {
+                                    Townname = "Herisau",
+                                    ZipCode = "9100"
+                                }
+                            }
+                        },
+                        Firstname = "Urs",
+                        Lastname = "Hofer",
+                        Email = "urs@test.com",
+                        Website = "www.urs.ch",
+                    },
+                    Positions = new List<Position>
+                    {
+                        new Position
+                        {
+                            Amount = 2,
+                            Article = new Article()
+                            {
+                                ArticleId = 1,
+                                ArticleGroup = new ArticleGroup()
+                                {
+                                    Name = "testarticle"
+                                },
+                                Description = "TestArticleDescription2",
+                                Price = 22,
+                            }
+                        },
+                        new Position
+                        {
+                            Amount = 2,
+                            Article = new Article()
+                            {
+                                ArticleId = 2,
+                                ArticleGroup = new ArticleGroup()
+                                {
+                                    Name = "testarticlegroup2"
+                                },
+                                Description = "testarticle2",
+                                Price = 21,
+                            }
+                        },
+                    },
+                }
+            };
+            return list;
+        }
+
         public static IMapper GetMapper()
         {
             var mapperConfig = new MapperConfiguration(mc =>
