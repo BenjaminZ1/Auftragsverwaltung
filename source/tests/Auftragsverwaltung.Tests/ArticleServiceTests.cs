@@ -87,7 +87,6 @@ namespace Auftragsverwaltung.Tests
         public async Task GetAll_WhenOk_GetsCalledOnce()
         {
             //arrange
-            int id = 1;
             var articleStubs = _articleTestData;
             var articleRepositoryFake = A.Fake<IAppRepository<Article>>();
             A.CallTo(() => articleRepositoryFake.GetAll()).Returns(articleStubs);

@@ -58,6 +58,7 @@ namespace Auftragsverwaltung.Tests
                     {
                         new AddressDto()
                         {
+                            AddressId = 1,
                             Street = "Teststrasse",
                             BuildingNr = "2",
                             ValidFrom = DateTime.Now,
@@ -65,6 +66,7 @@ namespace Auftragsverwaltung.Tests
                             CustomerId = 1,
                             Town = new TownDto()
                             {
+                                TownId = 1,
                                 Townname = "Herisau",
                                 ZipCode = "9100"
                             }

@@ -1,4 +1,5 @@
-﻿using Auftragsverwaltung.Application.Dtos;
+﻿using System.Collections;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
@@ -11,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Application.Validators;
 using FluentValidation;
+using FluentValidation.Results;
+using NUnit.Framework.Internal;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -35,11 +38,15 @@ namespace Auftragsverwaltung.Tests
             //arrange
             int id = 1;
             var customerStub = _customerTestData[0];
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<AbstractValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+                customerValidatorFake, customerSerializerFake);
             var expectedResult = _mapper.Map<CustomerDto>(customerStub);
 
             //act
@@ -55,17 +62,25 @@ namespace Auftragsverwaltung.Tests
             //arrange
             int id = 1;
             var customerStub = _customerTestData[0];
-            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
+            var customerDtoStub = _customerDtoTestData[0];
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<AbstractValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Get(id)).Returns(customerStub);
+            A.CallTo(() => mapperFake.Map<CustomerDto>(customerStub)).Returns(customerDtoStub);
+
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Get(id);
 
             //assert
             A.CallTo(() => customerRepositoryFake.Get(id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mapperFake.Map<CustomerDto>(customerStub)).MustHaveHappenedOnceExactly();
         }
 
         [Test]
@@ -73,12 +88,18 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStubs = _customerTestData;
+            var customerDtoStubs = _customerDtoTestData;
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<AbstractValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
 
+
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
-            var expectedResult = customerStubs.Select(c => _mapper.Map<CustomerDto>(c));
+                customerValidatorFake, customerSerializerFake);
+            var expectedResult = customerStubs.Select(x => _mapper.Map<CustomerDto>(x));
 
             //act
             var result = await customerService.GetAll();
@@ -92,11 +113,16 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var customerStubs = _customerTestData;
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<AbstractValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.GetAll()).Returns(customerStubs);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.GetAll();
@@ -115,17 +141,25 @@ namespace Auftragsverwaltung.Tests
             {
                 Entity = customerStub
             };
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>());
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
-            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
+
+
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Create(customerDtoStub);
 
             //assert
             A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).MustHaveHappenedOnceExactly();
         }
 
         [Test]
@@ -138,11 +172,17 @@ namespace Auftragsverwaltung.Tests
             {
                 Entity = customerStub
             };
+
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>());
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Create(customerDtoStub);
@@ -170,12 +210,16 @@ namespace Auftragsverwaltung.Tests
                 Entity = changedCustomerStub
             };
 
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>());
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
-
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Update(changedCustomerDtoStub);
@@ -204,18 +248,24 @@ namespace Auftragsverwaltung.Tests
                 Entity = changedCustomerStub
             };
 
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>());
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
 
-            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
-
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Update(changedCustomerDtoStub);
 
             //assert
             A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).MustHaveHappenedOnceExactly();
         }
 
         [Test]
@@ -228,11 +278,15 @@ namespace Auftragsverwaltung.Tests
             {
                 Entity = customerStub
             };
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.Delete(id)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Delete(id);
@@ -253,11 +307,15 @@ namespace Auftragsverwaltung.Tests
             {
                 Entity = customerStub
             };
+
             var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
             A.CallTo(() => customerRepositoryFake.Delete(id)).Returns(responseDto);
 
             var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
-                InstanceHelper.GetCustomerValidator(), InstanceHelper.GetCustomerSerializer());
+                customerValidatorFake, customerSerializerFake);
 
             //act
             var result = await customerService.Delete(id);
@@ -265,7 +323,6 @@ namespace Auftragsverwaltung.Tests
             //assert
             A.CallTo(() => customerRepositoryFake.Delete(id)).MustHaveHappenedOnceExactly();
         }
-
 
         [Test]
         public async Task Serialize_WhenOk_GetsCalledOnce()
