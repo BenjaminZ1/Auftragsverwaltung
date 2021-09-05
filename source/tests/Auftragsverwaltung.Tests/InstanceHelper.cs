@@ -235,7 +235,7 @@ namespace Auftragsverwaltung.Tests
             return list;
         }
 
-        public static List<Customer> GetCustomerTestData()
+        public static List<Customer> GenerateCustomerTestData()
         {
             return new List<Customer>()
             {
@@ -347,7 +347,7 @@ namespace Auftragsverwaltung.Tests
         }
 
 
-        public static List<Article> GetArticleTestData()
+        public static List<Article> GenerateArticleTestData()
         {
             return new List<Article>()
             {
@@ -398,7 +398,7 @@ namespace Auftragsverwaltung.Tests
             return list;
         }
 
-        public static List<ArticleGroup> GetArticleGroupTestData()
+        public static List<ArticleGroup> GenerateArticleGroupTestData()
         {
             var list = new List<ArticleGroup>()
             {
@@ -542,7 +542,7 @@ namespace Auftragsverwaltung.Tests
             return list;
         }
 
-        public static List<Order> GetOrderTestData()
+        public static List<Order> GenerateOrderTestData()
         {
             var list = new List<Order>()
             {

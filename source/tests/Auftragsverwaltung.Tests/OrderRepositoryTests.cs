@@ -241,7 +241,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
             //arrange
-            var customerTestData = InstanceHelper.GetCustomerTestData();
+            var customerTestData = InstanceHelper.GenerateCustomerTestData();
             int orderId = 1;
 
             var newDate = new DateTime(2021, 08, 14);

@@ -35,7 +35,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
             //arrange
-            var articleTestData = InstanceHelper.GetArticleTestData();
+            var articleTestData = InstanceHelper.GenerateArticleTestData();
             var article = articleTestData[0];
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
@@ -69,7 +69,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenExceptionIsThrown_ReturnsCorrectResult()
         {
             //arrange
-            var articleTestData = InstanceHelper.GetArticleTestData();
+            var articleTestData = InstanceHelper.GenerateArticleTestData();
             var article = articleTestData[0];
             article.ArticleId = 1;
 
@@ -103,7 +103,7 @@ namespace Auftragsverwaltung.Tests
         public async Task CreateParentArticleGroup_WhenNewArticleGroupWithExistingParentArticleGroup_ReturnsCorrectResult()
         {
             //arrange
-            var articleTestData = InstanceHelper.GetArticleTestData();
+            var articleTestData = InstanceHelper.GenerateArticleTestData();
             var article = articleTestData[0];
 
             var serviceProviderFake = A.Fake<IServiceProvider>();

@@ -37,7 +37,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenNew_ReturnsCorrectResult()
         {
             //arrange
-            var customerTestData = InstanceHelper.GetCustomerTestData();
+            var customerTestData = InstanceHelper.GenerateCustomerTestData();
             var customer = customerTestData[0];
 
             int expectedAddressId = 4;
@@ -74,7 +74,7 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenExceptionIsThrown_ReturnsCorrectResult()
         {
             //arrange
-            var customerTestData = InstanceHelper.GetCustomerTestData();
+            var customerTestData = InstanceHelper.GenerateCustomerTestData();
             var customer = customerTestData[0];
             customer.CustomerId = 1;
 
