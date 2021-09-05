@@ -69,7 +69,6 @@ namespace Auftragsverwaltung.Tests
         [Test]
         public async Task GetAll_WhenOk_ReturnsCorrectResult()
         {
-            int id = 1;
             var articleStubs = _articleTestData;
             var articleRepositoryFake = A.Fake<IAppRepository<Article>>();
             A.CallTo(() => articleRepositoryFake.GetAll()).Returns(articleStubs);
