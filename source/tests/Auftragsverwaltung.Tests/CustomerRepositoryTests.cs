@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auftragsverwaltung.Domain.Address;
+using Auftragsverwaltung.Domain.Town;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -66,6 +68,40 @@ namespace Auftragsverwaltung.Tests
             result.Entity.Addresses.First().AddressId.Should().Be(expectedAddressId);
             result.Entity.Addresses.First().Town.TownId.Should().Be(expectedTownId);
             result.Flag.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Create_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerTestData = InstanceHelper.GetCustomerTestData();
+            var customer = customerTestData[0];
+            customer.CustomerId = 15;
+
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await customerRepository.Create(customer);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Customer>));
+            result.Flag.Should().BeFalse();
         }
 
         [Test]
@@ -188,6 +224,67 @@ namespace Auftragsverwaltung.Tests
             result.NumberOfRows.Should().Be(expectedRows);
         }
 
+                [Test]
+        public async Task Delete_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            int customerId = 15;
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await customerRepository.Delete(customerId);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Customer>));
+            result.Flag.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Delete_WhenUserHasMultipleAddresses_ReturnsCorrectResult()
+        {
+            //arrange
+            int customerId = 2;
+            int expectedRows = 4;
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await customerRepository.Delete(customerId);
+
+            //assert
+            result.Flag.Should().BeTrue();
+            result.NumberOfRows.Should().Be(expectedRows);
+        }
+
         [Test]
         public async Task Update_WhenOK_ReturnsCorrectResult()
         {
@@ -221,6 +318,83 @@ namespace Auftragsverwaltung.Tests
             //assert
             result.Entity.Firstname.Should().BeEquivalentTo(newFirstname);
             result.Flag.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Update_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            int customerId = 1;
+            Address newAddress = new Address()
+            {
+                AddressId = 1,
+                Street = "michgibtesnicht",
+                ValidFrom = DateTime.Now,
+                ValidUntil = DateTime.MaxValue,
+                TownId = 1,
+                Town = new Town()
+                {
+                    TownId = 1,
+                    Townname = "Neustadt",
+                    ZipCode = "9999"
+                }
+            };
+        
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
+
+            var entity = customerRepository.Get(customerId);
+            var customer = entity.Result;
+            customer.Addresses.Add(newAddress);
+
+            //act
+            var result = await customerRepository.Update(customer);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Customer>));
+            result.Flag.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+            var customerRepository = new CustomerRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await customerRepository.Search("Hans");
+
+            //assert
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Customer>));
+            resultList.Count().Should().Be(1);
         }
     }
 }
