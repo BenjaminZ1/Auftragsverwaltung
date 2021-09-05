@@ -163,6 +163,40 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
+        public async Task Create_WhenNotValid_GetsCalledOnce()
+        {
+            //arrange
+            var customerStub = _customerTestData[0];
+            var customerDtoStub = _customerDtoTestData[0];
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = customerStub
+            };
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>()
+            {
+                new ValidationFailure("TestProperty", "TestError")
+            });
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
+
+
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
+
+            //act
+            var result = await customerService.Create(customerDtoStub);
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
         public async Task Create_WhenOk_ReturnsCorrectResult()
         {
             //arrange
@@ -191,6 +225,41 @@ namespace Auftragsverwaltung.Tests
             result.Should().BeOfType(typeof(CustomerDto));
             result.Response.Entity.Should().BeNull();
             result.CustomerId.Should().Be(customerStub.CustomerId);
+        }
+
+        [Test]
+        public async Task Create_WhenNotValid_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerStub = _customerTestData[0];
+            var customerDtoStub = _customerDtoTestData[0];
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = customerStub
+            };
+
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>()
+            {
+                new ValidationFailure("TestProperty", "TestError")
+            });
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Create(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
+
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
+                customerValidatorFake, customerSerializerFake);
+
+            //act
+            var result = await customerService.Create(customerDtoStub);
+
+            //assert
+            result.Should().BeOfType(typeof(CustomerDto));
+            result.Response.Entity.Should().BeNull();
+            result.Response.Flag.Should().Be(false);
+            result.Response.Message.Should().Be("TestProperty: TestError \n");
         }
 
         [Test]
@@ -232,6 +301,47 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
+        public async Task Update_WhenNotValid_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerStub = _customerTestData[0];
+            var customerDtoStub = _customerDtoTestData[0];
+
+            var changedCustomerStub = customerStub;
+            var changedCustomerDtoStub = customerDtoStub;
+            changedCustomerStub.Firstname = "Rudolf";
+            changedCustomerDtoStub.Firstname = "Rudolf";
+
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = changedCustomerStub
+            };
+
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>()
+            {
+                new ValidationFailure("TestProperty", "TestError")
+            });
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
+
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
+                customerValidatorFake, customerSerializerFake);
+
+            //act
+            var result = await customerService.Update(changedCustomerDtoStub);
+
+            //assert
+            result.Should().BeOfType(typeof(CustomerDto));
+            result.Response.Entity.Should().BeNull();
+            result.Response.Flag.Should().Be(false);
+            result.Response.Message.Should().Be("TestProperty: TestError \n");
+        }
+
+        [Test]
         public async Task Update_WhenOk_GetsCalledOnce()
         {
             //arrange
@@ -265,6 +375,46 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Update_WhenNotValid_GetsCalledOnce()
+        {
+            //arrange
+            var customerStub = _customerTestData[0];
+            var customerDtoStub = _customerDtoTestData[0];
+
+            var changedCustomerStub = customerStub;
+            var changedCustomerDtoStub = customerDtoStub;
+            changedCustomerStub.Firstname = "Rudolf";
+            changedCustomerDtoStub.Firstname = "Rudolf";
+
+            var responseDto = new ResponseDto<Customer>()
+            {
+                Entity = changedCustomerStub
+            };
+
+            var validationResultStub = new ValidationResult(new List<ValidationFailure>()
+            {
+                new ValidationFailure("TestProperty", "TestError")
+            });
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<IValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).Returns(responseDto);
+            A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).Returns(validationResultStub);
+
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
+
+            //act
+            var result = await customerService.Update(changedCustomerDtoStub);
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Update(A<Customer>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => customerValidatorFake.Validate(customerDtoStub)).MustHaveHappenedOnceExactly();
         }
 
@@ -365,6 +515,53 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             A.CallTo(() => customerSerializerFake.Deserialize(testPath)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_GetCalledOnce()
+        {
+            //arrange
+            var customerStubs = _customerTestData;
+
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var mapperFake = A.Fake<IMapper>();
+            var customerValidatorFake = A.Fake<AbstractValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Search("test")).Returns(customerStubs);
+
+            var customerService = new CustomerService(customerRepositoryFake, mapperFake,
+                customerValidatorFake, customerSerializerFake);
+
+            //act
+            var result = await customerService.Search("test");
+
+            //assert
+            A.CallTo(() => customerRepositoryFake.Search("test")).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerStubs = _customerTestData;
+
+            var customerRepositoryFake = A.Fake<IAppRepository<Customer>>();
+            var customerValidatorFake = A.Fake<AbstractValidator<CustomerDto>>();
+            var customerSerializerFake = A.Fake<ISerializer<CustomerDto>>();
+
+            A.CallTo(() => customerRepositoryFake.Search("test")).Returns(customerStubs);
+
+            var customerService = new CustomerService(customerRepositoryFake, InstanceHelper.GetMapper(),
+                customerValidatorFake, customerSerializerFake);
+
+            var expectedResult = customerStubs.Select(x => _mapper.Map<CustomerDto>(x));
+
+            //act
+            var result = await customerService.Search("test");
+
+            //assert
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }
