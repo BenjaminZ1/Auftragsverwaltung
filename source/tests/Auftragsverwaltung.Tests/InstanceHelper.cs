@@ -370,6 +370,48 @@ namespace Auftragsverwaltung.Tests
             };
         }
 
+        public static List<ArticleGroupDto> GenerateArticleGroupDtoServiceTestData()
+        {
+            var list = new List<ArticleGroupDto>()
+            {
+                new ArticleGroupDto()
+                {
+                    ArticleGroupId = 1,
+                    Name = "TestArticleGroup"
+                }
+            };
+            return list;
+        }
+
+        public static List<ArticleGroup> GenerateArticleGroupServiceTestData()
+        {
+            var list = new List<ArticleGroup>()
+            {
+                new ArticleGroup()
+                {
+                    ArticleGroupId = 1,
+                    Name = "TestArticleGroup"
+                }
+            };
+            return list;
+        }
+
+        public static List<ArticleGroup> GetArticleGroupTestData()
+        {
+            var list = new List<ArticleGroup>()
+            {
+                new ArticleGroup()
+                {
+                    Name = "TestArticleGroup1"
+                },
+                new ArticleGroup()
+                {
+                    Name = "TestArticleGroup2"
+                }
+            };
+            return list;
+        }
+
         public static IMapper GetMapper()
         {
             var mapperConfig = new MapperConfiguration(mc =>
