@@ -66,6 +66,41 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
+        public async Task Create_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            var articleGroup = new ArticleGroup()
+            {
+                ArticleGroupId = 1,
+                Name = "TestArticleGroupName"
+            };
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleGroupRepository = new ArticleGroupRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await articleGroupRepository.Create(articleGroup);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<ArticleGroup>));
+            result.Flag.Should().BeFalse();
+        }
+
+        [Test]
         public async Task Get_WhenOk_ReturnsCorrectResult()
         {
             //arrange
@@ -156,6 +191,38 @@ namespace Auftragsverwaltung.Tests
             result.Flag.Should().BeTrue();
         }
 
+
+        [Test]
+        public async Task Delete_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            int articleGroupId = 15;
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleGroupRepository = new ArticleGroupRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await articleGroupRepository.Delete(articleGroupId);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<ArticleGroup>));
+            result.Flag.Should().BeFalse();
+        }
+
         [Test]
         public async Task Update_WhenOk_ReturnsCorrectResult()
         {
@@ -190,6 +257,73 @@ namespace Auftragsverwaltung.Tests
             //assert
             result.Entity.Name.Should().BeEquivalentTo(newArticleGroupName);
             result.Flag.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Update_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            int articleGroupId = 1;
+            string newArticleGroupName = "NewArticleGroupName";
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleGroupRepository = new ArticleGroupRepository(serviceScopeFactoryFake);
+
+            var entity = articleGroupRepository.Get(articleGroupId);
+            var articleGroup = entity.Result;
+            articleGroup.Name = newArticleGroupName;
+            articleGroup.ArticleGroupId = 15;
+
+            //act
+            var result = await articleGroupRepository.Update(articleGroup);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<ArticleGroup>));
+            result.Flag.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var articleGroupRepository = new ArticleGroupRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await articleGroupRepository.Search("Pflegeprodukte");
+
+            //assert
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<ArticleGroup>));
+            resultList.Count().Should().Be(1);
         }
     }
 }
