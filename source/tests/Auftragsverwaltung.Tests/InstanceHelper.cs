@@ -692,5 +692,15 @@ namespace Auftragsverwaltung.Tests
 
             return secureString;
         }
+
+        public static SecureString GetNotValidSecureString()
+        {
+            char[] chars = { 't', 'E', 's', 't'};
+            SecureString secureString = new SecureString();
+            foreach (char ch in chars)
+                secureString.AppendChar(ch);
+
+            return secureString;
+        }
     }
 }
