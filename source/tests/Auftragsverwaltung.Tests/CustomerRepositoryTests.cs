@@ -76,7 +76,7 @@ namespace Auftragsverwaltung.Tests
             //arrange
             var customerTestData = InstanceHelper.GetCustomerTestData();
             var customer = customerTestData[0];
-            customer.CustomerId = 15;
+            customer.CustomerId = 1;
 
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
