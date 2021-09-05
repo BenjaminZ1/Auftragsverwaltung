@@ -15,8 +15,6 @@ namespace Auftragsverwaltung.Application.Serializer
     {
         public void Serialize(CustomerDto obj, string filename)
         {
-            obj.Password = SecureStringHelper.GetSecureString();
-
             if (filename[^4..].Equals(".xml"))
             {
 
