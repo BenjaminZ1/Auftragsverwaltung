@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Auftragsverwaltung.WPF.Controls"
+             xmlns:constants="clr-namespace:Auftragsverwaltung.WPF.Constants"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -30,7 +31,7 @@
                       ItemsSource="{Binding Orders}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Bestellnummer" Binding="{Binding OrderId}"/>
-                    <DataGridTextColumn Header="Bestelldatum" Binding="{Binding Date}"/>
+                    <DataGridTextColumn Header="Bestelldatum" Binding="{Binding Date, StringFormat={x:Static constants:Constants.DateTimeUiFormat}}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
