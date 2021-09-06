@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,63 +43,8 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenOk_ReturnsCorrectResult()
         {
             //arrange
-            var order = new Order()
-            {
-                Date = new DateTime(2020, 03, 03),
-                Customer = new Customer()
-                {
-                    CustomerId = 1,
-                    Addresses = new List<Address>()
-                    {
-                        new Address()
-                        {
-                            Street = "Teststrasse",
-                            BuildingNr = "2",
-                            Town = new Town()
-                            {
-                                Townname = "Herisau",
-                                ZipCode = "9100"
-                            }
-                        }
-                    },
-                    Firstname = "Hans",
-                    Lastname = "Müller",
-                    Email = "hans@test.com",
-                    Website = "www.hans.ch",
-                    Password = new byte[64]
-                },
-                Positions = new List<Position>
-                {
-                    new Position
-                    {
-                        Amount = 2,
-                        Article = new Article()
-                        {
-                            ArticleId = 1,
-                            ArticleGroup = new ArticleGroup()
-                            {
-                                Name = "testarticle"
-                            },
-                            Description = "TestArticleDescription2",
-                            Price = 22,
-                        }
-                    },
-                    new Position
-                    {
-                        Amount = 2,
-                        Article = new Article()
-                        {
-                            ArticleId = 2,
-                            ArticleGroup = new ArticleGroup()
-                            {
-                                Name = "testarticlegroup2"
-                            },
-                            Description = "testarticle2",
-                            Price = 21,
-                        }
-                    },
-                },
-            };
+            var order = InstanceHelper.GenerateOrderServiceTestData();
+            var newOrder = order[0];
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
@@ -118,13 +64,46 @@ namespace Auftragsverwaltung.Tests
             var orderRepository = new OrderRepository(serviceScopeFactoryFake);
 
             //act
-            var result = await orderRepository.Create(order);
+            var result = await orderRepository.Create(newOrder);
 
             //assert
             result.Entity.Customer.Firstname.Should().Be("Hans");
             result.Entity.Positions.Count.Should().Be(2);
             result.Should().BeOfType(typeof(ResponseDto<Order>));
             result.Flag.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Create_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            var order = InstanceHelper.GenerateOrderServiceTestData();
+            var newOrder = order[0];
+            newOrder.OrderId = 1;
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var orderRepository = new OrderRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await orderRepository.Create(newOrder);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Order>));
+            result.Flag.Should().BeFalse();
         }
 
         [Test]
@@ -275,7 +254,6 @@ namespace Auftragsverwaltung.Tests
             order.Customer = newCustomer;
             order.Positions = modifiedPositions;
 
-
             //act
             var result = await orderRepository.Update(order);
 
@@ -284,6 +262,140 @@ namespace Auftragsverwaltung.Tests
             result.Entity.Customer.CustomerId.Should().Be(newCustomer.CustomerId);
             result.Entity.Positions.Should().BeEquivalentTo(modifiedPositions);
             result.Flag.Should().BeTrue();
+        }
+
+
+        [Test]
+        public async Task Update_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            var customerTestData = InstanceHelper.GenerateCustomerTestData();
+            int orderId = 1;
+
+            var newDate = new DateTime(2021, 08, 14);
+            var newCustomer = customerTestData[1];
+            newCustomer.CustomerId = 15;
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var orderRepository = new OrderRepository(serviceScopeFactoryFake);
+
+            var entity = orderRepository.Get(orderId);
+            var order = entity.Result;
+
+            order.Customer = newCustomer;
+
+            //act
+            var result = await orderRepository.Update(order);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Order>));
+            result.Flag.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Delete_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            int id = 1;
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var orderRepository = new OrderRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await orderRepository.Delete(id);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Order>));
+            result.Flag.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Delete_WhenExceptionIsThrown_ReturnsCorrectResult()
+        {
+            //arrange
+            int id = 15;
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var orderRepository = new OrderRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await orderRepository.Delete(id);
+
+            //assert
+            result.Should().BeOfType(typeof(ResponseDto<Order>));
+            result.Flag.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            string searchString = "Hans";
+
+            var serviceProviderFake = A.Fake<IServiceProvider>();
+            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
+                .Returns(new AppDbContext(_options));
+
+            var serviceScopeFake = A.Fake<IServiceScope>();
+            A.CallTo(() => serviceScopeFake.ServiceProvider)
+                .Returns(serviceProviderFake);
+
+            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
+            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
+                .Returns(serviceScopeFake);
+
+            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactoryFake);
+
+            var orderRepository = new OrderRepository(serviceScopeFactoryFake);
+
+            //act
+            var result = await orderRepository.Search(searchString);
+
+            //assert
+            var resultList = result.ToList();
+            resultList.Should().BeOfType(typeof(List<Order>));
+            resultList.Count().Should().Be(1);
         }
     }
 }

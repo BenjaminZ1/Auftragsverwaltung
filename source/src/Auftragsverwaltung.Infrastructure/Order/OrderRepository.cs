@@ -92,13 +92,6 @@ namespace Auftragsverwaltung.Infrastructure.Order
                 .Where(e => e.Customer.Firstname.Contains(searchString) || e.Customer.Lastname.Contains(searchString))
                 .ToListAsync();
 
-            foreach (var entity in entities)
-            {
-                if (!entity.Customer.Firstname.Contains(searchString) && !entity.Customer.Lastname.Contains(searchString))
-                {
-                    entities.Remove(entity);
-                }
-            }
             return entities;
         }
 
