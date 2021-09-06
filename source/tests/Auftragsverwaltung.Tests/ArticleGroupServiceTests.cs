@@ -257,5 +257,25 @@ namespace Auftragsverwaltung.Tests
             A.CallTo(() => articleRepositoryFake.Delete(id)).MustHaveHappenedOnceExactly();
         }
 
+        [Test]
+        public async Task Search_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            string searchString = "Test";
+            var articleGroupStub = _articleGroupTestData;
+
+            var articleGroupRepositoryFake = A.Fake<IArticleGroupRepository>();
+            var mapperFake = A.Fake<IMapper>();
+            A.CallTo(() => articleGroupRepositoryFake.Search(searchString)).Returns(articleGroupStub);
+
+            var articleGroupService = new ArticleGroupService(articleGroupRepositoryFake, mapperFake);
+
+            //act
+            var result = await articleGroupService.Search(searchString);
+
+            //assert
+            A.CallTo(() => articleGroupRepositoryFake.Search(searchString)).MustHaveHappenedOnceExactly();
+        }
+
     }
 }
