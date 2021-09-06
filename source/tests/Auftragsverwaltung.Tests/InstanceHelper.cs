@@ -420,16 +420,20 @@ namespace Auftragsverwaltung.Tests
             {
                 new OrderDto()
                 {
+                    OrderId = 1,
                     Date = new DateTime(2020, 03, 03),
                     Customer = new CustomerDto()
                     {
                         CustomerId = 1,
+                        CustomerNumber = "CU00001",
                         Addresses = new List<AddressDto>()
                         {
                             new AddressDto()
                             {
                                 Street = "Teststrasse",
                                 BuildingNr = "2",
+                                ValidFrom = DateTime.Now,
+                                ValidUntil = DateTime.MaxValue,
                                 Town = new TownDto()
                                 {
                                     Townname = "Herisau",
@@ -488,12 +492,15 @@ namespace Auftragsverwaltung.Tests
                     Customer = new Customer()
                     {
                         CustomerId = 1,
+                        CustomerNumber = "CU00001",
                         Addresses = new List<Address>()
                         {
                             new Address()
                             {
                                 Street = "Teststrasse",
                                 BuildingNr = "2",
+                                ValidFrom = new DateTime(2020, 03, 03),
+                                ValidUntil = DateTime.MaxValue,
                                 Town = new Town()
                                 {
                                     Townname = "Herisau",
@@ -548,16 +555,20 @@ namespace Auftragsverwaltung.Tests
             {
                 new Order()
                 {
+                    OrderId = 1,
                     Date = new DateTime(2020, 03, 03),
                     Customer = new Customer()
                     {
                         CustomerId = 1,
+                        CustomerNumber = "CU00001",
                         Addresses = new List<Address>()
                         {
                             new Address()
                             {
                                 Street = "Teststrasse",
                                 BuildingNr = "2",
+                                ValidFrom = new DateTime(2020, 03, 03),
+                                ValidUntil = DateTime.MaxValue,
                                 Town = new Town()
                                 {
                                     Townname = "Herisau",
@@ -604,16 +615,20 @@ namespace Auftragsverwaltung.Tests
                 },
                 new Order()
                 {
+                    OrderId = 2,
                     Date = new DateTime(2020, 03, 03),
                     Customer = new Customer()
                     {
                         CustomerId = 1,
+                        CustomerNumber = "CU00002",
                         Addresses = new List<Address>()
                         {
                             new Address()
                             {
                                 Street = "Testweg",
                                 BuildingNr = "2",
+                                ValidFrom = new DateTime(2020, 03, 03),
+                                ValidUntil = DateTime.MaxValue,
                                 Town = new Town()
                                 {
                                     Townname = "Herisau",

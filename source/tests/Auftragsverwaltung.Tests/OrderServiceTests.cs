@@ -55,11 +55,11 @@ namespace Auftragsverwaltung.Tests
             //arrange
             int id = 1;
             var orderStub = _orderTestData[0];
+
             var orderRepositoryFake = A.Fake<IOrderRepository>();
             A.CallTo(() => orderRepositoryFake.Get(id)).Returns(orderStub);
 
             var orderService = new OrderService(orderRepositoryFake, InstanceHelper.GetMapper());
-            var expectedResult = _mapper.Map<OrderDto>(orderStub);
 
             //act
             var result = await orderService.Get(id);
@@ -73,6 +73,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var orderStubs = _orderTestData;
+
             var orderRepositoryFake = A.Fake<IOrderRepository>();
             A.CallTo(() => orderRepositoryFake.GetAll()).Returns(orderStubs);
 
@@ -91,11 +92,12 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             var orderStubs = _orderTestData;
+
             var orderRepositoryFake = A.Fake<IOrderRepository>();
             A.CallTo(() => orderRepositoryFake.GetAll()).Returns(orderStubs);
 
             var orderService = new OrderService(orderRepositoryFake, InstanceHelper.GetMapper());
-            var expectedResult = orderStubs.Select(o => _mapper.Map<OrderDto>(o));
+
 
             //act
             var result = await orderService.GetAll();
@@ -259,6 +261,68 @@ namespace Auftragsverwaltung.Tests
 
             //assert
             A.CallTo(() => orderRepositoryFake.Delete(id)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task GetOrderOverview_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            var orderStubs = _orderTestData;
+
+            var orderRepositoryFake = A.Fake<IOrderRepository>();
+            var orderServiceFake = A.Fake<IOrderService>();
+            A.CallTo(() => orderRepositoryFake.GetAll()).Returns(orderStubs);
+
+
+            var orderService = new OrderService(orderRepositoryFake, InstanceHelper.GetMapper());
+
+            //act
+            var result = await orderService.GetOrderOverview();
+
+            //assers
+            A.CallTo(() => orderRepositoryFake.GetAll()).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_GetsCalledOnce()
+        {
+            //arrange
+            string searchString = "Test";
+            var orderStubs = _orderTestData;
+
+            var orderRepositoryFake = A.Fake<IOrderRepository>();
+            var mapperFake = A.Fake<IMapper>();
+            A.CallTo(() => orderRepositoryFake.Search(searchString)).Returns(orderStubs);
+
+            var orderService = new OrderService(orderRepositoryFake, mapperFake);
+
+            //act
+            var result = await orderService.Search(searchString);
+
+            //assers
+            A.CallTo(() => orderRepositoryFake.Search(searchString)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Search_WhenOk_ReturnsCorrectResult()
+        {
+            //arrange
+            string searchString = "Test";
+            var orderStubs = _orderTestData;
+
+            var orderRepositoryFake = A.Fake<IOrderRepository>();
+            var mapperFake = A.Fake<IMapper>();
+            A.CallTo(() => orderRepositoryFake.Search(searchString)).Returns(orderStubs);
+
+            var customerService = new OrderService(orderRepositoryFake, InstanceHelper.GetMapper());
+
+            var expectedResult = orderStubs.Select(x => _mapper.Map<OrderDto>(x));
+
+            //act
+            var result = await customerService.Search(searchString);
+
+            //assert
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }
