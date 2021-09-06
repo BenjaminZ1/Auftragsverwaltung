@@ -46,7 +46,7 @@ namespace Auftragsverwaltung.Application.Service
         {
             var data = await _repository.GetAll();
             var mappedData = data.Select(x => _mapper.Map<OrderDto>(x));
-            return mappedData;
+            return SetValidAddressAtOrderDate(mappedData);
         }
 
         public async Task<OrderDto> Update(OrderDto dto)
@@ -69,6 +69,18 @@ namespace Auftragsverwaltung.Application.Service
         {
             var response = _repository.GetQuarterDataTable();
             return response;
+        }
+
+        private IEnumerable<OrderDto> SetValidAddressAtOrderDate(IEnumerable<OrderDto> orderDtos)
+        {
+            var orderDtoList = orderDtos.ToList();
+            foreach (var order in orderDtoList)
+            {
+                order.Customer.ValidAddress =
+                    order.Customer.Addresses.FirstOrDefault(a => a.ValidFrom <= order.Date && a.ValidUntil >= order.Date);
+            }
+
+            return orderDtoList;
         }
     }
 }
