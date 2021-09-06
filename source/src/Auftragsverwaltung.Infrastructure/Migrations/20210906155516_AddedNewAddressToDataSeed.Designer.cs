@@ -4,14 +4,16 @@ using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Auftragsverwaltung.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210906155516_AddedNewAddressToDataSeed")]
+    partial class AddedNewAddressToDataSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +93,7 @@ namespace Auftragsverwaltung.Infrastructure.Migrations
                             CustomerId = 2,
                             Street = "Dumbostrasse",
                             TownId = 2,
-                            ValidFrom = new DateTime(2021, 1, 2, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            ValidFrom = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ValidUntil = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999)
                         });
                 });

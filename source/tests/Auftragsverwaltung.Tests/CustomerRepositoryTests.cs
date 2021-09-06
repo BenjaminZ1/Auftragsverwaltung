@@ -40,7 +40,7 @@ namespace Auftragsverwaltung.Tests
             var customerTestData = InstanceHelper.GenerateCustomerTestData();
             var customer = customerTestData[0];
 
-            int expectedAddressId = 4;
+            int expectedAddressId = 5;
             int expectedTownId = 3;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();

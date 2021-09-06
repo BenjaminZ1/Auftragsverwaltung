@@ -86,8 +86,8 @@ namespace Auftragsverwaltung.Infrastructure.Common
                     AddressId = 2,
                     Street = "Wumbostrasse",
                     BuildingNr = "420",
-                    ValidFrom = new System.DateTime(2021, 04, 20),
-                    ValidUntil = DateTime.MaxValue,
+                    ValidFrom = new System.DateTime(2019, 04, 20),
+                    ValidUntil = new System.DateTime(2021, 01, 01),
                     TownId = 2,
                     CustomerId = 2
                 },
@@ -100,6 +100,16 @@ namespace Auftragsverwaltung.Infrastructure.Common
                     ValidUntil = DateTime.MaxValue,
                     TownId = 1,
                     CustomerId = 3
+                },
+                new Domain.Address.Address
+                {
+                    AddressId = 4,
+                    Street = "Dumbostrasse",
+                    BuildingNr = "42",
+                    ValidFrom = new System.DateTime(2021, 01, 02, 23, 59, 59),
+                    ValidUntil = DateTime.MaxValue,
+                    TownId = 2,
+                    CustomerId = 2
                 });
 
 
