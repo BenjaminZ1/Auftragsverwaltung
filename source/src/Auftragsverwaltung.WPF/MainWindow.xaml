@@ -20,6 +20,6 @@
 
         <TextBlock Text="Auftragsverwaltung" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" FontSize="28"  Background="{StaticResource BrushDeepGreen}" Foreground="White"/>
         <controls:NavigationBar Grid.Column="0" Grid.Row="1"  DataContext="{Binding Navigator}"/>
-        <ContentControl Grid.Row="1" Grid.Column="1"  Content="{Binding Navigator.CurrentViewModel}"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding Navigator.CurrentViewModel}"/>
     </Grid>
 </Window>

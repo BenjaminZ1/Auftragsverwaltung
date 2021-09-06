@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 
 namespace Auftragsverwaltung.WPF.ViewModels
@@ -6,12 +8,19 @@ namespace Auftragsverwaltung.WPF.ViewModels
     public class HomeViewModel : CommonViewModel
     {
         private readonly IOrderService _orderService;
+        private IEnumerable<OrderOverviewDto> _orderOverview;
 
         public DataView View { get; set; }
 
         public HomeViewModel(IOrderService orderService)
         {
             _orderService = orderService;
+        }
+
+        public IEnumerable<OrderOverviewDto> OrderOverview
+        {
+            get => _orderOverview;
+            set { _orderOverview = value; OnPropertyChanged(nameof(OrderOverview)); }
         }
 
         public static HomeViewModel LoadOrderListViewModel(IOrderService orderService)
@@ -25,6 +34,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             var table = _orderService.GetQuarterData();
             View = table.DefaultView;
+
+            _orderService.GetOrderOverview().ContinueWith(task =>
+            {
+                if (task.Exception == null)
+                    OrderOverview = task.Result;
+            });
         }
     }
 }

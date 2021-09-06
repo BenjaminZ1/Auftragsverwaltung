@@ -1,4 +1,5 @@
-﻿using Auftragsverwaltung.Application.Dtos;
+﻿using System;
+using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Order;
 using AutoMapper;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Auftragsverwaltung.Domain.ArticleGroup;
+using AutoMapper.Internal;
 
 namespace Auftragsverwaltung.Application.Service
 {
@@ -81,6 +83,29 @@ namespace Auftragsverwaltung.Application.Service
             }
 
             return orderDtoList;
+        }
+
+        public async Task<IEnumerable<OrderOverviewDto>> GetOrderOverview()
+        {
+            var data = await GetAll();
+            var orderOverview = data
+                .OrderBy(d => d.Customer.Firstname)
+                .ThenBy(d => d.Customer.Lastname)
+                .ThenBy(d => d.Date)
+                .Select(d => new OrderOverviewDto()
+                {
+                    CustomerNumber = d.Customer.CustomerNumber,
+                    Name = d.Customer.Firstname + " " + d.Customer.Lastname,
+                    Street = d.Customer.ValidAddress.Street,
+                    ZipCode = d.Customer.ValidAddress.Town.ZipCode,
+                    Town = d.Customer.ValidAddress.Town.Townname,
+                    OrderDate = d.Date,
+                    OrderId = d.OrderId,
+                    Netto = decimal.Round(d.Positions.Select(p => p.Amount * p.Article.Price * 0.923m).Sum(), 2, MidpointRounding.AwayFromZero),
+                    Brutto = decimal.Round(d.Positions.Select(p => p.Amount * p.Article.Price).Sum(), 2, MidpointRounding.AwayFromZero)
+                });
+
+            return orderOverview;
         }
     }
 }

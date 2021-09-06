@@ -14,10 +14,12 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <DataGrid Grid.Column="0" Grid.Row="0" Margin="10" ItemsSource="{Binding View}"/>
+        <DataGrid Grid.Column="0" Grid.Row="1" ItemsSource="{Binding OrderOverview}"/>
     </Grid>
 
 </UserControl>
