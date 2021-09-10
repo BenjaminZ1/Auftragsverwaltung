@@ -36,7 +36,7 @@
             </Grid.RowDefinitions>
 
             <RadioButton Grid.Column="0" Grid.Row="0" Content="Home" 
-                         IsChecked="{Binding CurrentViewModel, Mode=OneTime, Converter={StaticResource EqualValueToParameterConverter},
+                         IsChecked="{Binding Navigator.CurrentViewModel, Mode=OneTime, Converter={StaticResource EqualValueToParameterConverter},
                          ConverterParameter={x:Type vm:HomeViewModel}}" 
                          Background="{StaticResource BrushGreen}" 
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}"/>

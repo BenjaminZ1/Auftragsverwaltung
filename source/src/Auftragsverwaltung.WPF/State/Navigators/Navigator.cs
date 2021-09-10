@@ -19,11 +19,5 @@ namespace Auftragsverwaltung.WPF.State.Navigators
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
-        public ICommand UpdateCurrentViewModelCommand { get; set; }
-
-        public Navigator(IAppViewModelAbstractFactory viewModelFactory)
-        {
-            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
-        }
     }
 }
