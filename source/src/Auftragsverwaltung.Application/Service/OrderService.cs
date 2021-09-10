@@ -97,6 +97,7 @@ namespace Auftragsverwaltung.Application.Service
                     CustomerNumber = d.Customer.CustomerNumber,
                     Name = d.Customer.Firstname + " " + d.Customer.Lastname,
                     Street = d.Customer.ValidAddress.Street,
+                    BuildingNr = d.Customer.ValidAddress.BuildingNr,
                     ZipCode = d.Customer.ValidAddress.Town.ZipCode,
                     Town = d.Customer.ValidAddress.Town.Townname,
                     OrderDate = d.Date,

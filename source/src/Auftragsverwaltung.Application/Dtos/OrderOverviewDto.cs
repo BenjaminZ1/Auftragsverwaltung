@@ -10,6 +10,7 @@ namespace Auftragsverwaltung.Application.Dtos
         public string CustomerNumber { get; set; }
         public string Name { get; set; }
         public string Street { get; set; }
+        public string BuildingNr { get; set; }
         public string ZipCode { get; set; }
         public string Town { get; set; }
         public DateTime OrderDate { get; set; }

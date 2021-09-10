@@ -15,14 +15,21 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Column="0" Grid.Row="0" Margin="10" ItemsSource="{Binding View}"/>
-        <DataGrid Grid.Column="0" Grid.Row="1" Margin="10" ItemsSource="{Binding OrderOverview}" AutoGenerateColumns="False">
+        <Label Grid.Column="0" Grid.Row="0" Margin="10, 0" Content="Übersicht pro Quartal" FontWeight="Bold"/>
+        <DataGrid Grid.Column="0" Grid.Row="1" Margin="10" ItemsSource="{Binding View}"/>
+
+        <Label Grid.Column="0" Grid.Row="2" Margin="10, 0" Content="Gesamtübersicht Bestellungen" FontWeight="Bold"/>
+        <DataGrid Grid.Column="0" Grid.Row="3" Margin="10" ItemsSource="{Binding OrderOverview}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerNumber}"/>
                 <DataGridTextColumn Header="Kundenname" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Strasse" Binding="{Binding Street}"/>
+                <DataGridTextColumn Header="Strassennummer" Binding="{Binding BuildingNr}"/>
                 <DataGridTextColumn Header="Postleitzahl" Binding="{Binding Town}"/>
                 <DataGridTextColumn Header="Bestelldatum" Binding="{Binding OrderDate}"/>
                 <DataGridTextColumn Header="Bestellnummer" Binding="{Binding OrderId}"/>
