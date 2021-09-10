@@ -97,7 +97,7 @@ namespace Auftragsverwaltung.WPF
 
         protected override async void OnExit(ExitEventArgs e)
         {
-            await _host.StartAsync();
+            await _host.StopAsync();
             _host.Dispose();
 
             base.OnExit(e);
