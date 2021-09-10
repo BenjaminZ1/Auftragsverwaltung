@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:constants="clr-namespace:Auftragsverwaltung.WPF.Constants"
              mc:Ignorable="d"
              RenderOptions.EdgeMode="Aliased"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -31,7 +32,8 @@
                 <DataGridTextColumn Header="Strasse" Binding="{Binding Street}"/>
                 <DataGridTextColumn Header="Strassennummer" Binding="{Binding BuildingNr}"/>
                 <DataGridTextColumn Header="Postleitzahl" Binding="{Binding Town}"/>
-                <DataGridTextColumn Header="Bestelldatum" Binding="{Binding OrderDate}"/>
+                <DataGridTextColumn Header="Bestelldatum"
+                                    Binding="{Binding OrderDate, StringFormat={x:Static constants:Constants.DateTimeUiFormat}}"/>
                 <DataGridTextColumn Header="Bestellnummer" Binding="{Binding OrderId}"/>
                 <DataGridTextColumn Header="Netto" Binding="{Binding Netto}"/>
                 <DataGridTextColumn Header="Brutto" Binding="{Binding Brutto}"/>

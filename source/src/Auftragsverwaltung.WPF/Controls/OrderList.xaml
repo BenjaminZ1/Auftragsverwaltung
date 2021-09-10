@@ -31,7 +31,8 @@
                       ItemsSource="{Binding Orders}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Bestellnummer" Binding="{Binding OrderId}"/>
-                    <DataGridTextColumn Header="Bestelldatum" Binding="{Binding Date, StringFormat={x:Static constants:Constants.DateTimeUiFormat}}"/>
+                    <DataGridTextColumn Header="Bestelldatum" 
+                                        Binding="{Binding Date, StringFormat={x:Static constants:Constants.DateTimeUiFormat}}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
