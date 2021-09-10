@@ -31,13 +31,13 @@
                       Visibility="{Binding DataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Kundennummer" Binding="{Binding CustomerNumber}"/>
-                    <DataGridTextColumn Header="Vorname" Binding="{Binding Firstname}"/>
-                    <DataGridTextColumn Header="Nachname" Binding="{Binding Lastname}"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                    <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
-                    <DataGridTextColumn Header="Postleitzahl" Binding="{Binding ValidAddress.Town.ZipCode}"/>
+                    <DataGridTextColumn Header="Vorname" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Strasse" Binding="{Binding Street}"/>
+                    <DataGridTextColumn Header="Postleitzahl" Binding="{Binding ZipCode}"/>
                     <DataGridTextColumn Header="Stadt" Binding="{Binding ValidAddress.Town.Townname}"/>
-                    <DataGridTextColumn Header="Strasse" Binding="{Binding ValidAddress.Street}"/>
+                    
+                   
+                    
                     <DataGridTextColumn Header="HausNr" Binding="{Binding ValidAddress.BuildingNr}"/>
                 </DataGrid.Columns>
             </DataGrid>
