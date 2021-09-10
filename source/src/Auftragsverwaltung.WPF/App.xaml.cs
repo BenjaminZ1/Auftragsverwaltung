@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using Auftragsverwaltung.Application.Serializer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Auftragsverwaltung.WPF
@@ -41,10 +42,16 @@ namespace Auftragsverwaltung.WPF
         public static IHostBuilder CreateHostBuilder(string[] args = null)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureServices(services =>
+                .ConfigureAppConfiguration(c =>
                 {
+                    c.AddJsonFile("appsettings.json");
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    string connectionString = context.Configuration.GetConnectionString("default");
                     services.AddDbContext<AppDbContext>(o =>
-                        o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
+                        o.UseSqlServer(connectionString));
+
                     services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
                     services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
                     services.AddSingleton<IArticleGroupRepository, ArticleGroupRepository>();

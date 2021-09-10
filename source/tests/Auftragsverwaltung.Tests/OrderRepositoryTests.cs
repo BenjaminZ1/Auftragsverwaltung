@@ -110,9 +110,6 @@ namespace Auftragsverwaltung.Tests
         public async Task Create_WhenCustomerAndArticleExists_ReturnsCorrectResult()
         {
             //arrange
-            var dbContextFactoryFake = A.Fake<AppDbContextFactory>();
-            A.CallTo(() => dbContextFactoryFake.CreateDbContext(null)).Returns(new AppDbContext(_options));
-
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));
