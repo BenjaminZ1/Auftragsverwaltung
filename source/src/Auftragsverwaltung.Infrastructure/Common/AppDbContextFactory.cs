@@ -7,11 +7,6 @@ namespace Auftragsverwaltung.Infrastructure.Common
     {
         public virtual AppDbContext CreateDbContext(string[] args)
         {
-            //var configuration = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", true)
-            //    .AddEnvironmentVariables()
-            //    .Build();
 
             var builder = new DbContextOptionsBuilder<AppDbContext>();
             var connectionString = "Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True";
@@ -20,7 +15,6 @@ namespace Auftragsverwaltung.Infrastructure.Common
 
             builder.UseSqlServer(connectionString,
                 x => x.MigrationsAssembly(typeof(AppDbContextFactory).Assembly.FullName));
-            //.EnableSensitiveDataLogging();
 
             return new AppDbContext(builder.Options);
         }

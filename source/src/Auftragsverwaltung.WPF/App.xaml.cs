@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using Auftragsverwaltung.Application.Serializer;
+using Microsoft.Extensions.Hosting;
 
 namespace Auftragsverwaltung.WPF
 {
@@ -30,55 +31,69 @@ namespace Auftragsverwaltung.WPF
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        private readonly IHost _host;
+
+        public App()
+        {
+            _host = CreateHostBuilder().Build();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args = null)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices(services =>
+                {
+                    services.AddDbContext<AppDbContext>(o =>
+                        o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
+                    services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
+                    services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
+                    services.AddSingleton<IArticleGroupRepository, ArticleGroupRepository>();
+                    services.AddSingleton<IOrderRepository, OrderRepository>();
+                    services.AddSingleton<ICustomerService, CustomerService>();
+                    services.AddSingleton<IArticleService, ArticleService>();
+                    services.AddSingleton<IArticleGroupService, ArticleGroupService>();
+                    services.AddSingleton<IOrderService, OrderService>();
+
+                    services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
+                    services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
+                    services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
+                    services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
+                    services.AddSingleton<IAppViewModelFactory<ArticleGroupViewModel>, ArticleGroupViewModelFactory>();
+                    services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
+
+                    services.AddScoped<INavigator, Navigator>();
+                    services.AddScoped<MainViewModel>();
+
+                    services.AddSingleton<IValidator<CustomerDto>, CustomerValidator>();
+                    services.AddSingleton<ISerializer<CustomerDto>, CustomerSerializer>();
+
+                    services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+
+                    var mapperConfig = new MapperConfiguration(mc =>
+                    {
+                        mc.AddProfile(new MappingProfile());
+                    });
+
+                    IMapper mapper = mapperConfig.CreateMapper();
+                    services.AddSingleton(mapper);
+                });
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
-            IServiceProvider serviceProvider = CreateServiceProvider();
+            _host.Start();
 
-            Window window = serviceProvider.GetRequiredService<MainWindow>();
+            Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
 
             base.OnStartup(e);
         }
 
-        private IServiceProvider CreateServiceProvider()
+        protected override async void OnExit(ExitEventArgs e)
         {
-            IServiceCollection services = new ServiceCollection();
+            await _host.StartAsync();
+            _host.Dispose();
 
-            services.AddDbContext<AppDbContext>(o =>
-                o.UseSqlServer("Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True"));
-            services.AddSingleton<IAppRepository<Customer>, CustomerRepository>();
-            services.AddSingleton<IAppRepository<Article>, ArticleRepository>();
-            services.AddSingleton<IArticleGroupRepository, ArticleGroupRepository>();
-            services.AddSingleton<IOrderRepository, OrderRepository>();
-            services.AddSingleton<ICustomerService, CustomerService>();
-            services.AddSingleton<IArticleService, ArticleService>();
-            services.AddSingleton<IArticleGroupService, ArticleGroupService>();
-            services.AddSingleton<IOrderService, OrderService>();
-
-            services.AddSingleton<IAppViewModelAbstractFactory, AppViewModelAbstractFactory>();
-            services.AddSingleton<IAppViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<CustomerViewModel>, CustomerViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<ArticleViewModel>, ArticleViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<ArticleGroupViewModel>, ArticleGroupViewModelFactory>();
-            services.AddSingleton<IAppViewModelFactory<OrderViewModel>, OrderViewModelFactory>();
-
-            services.AddScoped<INavigator, Navigator>();
-            services.AddScoped<MainViewModel>();
-
-            services.AddSingleton<IValidator<CustomerDto>, CustomerValidator>();
-            services.AddSingleton<ISerializer<CustomerDto>, CustomerSerializer>();
-
-            services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
-
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
-
-            return services.BuildServiceProvider();
+            base.OnExit(e);
         }
     }
 }
