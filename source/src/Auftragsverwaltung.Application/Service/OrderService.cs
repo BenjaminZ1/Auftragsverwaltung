@@ -102,7 +102,7 @@ namespace Auftragsverwaltung.Application.Service
                     Town = d.Customer.ValidAddress.Town.Townname,
                     OrderDate = d.Date,
                     OrderId = d.OrderId,
-                    Netto = decimal.Round(d.Positions.Select(p => p.Amount * p.Article.Price * 0.923m).Sum(), 2, MidpointRounding.AwayFromZero),
+                    Netto = decimal.Round(d.Positions.Select(p => p.Amount * p.Article.Price / 107.7m * 100).Sum(), 2, MidpointRounding.AwayFromZero),
                     Brutto = decimal.Round(d.Positions.Select(p => p.Amount * p.Article.Price).Sum(), 2, MidpointRounding.AwayFromZero)
                 });
 
