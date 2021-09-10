@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Xml.Serialization;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Extensions;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
@@ -12,6 +9,8 @@ using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.Domain.Town;
 using AutoMapper;
+using System;
+using System.Linq;
 
 namespace Auftragsverwaltung.Application.Mapper
 {

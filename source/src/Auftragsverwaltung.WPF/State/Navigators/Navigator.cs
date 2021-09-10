@@ -1,8 +1,5 @@
-﻿using Auftragsverwaltung.WPF.Commands;
-using Auftragsverwaltung.WPF.Models;
+﻿using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.ViewModels;
-using Auftragsverwaltung.WPF.ViewModels.Factories;
-using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.State.Navigators
 {

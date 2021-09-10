@@ -1,7 +1,7 @@
-﻿using System.Windows.Input;
-using Auftragsverwaltung.WPF.Commands;
+﻿using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.State.Navigators;
 using Auftragsverwaltung.WPF.ViewModels.Factories;
+using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {

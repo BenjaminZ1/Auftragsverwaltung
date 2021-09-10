@@ -1,12 +1,12 @@
 ﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
+using Auftragsverwaltung.Application.Serializer;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Article;
 using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
-using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
@@ -18,12 +18,10 @@ using Auftragsverwaltung.WPF.ViewModels.Factories;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Windows;
-using Auftragsverwaltung.Application.Serializer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Windows;
 
 namespace Auftragsverwaltung.WPF
 {

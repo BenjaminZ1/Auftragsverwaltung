@@ -1,14 +1,14 @@
-﻿using System;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using AutoMapper;
 using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.Address;
 
 namespace Auftragsverwaltung.Application.Service
 {

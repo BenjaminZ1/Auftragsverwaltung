@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Auftragsverwaltung.WPF.Models
+﻿namespace Auftragsverwaltung.WPF.Models
 {
     public class PlainResponse
     {

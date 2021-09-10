@@ -1,8 +1,7 @@
 ﻿using Auftragsverwaltung.WPF.Commands;
+using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.State;
 using System.Windows;
-using Auftragsverwaltung.Domain.Common;
-using Auftragsverwaltung.WPF.Models;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {

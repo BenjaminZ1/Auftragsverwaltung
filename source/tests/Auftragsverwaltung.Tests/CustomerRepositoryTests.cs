@@ -1,5 +1,7 @@
+using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
+using Auftragsverwaltung.Domain.Town;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
 using FakeItEasy;
@@ -11,8 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.Address;
-using Auftragsverwaltung.Domain.Town;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -224,7 +224,7 @@ namespace Auftragsverwaltung.Tests
             result.NumberOfRows.Should().Be(expectedRows);
         }
 
-                [Test]
+        [Test]
         public async Task Delete_WhenExceptionIsThrown_ReturnsCorrectResult()
         {
             //arrange
@@ -339,7 +339,7 @@ namespace Auftragsverwaltung.Tests
                     ZipCode = "9999"
                 }
             };
-        
+
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
                 .Returns(new AppDbContext(_options));

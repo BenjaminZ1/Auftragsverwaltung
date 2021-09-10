@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace Auftragsverwaltung.Application.Dtos
 {

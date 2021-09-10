@@ -1,14 +1,12 @@
-﻿using System;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Domain.ArticleGroup;
 using Auftragsverwaltung.Domain.Order;
 using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.ArticleGroup;
-using AutoMapper.Internal;
 
 namespace Auftragsverwaltung.Application.Service
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 
 namespace Auftragsverwaltung.Domain.Common
 {

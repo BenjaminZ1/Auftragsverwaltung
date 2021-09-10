@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Auftragsverwaltung.Infrastructure.Address;
+﻿using Auftragsverwaltung.Infrastructure.Address;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Customer;
@@ -8,6 +6,8 @@ using Auftragsverwaltung.Infrastructure.Order;
 using Auftragsverwaltung.Infrastructure.Position;
 using Auftragsverwaltung.Infrastructure.Town;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace Auftragsverwaltung.Infrastructure.Common
 {

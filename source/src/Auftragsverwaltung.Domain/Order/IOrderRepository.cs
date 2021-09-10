@@ -1,7 +1,5 @@
 ﻿using Auftragsverwaltung.Domain.Common;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Domain.ArticleGroup
 {

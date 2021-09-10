@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Common;
+﻿using Auftragsverwaltung.Application.Common;
 using Auftragsverwaltung.Application.Dtos;
+using System.Threading.Tasks;
 
 namespace Auftragsverwaltung.Application.Service
 {

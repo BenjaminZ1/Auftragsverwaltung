@@ -1,5 +1,4 @@
 ﻿using Auftragsverwaltung.WPF.ViewModels;
-using System.Windows.Input;
 
 namespace Auftragsverwaltung.WPF.State.Navigators
 {

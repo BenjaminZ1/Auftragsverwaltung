@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
 using AutoMapper;
 using FakeItEasy;
 using FluentAssertions;
+using FluentValidation;
+using FluentValidation.Results;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Validators;
-using FluentValidation;
-using FluentValidation.Results;
-using NUnit.Framework.Internal;
 
 namespace Auftragsverwaltung.Tests
 {

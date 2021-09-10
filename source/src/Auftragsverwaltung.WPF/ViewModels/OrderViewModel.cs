@@ -2,6 +2,7 @@
 using Auftragsverwaltung.Application.Service;
 using Auftragsverwaltung.WPF.Commands;
 using Auftragsverwaltung.WPF.Controls;
+using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.State;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Auftragsverwaltung.WPF.Models;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {

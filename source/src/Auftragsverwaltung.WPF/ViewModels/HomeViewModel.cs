@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using Auftragsverwaltung.Application.Dtos;
+﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Service;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {

@@ -1,11 +1,6 @@
-﻿using Auftragsverwaltung.Domain.Address;
-using Auftragsverwaltung.Domain.Article;
-using Auftragsverwaltung.Domain.ArticleGroup;
-using Auftragsverwaltung.Domain.Common;
-using Auftragsverwaltung.Domain.Customer;
+﻿using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
-using Auftragsverwaltung.Domain.Town;
 using Auftragsverwaltung.Infrastructure.Article;
 using Auftragsverwaltung.Infrastructure.Common;
 using Auftragsverwaltung.Infrastructure.Customer;
@@ -17,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Auftragsverwaltung.WPF.Constants
+﻿namespace Auftragsverwaltung.WPF.Constants
 {
     public static class Constants
     {

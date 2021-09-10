@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Application.Validators;
+﻿using Auftragsverwaltung.Application.Validators;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
@@ -10,7 +7,7 @@ namespace Auftragsverwaltung.Tests
     [TestFixture]
     class CustomerValidatorTests
     {
-        private  CustomerValidator _validator;
+        private CustomerValidator _validator;
 
         [SetUp]
         public void Setup()

@@ -1,5 +1,6 @@
 ﻿using Auftragsverwaltung.Application.Dtos;
 using Auftragsverwaltung.Application.Mapper;
+using Auftragsverwaltung.Application.Serializer;
 using Auftragsverwaltung.Application.Validators;
 using Auftragsverwaltung.Domain.Address;
 using Auftragsverwaltung.Domain.Article;
@@ -8,20 +9,12 @@ using Auftragsverwaltung.Domain.Customer;
 using Auftragsverwaltung.Domain.Order;
 using Auftragsverwaltung.Domain.Position;
 using Auftragsverwaltung.Domain.Town;
-using Auftragsverwaltung.Infrastructure.Article;
-using Auftragsverwaltung.Infrastructure.ArticleGroup;
 using Auftragsverwaltung.Infrastructure.Common;
-using Auftragsverwaltung.Infrastructure.Customer;
-using Auftragsverwaltung.Infrastructure.Order;
 using AutoMapper;
-using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Security;
-using System.Threading.Tasks;
-using Auftragsverwaltung.Application.Serializer;
 
 namespace Auftragsverwaltung.Tests
 {
@@ -112,7 +105,7 @@ namespace Auftragsverwaltung.Tests
                 {
                     Addresses = new List<AddressDto>()
                     {
-                        new AddressDto() 
+                        new AddressDto()
                         {
                             AddressId = 1,
                             BuildingNr = "2",
@@ -325,7 +318,7 @@ namespace Auftragsverwaltung.Tests
                     ArticleId = 1,
                     Description = "TestArticle",
                     Price = 12,
-                    ArticleGroupId = 1                    
+                    ArticleGroupId = 1
                 }
             };
             return list;
@@ -710,7 +703,7 @@ namespace Auftragsverwaltung.Tests
 
         public static SecureString GetNotValidSecureString()
         {
-            char[] chars = { 't', 'E', 's', 't'};
+            char[] chars = { 't', 'E', 's', 't' };
             SecureString secureString = new SecureString();
             foreach (char ch in chars)
                 secureString.AppendChar(ch);

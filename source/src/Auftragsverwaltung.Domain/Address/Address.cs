@@ -1,5 +1,5 @@
-﻿using System;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
+using System;
 
 namespace Auftragsverwaltung.Domain.Address
 {

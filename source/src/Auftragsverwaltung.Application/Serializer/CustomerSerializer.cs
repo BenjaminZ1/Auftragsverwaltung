@@ -1,13 +1,8 @@
-﻿using Auftragsverwaltung.Domain.Common;
-using Auftragsverwaltung.Domain.Customer;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Xml.Serialization;
-using Auftragsverwaltung.Application.Dtos;
-using Auftragsverwaltung.Application.Extensions;
+﻿using Auftragsverwaltung.Application.Dtos;
+using Auftragsverwaltung.Domain.Common;
 using Newtonsoft.Json;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Auftragsverwaltung.Application.Serializer
 {
@@ -25,11 +20,11 @@ namespace Auftragsverwaltung.Application.Serializer
             }
             else
             {
-                JsonSerializer serializer = new JsonSerializer {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
+                JsonSerializer serializer = new JsonSerializer { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
                 using StreamWriter sw = new StreamWriter(filename);
                 using JsonWriter writer = new JsonTextWriter(sw);
-                
+
                 serializer.Serialize(writer, obj);
             }
         }
@@ -42,7 +37,7 @@ namespace Auftragsverwaltung.Application.Serializer
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(CustomerDto));
                 using Stream reader = new FileStream(filename, FileMode.Open);
 
-                deserializedObj = (CustomerDto) xmlSerializer.Deserialize(reader);
+                deserializedObj = (CustomerDto)xmlSerializer.Deserialize(reader);
             }
             else
             {

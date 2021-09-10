@@ -1,10 +1,10 @@
-﻿using System;
-using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Domain.Customer;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Security;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace Auftragsverwaltung.Application.Dtos
 {

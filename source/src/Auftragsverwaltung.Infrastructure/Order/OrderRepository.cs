@@ -1,4 +1,5 @@
-﻿using Auftragsverwaltung.Domain.Common;
+﻿using Auftragsverwaltung.Domain.ArticleGroup;
+using Auftragsverwaltung.Domain.Common;
 using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -8,8 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Auftragsverwaltung.Domain.ArticleGroup;
-using Microsoft.Data.SqlClient;
 
 namespace Auftragsverwaltung.Infrastructure.Order
 {
