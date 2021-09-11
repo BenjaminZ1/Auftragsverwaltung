@@ -21,6 +21,20 @@ namespace Auftragsverwaltung.Infrastructure.Town
             builder
                 .HasMany(t => t.Addresses)
                 .WithOne(a => a.Town);
+
+            builder.HasData(
+                new Domain.Town.Town
+                {
+                    TownId = 1,
+                    Townname = "Heerbrugg",
+                    ZipCode = "9435"
+                },
+                new Domain.Town.Town
+                {
+                    TownId = 2,
+                    Townname = "Widnau",
+                    ZipCode = "9443"
+                });
         }
     }
 }

@@ -21,6 +21,22 @@ namespace Auftragsverwaltung.Infrastructure.Article
             builder
                 .HasMany(a => a.Positions)
                 .WithOne(p => p.Article);
+
+            builder.HasData(
+                new Domain.Article.Article
+                {
+                    ArticleId = 1,
+                    Description = "Zahnbürste",
+                    Price = 2,
+                    ArticleGroupId = 1
+                },
+                new Domain.Article.Article
+                {
+                    ArticleId = 2,
+                    Description = "Flaschenöffner",
+                    Price = 25,
+                    ArticleGroupId = 2
+                });
         }
     }
 }

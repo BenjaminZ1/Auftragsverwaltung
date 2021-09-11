@@ -30,6 +30,39 @@ namespace Auftragsverwaltung.Infrastructure.Customer
                 .HasMany(c => c.Addresses)
                 .WithOne(a => a.Customer);
 
+            builder.HasData(
+                new Domain.Customer.Customer
+                {
+                    CustomerId = 1,
+                    CustomerNumber = "CU00001",
+                    Firstname = "Hans",
+                    Lastname = "Müller",
+                    Email = "hans@test.com",
+                    Website = "www.hans.ch",
+                    Password = new byte[64]
+
+                },
+                new Domain.Customer.Customer
+                {
+                    CustomerId = 2,
+                    CustomerNumber = "CU00002",
+                    Firstname = "Ida",
+                    Lastname = "Muster",
+                    Email = "ida@gmail.com",
+                    Website = "www.ida.com",
+                    Password = new byte[64]
+                },
+                new Domain.Customer.Customer
+                {
+                    CustomerId = 3,
+                    CustomerNumber = "CU00003",
+                    Firstname = "Vreni",
+                    Lastname = "Müller",
+                    Email = "vreni@test.com",
+                    Website = "www.vreni.ch",
+                    Password = new byte[64]
+                });
+
         }
     }
 }

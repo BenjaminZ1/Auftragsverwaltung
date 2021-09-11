@@ -25,6 +25,26 @@ namespace Auftragsverwaltung.Infrastructure.ArticleGroup
                 .WithOne(ag => ag.ParentArticleGroup)
                 .HasForeignKey(ag => ag.ParentArticleGroupId)
                 .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+
+            builder.HasData(
+                new Domain.ArticleGroup.ArticleGroup
+                {
+                    ArticleGroupId = 1,
+                    Name = "Pflegeprodukte"
+
+                },
+                new Domain.ArticleGroup.ArticleGroup
+                {
+                    ArticleGroupId = 2,
+                    Name = "Haushaltsprodukte"
+
+                },
+                new Domain.ArticleGroup.ArticleGroup
+                {
+                    ArticleGroupId = 3,
+                    Name = "Körperpflege",
+                    ParentArticleGroupId = 1
+                });
         }
     }
 }

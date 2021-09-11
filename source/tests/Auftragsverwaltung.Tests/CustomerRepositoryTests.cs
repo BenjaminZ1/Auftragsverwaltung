@@ -259,7 +259,7 @@ namespace Auftragsverwaltung.Tests
         {
             //arrange
             int customerId = 2;
-            int expectedRows = 4;
+            int expectedRows = 5;
 
             var serviceProviderFake = A.Fake<IServiceProvider>();
             A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
