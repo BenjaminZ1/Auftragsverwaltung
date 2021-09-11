@@ -28,7 +28,8 @@ namespace Auftragsverwaltung.Infrastructure.Article
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
+                //entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
+                entity.ArticleGroup = await GetArticleGroup(entity.ArticleGroup, db);
 
                 EntityEntry<Domain.Article.Article> createdEntity = await db.Articles.AddAsync(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
@@ -162,6 +163,14 @@ namespace Auftragsverwaltung.Infrastructure.Article
                 e.Name == articleGroup.Name);
 
             return foundArticleGroup ?? articleGroup;
+        }
+
+        private async Task<Domain.ArticleGroup.ArticleGroup> GetArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup, AppDbContext db)
+        {
+            var existingArticleGroup = await db.ArticleGroups
+                .FirstOrDefaultAsync(e => e.ArticleGroupId == articleGroup.ArticleGroupId);
+
+            return existingArticleGroup;
         }
     }
 }

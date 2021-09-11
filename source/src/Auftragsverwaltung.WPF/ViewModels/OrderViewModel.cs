@@ -31,7 +31,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
 
         private Visibility _customerPasswordBoxVisibility;
 
-        private UserControl _displayView;
+
 
         public IEnumerable<OrderDto> Orders
         {
@@ -91,11 +91,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _customerPasswordBoxVisibility = value; OnPropertyChanged(nameof(CustomerPasswordBoxVisibility)); }
         }
 
-        public UserControl DisplayView
-        {
-            get => _displayView;
-            set { _displayView = value; OnPropertyChanged(nameof(DisplayView)); }
-        }
         public BaseCommand AddArticleToOrderCommand { get; set; }
 
         public BaseCommand RemovePositionFromOrderCommand { get; set; }

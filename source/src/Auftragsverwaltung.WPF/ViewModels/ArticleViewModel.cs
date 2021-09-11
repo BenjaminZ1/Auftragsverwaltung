@@ -6,15 +6,19 @@ using Auftragsverwaltung.WPF.State;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using Auftragsverwaltung.WPF.Controls;
 
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
     public class ArticleViewModel : CommonViewModel
     {
-        private IEnumerable<ArticleDto> _articles;
-        private ArticleDto _selectedListItem;
         private readonly IArticleService _articleService;
+        private readonly IArticleGroupService _articleGroupService;
+        private IEnumerable<ArticleDto> _articles;
+        private IEnumerable<ArticleGroupDto> _articleGroups;
+        private ArticleDto _selectedListItem;
 
 
         public IEnumerable<ArticleDto> Articles
@@ -23,23 +27,30 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _articles = value; OnPropertyChanged(nameof(Articles)); }
         }
 
+        public IEnumerable<ArticleGroupDto> ArticleGroups
+        {
+            get => _articleGroups;
+            set { _articleGroups = value; OnPropertyChanged(nameof(ArticleGroups)); }
+        }
+
         public ArticleDto SelectedListItem
         {
             get => _selectedListItem;
             set { _selectedListItem = value; OnPropertyChanged(nameof(SelectedListItem)); }
         }
 
-        public ArticleViewModel(IArticleService articleService)
+        public ArticleViewModel(IArticleService articleService, IArticleGroupService articleGroupService)
         {
             _articleService = articleService;
+            _articleGroupService = articleGroupService;
             ButtonActionCommand = new AsyncCommand(ControlBarButtonAction);
             SearchBoxUpdateCommand = new AsyncCommand(SearchBoxUpdate);
             DefautlView();
         }
 
-        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService)
+        public static ArticleViewModel LoadArticleListViewModel(IArticleService articleService, IArticleGroupService articleGroupService)
         {
-            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService);
+            ArticleViewModel articleListviewModel = new ArticleViewModel(articleService, articleGroupService);
             articleListviewModel.LoadArticles();
             return articleListviewModel;
         }
@@ -47,10 +58,18 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void LoadArticles()
         {
             _articleService.GetAll().ContinueWith(task =>
-            {
-                if (task.Exception == null)
-                    Articles = task.Result;
-            });
+                {
+                    if (task.Exception == null)
+                        Articles = task.Result;
+                })
+                .ContinueWith(articleGroupTask =>
+                {
+                    _articleGroupService.GetAll().ContinueWith(articleGroupInnerTask =>
+                    {
+                        if (articleGroupInnerTask.Exception == null)
+                            ArticleGroups = articleGroupInnerTask.Result;
+                    });
+                });
         }
 
         private async Task ControlBarButtonAction(object parameter)
@@ -142,18 +161,21 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private void DefautlView()
         {
             base.CommonDefautlView();
+            DisplayView = new ArticleListDetails();
             LoadArticles();
         }
 
         private void CreateView()
         {
             base.CommonCreateView();
+            DisplayView = new ArticleListModify();
             SelectedListItem = new ArticleDto();
         }
 
         private void ModifyView()
         {
             base.CommonModifyView();
+            DisplayView = new ArticleListModify();
         }
     }
 }

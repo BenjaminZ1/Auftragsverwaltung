@@ -2,6 +2,7 @@
 using Auftragsverwaltung.WPF.Models;
 using Auftragsverwaltung.WPF.State;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Auftragsverwaltung.WPF.ViewModels
 {
@@ -17,6 +18,7 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private ButtonAction _buttonActionState;
         private string _searchText;
         private Visibility _dataGridVisibility;
+        private UserControl _displayView;
 
         public bool InputEnabled
         {
@@ -70,6 +72,12 @@ namespace Auftragsverwaltung.WPF.ViewModels
         {
             get => _dataGridVisibility;
             set { _dataGridVisibility = value; OnPropertyChanged(nameof(DataGridVisibility)); }
+        }
+
+        public UserControl DisplayView
+        {
+            get => _displayView;
+            set { _displayView = value; OnPropertyChanged(nameof(DisplayView)); }
         }
 
         public IAsyncCommand ButtonActionCommand { get; set; }
