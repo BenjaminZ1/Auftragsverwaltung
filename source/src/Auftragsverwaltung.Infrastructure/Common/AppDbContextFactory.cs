@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Auftragsverwaltung.Infrastructure.Common
 {
@@ -7,9 +9,13 @@ namespace Auftragsverwaltung.Infrastructure.Common
     {
         public virtual AppDbContext CreateDbContext(string[] args)
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("migrationsettings.json", false)
+                .Build();
 
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            var connectionString = "Data Source=.\\ZBW; Database=Auftragsverwaltung; Trusted_Connection=True";
+            var connectionString = configuration.GetConnectionString("default");
             builder.UseSqlServer(connectionString,
                 x => x.MigrationsAssembly(typeof(AppDbContextFactory).Assembly.FullName));
 
