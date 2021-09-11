@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Auftragsverwaltung.Infrastructure.Common;
+﻿using Auftragsverwaltung.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
 
 namespace Auftragsverwaltung.Infrastructure.Position
 {

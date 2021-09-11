@@ -6,8 +6,6 @@ using Auftragsverwaltung.Infrastructure.Order;
 using Auftragsverwaltung.Infrastructure.Position;
 using Auftragsverwaltung.Infrastructure.Town;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace Auftragsverwaltung.Infrastructure.Common
 {
