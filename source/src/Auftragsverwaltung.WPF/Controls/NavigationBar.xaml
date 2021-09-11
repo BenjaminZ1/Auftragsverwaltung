@@ -40,13 +40,13 @@
                          ConverterParameter={x:Type vm:HomeViewModel}}" 
                          Background="{StaticResource BrushGreen}" 
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}"/>
-            <RadioButton Grid.Column="0" Grid.Row="1" Content="Customers" Background="{StaticResource BrushGreen}"
+            <RadioButton Grid.Column="0" Grid.Row="1" Content="Kunden" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Customer}"/>
-            <RadioButton Grid.Column="0" Grid.Row="2" Content="Articles" Background="{StaticResource BrushGreen}"
+            <RadioButton Grid.Column="0" Grid.Row="2" Content="Artikel" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Article}"/>
-            <RadioButton Grid.Column="0" Grid.Row="3" Content="ArticleGroups" Background="{StaticResource BrushGreen}"
+            <RadioButton Grid.Column="0" Grid.Row="3" Content="Artikelgruppen" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.ArticleGroup}"/>
-            <RadioButton Grid.Column="0" Grid.Row="4" Content="Orders" Background="{StaticResource BrushGreen}"
+            <RadioButton Grid.Column="0" Grid.Row="4" Content="Bestellungen" Background="{StaticResource BrushGreen}"
                          Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Order}"/>
         </Grid>
     </Grid>

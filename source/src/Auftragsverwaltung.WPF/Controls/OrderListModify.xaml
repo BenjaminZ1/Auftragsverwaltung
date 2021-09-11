@@ -39,7 +39,7 @@
                             SelectedDate="{Binding SelectedListItem.Date}" IsEnabled="{Binding DateTimePickerEnabled}"/>
 
                 <ComboBox Grid.Column="1" Grid.Row="1" 
-                          ItemsSource="{Binding Customers}" DisplayMemberPath="CustomerId" 
+                          ItemsSource="{Binding Customers}" DisplayMemberPath="CustomerNumber" 
                           SelectedItem="{Binding SelectedListItem.Customer}"/> 
 
                 <local:CustomerListDetails Grid.Column="1" Grid.Row="2" Margin="0 10" Width="Auto"
