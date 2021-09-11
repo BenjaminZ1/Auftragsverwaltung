@@ -176,6 +176,12 @@ namespace Auftragsverwaltung.Infrastructure.Common
                     OrderId = 2,
                     Date = new System.DateTime(2021, 8, 20),
                     CustomerId = 2
+                },
+                new Domain.Order.Order
+                {
+                    OrderId = 3,
+                    Date = new System.DateTime(2020, 4, 20),
+                    CustomerId = 2
                 });
 
             modelBuilder.Entity<Domain.Position.Position>().HasData(
@@ -198,6 +204,12 @@ namespace Auftragsverwaltung.Infrastructure.Common
                         ArticleId = 1,
                         OrderId = 2,
                         Amount = 12
+                    },
+                    new Domain.Position.Position
+                    {
+                        ArticleId = 2,
+                        OrderId = 3,
+                        Amount = 24
                     },
                 });
 
