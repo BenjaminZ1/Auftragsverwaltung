@@ -32,7 +32,7 @@ namespace Auftragsverwaltung.Tests
         }
 
         [Test]
-        public async Task Create_WhenNew_ReturnsCorrectResult()
+        public async Task Create_WhenOk_ReturnsCorrectResult()
         {
             //arrange
             var articleTestData = InstanceHelper.GenerateArticleTestData();
@@ -96,41 +96,6 @@ namespace Auftragsverwaltung.Tests
             //assert
             result.Should().BeOfType(typeof(ResponseDto<Article>));
             result.Flag.Should().BeFalse();
-        }
-
-
-        [Test]
-        public async Task CreateParentArticleGroup_WhenNewArticleGroupWithExistingParentArticleGroup_ReturnsCorrectResult()
-        {
-            //arrange
-            var articleTestData = InstanceHelper.GenerateArticleTestData();
-            var article = articleTestData[0];
-
-            var serviceProviderFake = A.Fake<IServiceProvider>();
-            A.CallTo(() => serviceProviderFake.GetService(typeof(AppDbContext)))
-                .Returns(new AppDbContext(_options));
-
-            var serviceScopeFake = A.Fake<IServiceScope>();
-            A.CallTo(() => serviceScopeFake.ServiceProvider)
-                .Returns(serviceProviderFake);
-
-            var serviceScopeFactoryFake = A.Fake<IServiceScopeFactory>();
-            A.CallTo(() => serviceScopeFactoryFake.CreateScope())
-                .Returns(serviceScopeFake);
-
-            A.CallTo(() => serviceProviderFake.GetService(typeof(IServiceScopeFactory)))
-                .Returns(serviceScopeFactoryFake);
-
-            var articleRepository = new ArticleRepository(serviceScopeFactoryFake);
-
-            //act
-            var result = await articleRepository.Create(article);
-
-            //assert
-            result.Should().BeOfType(typeof(ResponseDto<Article>));
-            result.Entity.ArticleGroup.Name.Should().Be(article.ArticleGroup.Name);
-            result.Entity.ArticleGroup.ParentArticleGroup.Should().BeNull();
-            result.Flag.Should().BeTrue();
         }
 
         [Test]

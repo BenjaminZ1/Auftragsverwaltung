@@ -28,7 +28,6 @@ namespace Auftragsverwaltung.Infrastructure.Article
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                //entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
                 entity.ArticleGroup = await GetArticleGroup(entity.ArticleGroup, db);
 
                 EntityEntry<Domain.Article.Article> createdEntity = await db.Articles.AddAsync(entity);
@@ -121,7 +120,7 @@ namespace Auftragsverwaltung.Infrastructure.Article
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                entity.ArticleGroup = await FindOrAddNewArticleGroup(entity.ArticleGroup);
+                entity.ArticleGroup = await GetArticleGroup(entity.ArticleGroup, db);
                 db.Articles.Update(entity);
                 response.NumberOfRows = await db.SaveChangesAsync();
 
@@ -140,30 +139,30 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return response;
         }
 
-        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        //private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
+        //{
+        //    using var scope = _scopeFactory.CreateScope();
+        //    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
-                e.Name == articleGroup.Name);
+        //    Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
+        //        e.Name == articleGroup.Name);
 
-            if (articleGroup.ParentArticleGroup != null)
-                articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
+        //    if (articleGroup.ParentArticleGroup != null)
+        //        articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
 
-            return foundArticleGroup ?? articleGroup;
-        }
+        //    return foundArticleGroup ?? articleGroup;
+        //}
 
-        private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        //private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
+        //{
+        //    using var scope = _scopeFactory.CreateScope();
+        //    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
-                e.Name == articleGroup.Name);
+        //    Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
+        //        e.Name == articleGroup.Name);
 
-            return foundArticleGroup ?? articleGroup;
-        }
+        //    return foundArticleGroup ?? articleGroup;
+        //}
 
         private async Task<Domain.ArticleGroup.ArticleGroup> GetArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup, AppDbContext db)
         {

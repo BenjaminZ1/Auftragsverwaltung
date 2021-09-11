@@ -348,7 +348,8 @@ namespace Auftragsverwaltung.Tests
                 {
                     ArticleGroup = new ArticleGroup()
                     {
-                        Name = "testArticleGroup"
+                        ArticleGroupId = 1,
+                        Name = "Pflegeprodukte"
                     },
                     Description = "testArticleDescription",
                     Price = 22,
@@ -357,7 +358,8 @@ namespace Auftragsverwaltung.Tests
                 {
                     ArticleGroup = new ArticleGroup()
                     {
-                        Name = "testArticleGroup2"
+                        ArticleGroupId = 2,
+                        Name = "Haushaltsprodukte"
                     },
                     Description = "testArticleDescription2",
                     Price = 21,
