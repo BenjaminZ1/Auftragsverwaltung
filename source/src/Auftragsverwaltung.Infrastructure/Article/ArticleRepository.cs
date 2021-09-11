@@ -139,31 +139,6 @@ namespace Auftragsverwaltung.Infrastructure.Article
             return response;
         }
 
-        //private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        //{
-        //    using var scope = _scopeFactory.CreateScope();
-        //    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        //    Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
-        //        e.Name == articleGroup.Name);
-
-        //    if (articleGroup.ParentArticleGroup != null)
-        //        articleGroup.ParentArticleGroup = await FindOrAddNewParentArticleGroup(articleGroup.ParentArticleGroup);
-
-        //    return foundArticleGroup ?? articleGroup;
-        //}
-
-        //private async Task<Domain.ArticleGroup.ArticleGroup> FindOrAddNewParentArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup)
-        //{
-        //    using var scope = _scopeFactory.CreateScope();
-        //    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        //    Domain.ArticleGroup.ArticleGroup foundArticleGroup = await db.ArticleGroups.FirstOrDefaultAsync(e =>
-        //        e.Name == articleGroup.Name);
-
-        //    return foundArticleGroup ?? articleGroup;
-        //}
-
         private async Task<Domain.ArticleGroup.ArticleGroup> GetArticleGroup(Domain.ArticleGroup.ArticleGroup articleGroup, AppDbContext db)
         {
             var existingArticleGroup = await db.ArticleGroups

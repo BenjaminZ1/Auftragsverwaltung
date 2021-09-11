@@ -15,7 +15,6 @@ namespace Auftragsverwaltung.WPF.ViewModels
         private bool _modifyButtonEnabled;
         private bool _deleteButtonEnabled;
         private bool _searchButtonEnabled;
-        private ButtonAction _buttonActionState;
         private string _searchText;
         private Visibility _dataGridVisibility;
         private UserControl _displayView;
@@ -62,11 +61,8 @@ namespace Auftragsverwaltung.WPF.ViewModels
             set { _searchText = value; OnPropertyChanged(nameof(SearchText)); }
         }
 
-        public ButtonAction ButtonActionState
-        {
-            get => _buttonActionState;
-            set => _buttonActionState = value;
-        }
+        public ButtonAction ButtonActionState { get; set; }
+
 
         public Visibility DataGridVisibility
         {
