@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Auftragsverwaltung.Infrastructure.Common;
+﻿using Auftragsverwaltung.Infrastructure.Common;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -17,7 +14,7 @@ namespace Auftragsverwaltung.Tests
             var appDbContextFactory = new AppDbContextFactory();
 
             //act
-            var result = appDbContextFactory.CreateDbContext(new []{"test"});
+            var result = appDbContextFactory.CreateDbContext(new[] { "test" });
 
             //assert
             result.Should().BeOfType(typeof(AppDbContext));
